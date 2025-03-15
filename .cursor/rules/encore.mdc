@@ -1,7 +1,7 @@
 ---
 description: 
-globs: 
-alwaysApply: true
+globs: /apps/api/*
+alwaysApply: false
 ---
 
 <llm_info>

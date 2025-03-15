@@ -1,0 +1,113 @@
+---
+description: 
+globs: /apps/web/*
+alwaysApply: false
+---
+# Cursor Rules for React Application
+
+## Tech Stack Conventions
+- React + Vite
+- TanStack (Router, Query, Form)
+- Chakra UI v3
+- Zod
+- Zustand
+
+## File Structure
+- Features-based folder structure
+- `src/`
+  - `features/` - Feature-based modules
+  - `shared/` - Shared components, hooks, and utilities
+  - `api/` - API integration layer
+  - `store/` - Zustand store definitions
+  - `types/` - TypeScript type definitions
+  - `constants/` - Application constants
+  - `utils/` - Utility functions
+
+## Naming Conventions
+- Components: PascalCase (e.g., `UserProfile.tsx`)
+- Files: PascalCase for components, camelCase for others
+- Hooks: camelCase prefixed with 'use' (e.g., `useAuthenticationState`)
+- Types/Interfaces: PascalCase with descriptive names
+- Store slices: camelCase suffixed with 'Store' (e.g., `userProfileStore`)
+
+## TypeScript
+- Enable strict mode
+- Use type inference where possible
+- Prefer interfaces for object definitions
+- Use generics for reusable components/functions
+- Use discriminated unions for complex state management
+- Utilize const assertions for literal types
+- Use `satisfies` operator for type validation
+
+## Components
+- Prefer functional components
+- Use type-safe props with interfaces
+- Implement error boundaries at feature level
+- Extract complex logic into custom hooks
+- Keep components focused and single-responsibility
+- Use composition over inheritance
+
+## State Management (Zustand)
+- Define typed store slices
+- Use immer for immutable updates
+- Implement selectors for derived state
+- Keep stores minimal and focused
+
+## Data Fetching (TanStack Query)
+- Define type-safe query hooks
+- Implement proper error handling
+- Use suspense mode where appropriate
+- Define retry and cache policies
+
+## Forms (TanStack Form)
+- Use Zod schemas for validation
+- Type form values using schema inference
+- Implement controlled inputs
+- Handle submission states properly
+
+## Styling (Chakra UI)
+- Use theme tokens consistently
+- Implement responsive designs
+- Create reusable style configurations
+- Use semantic color modes
+
+## Code Quality
+- No explicit `any` types
+- No unused variables or imports
+- Meaningful variable names (avoid abbreviations)
+- Proper error handling with typed errors
+- Use early returns for cleaner code
+- Implement proper loading states
+- Use TypeScript assertion functions where needed
+
+## Comments
+- Only document complex business logic
+- Use JSDoc for public APIs
+- Avoid obvious comments
+- Document workarounds and technical debt
+
+## Testing
+- Write unit tests for utilities
+- Component testing with proper setup
+- Mock external dependencies
+- Test error scenarios
+- Use strong typing in tests
+
+## Performance
+- Implement proper memoization
+- Use virtual lists for large datasets
+- Optimize bundle size
+- Implement code splitting
+- Use proper key props in lists
+
+## Error Handling
+- Create typed error boundaries
+- Use custom error types
+- Implement proper fallbacks
+- Log errors appropriately
+
+## API Integration
+- Type all API responses
+- Implement proper error handling
+- Use proper status codes
+- Handle loading states
