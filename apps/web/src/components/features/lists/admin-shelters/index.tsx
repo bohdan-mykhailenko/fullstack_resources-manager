@@ -6,6 +6,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 
 import { AnimalShelterOutput } from "@/api/services/animal-shelters/core/interfaces";
@@ -58,7 +59,20 @@ export const AdminSheltersList = ({
               borderWidth={1}
               borderRadius="md"
             >
-              <Text fontWeight="semibold">{shelter.name}</Text>
+              <HStack spaceX={2}>
+                <IconButton
+                  size="xs"
+                  aria-label="View shelter"
+                  colorPalette="orange"
+                  variant="ghost"
+                >
+                  <Link to="/$shelterId" params={{ shelterId: shelter.id }}>
+                    <Icon name="ExternalLink" />
+                  </Link>
+                </IconButton>
+
+                <Text fontWeight="semibold">{shelter.name}</Text>
+              </HStack>
               <HStack spaceX={2}>
                 <Dialog
                   title="Edit Shelter"

@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import { Navigate } from "@tanstack/react-router";
 import { useState } from "react";
 
-import { getMockPaginatedShelters } from "@/__mocks/shelters_list";
 import { apiClient } from "@/api";
 import { SheltersList } from "@/components/features/lists/shelters";
 import { LoadedContentController } from "@/components/utils";
@@ -19,8 +18,6 @@ export const SheltersPage = () => {
   }
 
   const [currentPage, setCurrentPage] = useState(1);
-
-  const _data = getMockPaginatedShelters(currentPage, PAGE_SIZE);
 
   const { data, isLoading, error, isSuccess } = useQuery({
     queryKey: ["shelters", currentPage],

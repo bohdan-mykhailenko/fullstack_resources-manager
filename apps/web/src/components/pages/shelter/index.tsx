@@ -1,9 +1,7 @@
 import { Container, Separator, VStack } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
-import { Navigate, useParams } from "@tanstack/react-router";
+import { useParams } from "@tanstack/react-router";
 
-import { getMockPaginatedFeedbacks } from "@/__mocks/shelter_feedbacks";
-import { mockShelter } from "@/__mocks/shelter_item";
 import { apiClient } from "@/api";
 import { FeedbackForm, FeedbackList } from "@/components/features";
 import { ShelterDetails, ShelterRating } from "@/components/features/sections";
@@ -16,14 +14,8 @@ const FEEDBACK_PAGE_SIZE = 10;
 export const ShelterPage = () => {
   const isAdmin = useIsAdmin();
 
-  if (isAdmin) {
-    return <Navigate to="/admin" />;
-  }
-
   const { shelterId: id } = useParams({ from: "/$shelterId" });
 
-  const _shelter = mockShelter;
-  const _feedbacks = getMockPaginatedFeedbacks(1, FEEDBACK_PAGE_SIZE);
   const {
     data: shelter,
     isLoading,
@@ -56,30 +48,34 @@ export const ShelterPage = () => {
       >
         {(data) => (
           <VStack spaceY={3} align="stretch">
-            <ShelterRating
-              shelterId={id}
-              currentRating={shelter?.averageRating}
-              onSuccess={() => {
-                refetchShelter();
-              }}
-            />
-
-            <Separator />
+            {!isAdmin && (
+              <ShelterRating
+                shelterId={id}
+                currentRating={shelter?.averageRating}
+                onSuccess={() => {
+                  refetchShelter();
+                }}
+              />
+            )}
 
             <ShelterDetails shelter={data} />
 
-            <Separator />
+            {!isAdmin && (
+              <>
+                <Separator />
 
-            <VStack spaceY={4} align="stretch">
-              <FeedbackForm
-                shelterId={id}
-                onSuccess={() => {
-                  refetchFeedbacks();
-                }}
-              />
+                <VStack spaceY={4} align="stretch">
+                  <FeedbackForm
+                    shelterId={id}
+                    onSuccess={() => {
+                      refetchFeedbacks();
+                    }}
+                  />
 
-              {feedbacks && <FeedbackList feedbacks={feedbacks.items} />}
-            </VStack>
+                  {feedbacks && <FeedbackList feedbacks={feedbacks.items} />}
+                </VStack>
+              </>
+            )}
           </VStack>
         )}
       </LoadedContentController>
