@@ -1,8 +1,7 @@
 import { UserOutput } from "@/api/encore-client/services/users/interfaces";
 
 export interface CurrentUser {
-  // TODO: add id
-  // id: string;
+  id: string;
   email: string;
   firstName: string;
   lastName: string;

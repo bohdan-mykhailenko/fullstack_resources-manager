@@ -94,10 +94,6 @@ export class BaseAPIClient {
     // Fetch auth data if there is any
     const authData = await this.getAuthData();
 
-    console.log("AUTH_DATA ", {
-      authData,
-    });
-
     // If we now have authentication data, add it to the request
     if (authData) {
       if (authData.query) {

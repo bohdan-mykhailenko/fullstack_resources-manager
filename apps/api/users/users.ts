@@ -43,7 +43,14 @@ export const signUp = api<SignUpInput, UserOutput>(
 
     const { accessToken, refreshToken } = generateTokens(user?.id);
 
-    return { accessToken, refreshToken, email, firstName, lastName };
+    return {
+      accessToken,
+      refreshToken,
+      id: user.id,
+      email,
+      firstName,
+      lastName,
+    };
   }
 );
 
@@ -68,6 +75,7 @@ export const signIn = api<SignInInput, UserOutput>(
     return {
       accessToken,
       refreshToken,
+      id: user.id,
       email,
       firstName: user.first_name,
       lastName: user.last_name,

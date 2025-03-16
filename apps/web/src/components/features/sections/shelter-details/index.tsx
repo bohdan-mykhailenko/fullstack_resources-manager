@@ -1,0 +1,74 @@
+import {
+  Badge,
+  Card,
+  HStack,
+  Heading,
+  Image,
+  Link,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
+import { memo } from "react";
+
+import type { AnimalShelterOutput } from "@/api/encore-client/services/animal-shelters/core/interfaces";
+import { Icon } from "@/components/ui";
+
+interface ShelterDetailsProps {
+  shelter: AnimalShelterOutput;
+}
+
+export const ShelterDetails = memo(({ shelter }: ShelterDetailsProps) => {
+  return (
+    <Card.Root width="full" variant="outline">
+      <Card.Header pb={0}>
+        <HStack justify="space-between" align="start">
+          <VStack align="start" spaceX={1}>
+            <Heading fontWeight="bold" size="lg" color="white" bg="bg.muted">
+              {shelter.name}
+            </Heading>
+
+            <HStack spaceX={2}>
+              <Icon name="MapPinHouse" size={16} />
+              <Text color="fg.muted" fontSize="sm">
+                {shelter.address}
+              </Text>
+            </HStack>
+
+            {shelter.phone && (
+              <HStack spaceX={2}>
+                <Icon name="Phone" size={16} />
+                <Text color="fg.muted">{shelter.phone}</Text>
+              </HStack>
+            )}
+
+            <HStack spaceX={2}>
+              <Icon name="Globe" size={16} />
+              <Link color="blue.600" href={shelter.websiteUrl} target="_blank">
+                {shelter.websiteUrl}
+              </Link>
+            </HStack>
+          </VStack>
+
+          <Badge
+            colorPalette={shelter.isVerified ? "green" : "gray"}
+            variant="subtle"
+          >
+            {shelter.isVerified ? "Verified" : "Unverified"}
+          </Badge>
+        </HStack>
+      </Card.Header>
+
+      <Card.Body>
+        <VStack align="start" spaceY={2}>
+          {shelter.imageUrl && (
+            <Image src={shelter.imageUrl} alt={shelter.name} />
+          )}
+
+          {shelter.description && (
+            <Text color="white">{shelter.description}</Text>
+          )}
+        </VStack>
+      </Card.Body>
+    </Card.Root>
+  );
+});

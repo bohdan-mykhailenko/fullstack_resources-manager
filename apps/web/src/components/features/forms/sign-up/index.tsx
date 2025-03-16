@@ -31,8 +31,6 @@ export const SignUpForm = () => {
     onSuccess: (user) => {
       loginUser(user);
 
-      console.log("USER", user);
-
       navigate({ to: "/" });
     },
     successMessage: "Successfully logged in!",

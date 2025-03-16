@@ -11,6 +11,7 @@ export interface SignUpInput {
 }
 
 export interface UserOutput {
+  id: string;
   firstName: string;
   lastName: string;
   email: string;

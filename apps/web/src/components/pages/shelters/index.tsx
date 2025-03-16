@@ -12,14 +12,9 @@ const PAGE_SIZE = 5;
 export const SheltersPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
-  const data = getMockPaginatedShelters(currentPage, PAGE_SIZE);
+  const _data = getMockPaginatedShelters(currentPage, PAGE_SIZE);
 
-  const {
-    // data = getMockPaginatedShelters(currentPage, PAGE_SIZE),
-    isLoading,
-    error,
-    isSuccess,
-  } = useQuery({
+  const { data, isLoading, error, isSuccess } = useQuery({
     queryKey: ["shelters", currentPage],
     queryFn: () =>
       apiClient.animalShelters.getList({

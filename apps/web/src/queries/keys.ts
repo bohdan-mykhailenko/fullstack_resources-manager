@@ -5,7 +5,9 @@ import { PaginationParams } from "@/api/shared/interfaces";
 
 export enum APIQueryKey {
   ANIMAL_SHELTERS = "animalShelters",
+  ANIMAL_SHELTER_FEEDBACKS = "animalShelterFeedbacks",
   USERS = "users",
+  SHELTER = "shelter",
 }
 
 // TODO: complete integration

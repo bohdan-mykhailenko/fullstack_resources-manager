@@ -1,23 +1,12 @@
 import { Button } from "@chakra-ui/react";
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 
-import {
-  useAuthActions,
-  useCurrentUserData,
-  useIsAuthenticated,
-} from "@/store";
+import { useAuthActions, useIsAuthenticated } from "@/store";
 
 export const AuthButton = () => {
   const isAuthenticated = useIsAuthenticated();
   const { logoutUser } = useAuthActions();
   const navigate = useNavigate();
-
-  const currentUser = useCurrentUserData();
-
-  console.log("CURRENT USER", {
-    isAuthenticated,
-    currentUser,
-  });
 
   const location = useLocation();
 

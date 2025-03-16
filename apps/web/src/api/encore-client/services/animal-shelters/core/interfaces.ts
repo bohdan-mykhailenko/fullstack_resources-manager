@@ -11,6 +11,8 @@ export interface AnimalShelterOutput {
   feedbacksCount?: number;
   createdAt: string;
   updatedAt?: string;
+  isVerified: boolean;
+  averageRating?: number;
 }
 
 export interface CreateAnimalShelterInput {

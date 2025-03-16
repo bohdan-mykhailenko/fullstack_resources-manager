@@ -21,6 +21,7 @@ export const useCurrentUser = create<CurrentUserState>()(
 
         set({
           currentUser: {
+            id: user.id,
             email: user.email,
             firstName: user.firstName,
             lastName: user.lastName,

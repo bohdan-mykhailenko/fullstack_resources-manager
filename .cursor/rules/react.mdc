@@ -70,6 +70,8 @@ alwaysApply: false
 - Implement responsive designs
 - Create reusable style configurations
 - Use semantic color modes
+- Use only `colorPalette` prop(not `colorScheme`)
+- Stacks have `spaceX` and `spaceY` props not `spacing`
 
 ## Code Quality
 - No explicit `any` types

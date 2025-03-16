@@ -13,6 +13,7 @@ export interface AnimalShelterOutput {
   feedbacksCount?: number;
   createdAt: Date;
   updatedAt?: Date;
+  averageRating?: number;
 }
 
 export interface SearchedAnimalSheltersList {
@@ -24,4 +25,12 @@ export interface PaginatedAnimalSheltersList
 
 export interface SearchAnimalShelterParams {
   query?: string;
+}
+
+export interface VerifyShelterOutput {
+  message: string;
+}
+
+export interface UnverifyShelterOutput {
+  message: string;
 }

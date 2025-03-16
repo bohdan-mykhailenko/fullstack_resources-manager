@@ -8,7 +8,7 @@ const MOCK_IMAGES = [
   "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55",
 ];
 
-export const mockShelters: AnimalShelterOutput[] = [
+const mockShelters: AnimalShelterOutput[] = [
   {
     id: "115274ca-2866-4517-be12-0b12eeef83fa",
     name: "Happy Paws Sanctuary",
@@ -23,6 +23,7 @@ export const mockShelters: AnimalShelterOutput[] = [
     ratingsCount: 156,
     createdAt: "2024-01-15T12:09:43.058Z",
     updatedAt: "2024-03-10T15:30:00.000Z",
+    isVerified: true,
   },
   {
     id: "225274ca-2866-4517-be12-0b12eeef83fb",
@@ -38,6 +39,7 @@ export const mockShelters: AnimalShelterOutput[] = [
     ratingsCount: 92,
     createdAt: "2024-02-01T09:15:22.123Z",
     updatedAt: undefined,
+    isVerified: true,
   },
   {
     id: "335274ca-2866-4517-be12-0b12eeef83fc",
@@ -52,6 +54,7 @@ export const mockShelters: AnimalShelterOutput[] = [
     ratingsCount: 203,
     createdAt: "2023-11-20T14:30:15.789Z",
     updatedAt: "2024-03-01T11:20:00.000Z",
+    isVerified: true,
   },
   {
     id: "445274ca-2866-4517-be12-0b12eeef83fd",
@@ -67,6 +70,7 @@ export const mockShelters: AnimalShelterOutput[] = [
     ratingsCount: 167,
     createdAt: "2024-01-05T16:45:33.456Z",
     updatedAt: undefined,
+    isVerified: false,
   },
   {
     id: "555274ca-2866-4517-be12-0b12eeef83fe",
@@ -81,6 +85,7 @@ export const mockShelters: AnimalShelterOutput[] = [
     ratingsCount: 245,
     createdAt: "2023-12-10T08:20:11.234Z",
     updatedAt: "2024-02-15T09:45:00.000Z",
+    isVerified: true,
   },
   {
     id: "665274ca-2866-4517-be12-0b12eeef83ff",
@@ -95,6 +100,7 @@ export const mockShelters: AnimalShelterOutput[] = [
     ratingsCount: 134,
     createdAt: "2024-02-20T11:30:44.789Z",
     updatedAt: undefined,
+    isVerified: false,
   },
   {
     id: "775274ca-2866-4517-be12-0b12eeef83fg",
@@ -109,6 +115,7 @@ export const mockShelters: AnimalShelterOutput[] = [
     ratingsCount: 189,
     createdAt: "2023-10-15T13:25:55.123Z",
     updatedAt: "2024-01-20T14:15:00.000Z",
+    isVerified: true,
   },
   {
     id: "885274ca-2866-4517-be12-0b12eeef83fh",
@@ -123,6 +130,7 @@ export const mockShelters: AnimalShelterOutput[] = [
     ratingsCount: 178,
     createdAt: "2024-01-30T10:40:22.456Z",
     updatedAt: undefined,
+    isVerified: false,
   },
   {
     id: "995274ca-2866-4517-be12-0b12eeef83fi",
@@ -137,6 +145,7 @@ export const mockShelters: AnimalShelterOutput[] = [
     ratingsCount: 223,
     createdAt: "2023-12-01T15:55:33.789Z",
     updatedAt: "2024-03-05T16:30:00.000Z",
+    isVerified: true,
   },
   {
     id: "105274ca-2866-4517-be12-0b12eeef83fj",
@@ -151,6 +160,7 @@ export const mockShelters: AnimalShelterOutput[] = [
     ratingsCount: 156,
     createdAt: "2024-02-10T09:15:44.123Z",
     updatedAt: undefined,
+    isVerified: false,
   },
 ];
 

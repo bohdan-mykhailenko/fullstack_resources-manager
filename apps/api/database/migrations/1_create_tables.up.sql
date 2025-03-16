@@ -16,7 +16,8 @@ CREATE TABLE shelters (
   phone VARCHAR(255),
   email VARCHAR(255),
   created_at TIMESTAMPTZ DEFAULT NOW(),
-  updated_at TIMESTAMPTZ
+  updated_at TIMESTAMPTZ,
+  is_verified BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE shelter_feedbacks (
@@ -37,3 +38,6 @@ CREATE TABLE shelter_ratings (
     created_at TIMESTAMPTZ DEFAULT NOW(),
     UNIQUE(shelter_id, user_id)
 );
+
+
+

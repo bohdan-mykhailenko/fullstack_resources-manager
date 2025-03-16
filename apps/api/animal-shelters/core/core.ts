@@ -9,6 +9,8 @@ import {
   PaginatedAnimalSheltersList,
   SearchAnimalShelterParams,
   SearchedAnimalSheltersList,
+  UnverifyShelterOutput,
+  VerifyShelterOutput,
 } from "./interfaces";
 import {
   CreateAnimalShelterInput,
@@ -25,15 +27,41 @@ export const getOne = api<IdParams, AnimalShelterOutput>(
   },
   async (params) => {
     const animalshelter = await db.queryRow`
-      SELECT b.*, 
-        (SELECT COUNT(*) FROM shelter_ratings WHERE shelter_id = b.id) as ratings_count,
-        (SELECT COUNT(*) FROM shelter_feedbacks WHERE shelter_id = b.id) as feedbacks_count
-      FROM shelters b
-      WHERE b.id = ${params.id}
+      SELECT 
+        s.id,
+        s.name,
+        s.description,
+        s.image_url as "imageUrl",
+        s.website_url as "websiteUrl",
+        s.address,
+        s.phone,
+        s.email,
+        s.is_verified as "isVerified",
+        s.created_at as "createdAt",
+        s.updated_at as "updatedAt",
+        CAST(COALESCE(AVG(sr.rating), 0) AS FLOAT) as "averageRating",
+        COUNT(DISTINCT sr.id) as "ratingsCount",
+        COUNT(DISTINCT sf.id) as "feedbacksCount"
+      FROM shelters s
+      LEFT JOIN shelter_ratings sr ON sr.shelter_id = s.id
+      LEFT JOIN shelter_feedbacks sf ON sf.shelter_id = s.id
+      WHERE s.id = ${params.id}
+      GROUP BY 
+        s.id, 
+        s.name, 
+        s.description, 
+        s.image_url,
+        s.website_url,
+        s.address,
+        s.phone,
+        s.email,
+        s.is_verified,
+        s.created_at,
+        s.updated_at
     `;
 
     if (!animalshelter) {
-      throw APIError.notFound("AnimalShelter not found");
+      throw APIError.notFound("Shelter not found");
     }
 
     return animalshelter as AnimalShelterOutput;
@@ -170,7 +198,7 @@ export const update = api<
     }
 
     const updatedAnimalShelter = await db.queryRow`
-      UPDATE animalshelters 
+      UPDATE shelters 
       SET 
         name = ${input.name || existingAnimalShelter.name},
         description = ${input.description || existingAnimalShelter.description},
@@ -200,5 +228,32 @@ export const remove = api<IdParams, void>(
     db.query`DELETE FROM shelters WHERE id = ${params.id}`;
 
     return { message: "Shelter deleted successfully" };
+  }
+);
+
+export const verify = api<IdParams, VerifyShelterOutput>(
+  {
+    expose: true,
+    auth: true,
+    method: "POST",
+    path: "/shelters/:id/verify",
+    tags: ["shelters", "admin"],
+  },
+  async (params) => {
+    db.query`UPDATE shelters SET is_verified = TRUE WHERE id = ${params.id}`;
+
+    return { message: "Shelter verified successfully" };
+  }
+);
+
+export const unverify = api<IdParams, UnverifyShelterOutput>(
+  {
+    expose: true,
+    auth: true,
+  },
+  async (params) => {
+    db.query`UPDATE shelters SET is_verified = FALSE WHERE id = ${params.id}`;
+
+    return { message: "Shelter unverified successfully" };
   }
 );

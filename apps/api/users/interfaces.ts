@@ -3,6 +3,7 @@ import { JwtPayload } from "jsonwebtoken";
 import { UserIdParams } from "@/shared/interfaces";
 
 export interface UserOutput {
+  id: number;
   firstName: string;
   lastName: string;
   email: string;
