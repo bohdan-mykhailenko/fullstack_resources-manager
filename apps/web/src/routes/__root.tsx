@@ -20,12 +20,12 @@ const APP_NAME = "AnimalShelters";
 
 function RootComponent() {
   return (
-    <VStack minHeight="100vh" width="100vw" bg="black" py={6}>
+    <VStack minHeight="100vh" width="100vw" bg="bg" color="white" py={6}>
       <Header
         routes={routes}
         appName={APP_NAME}
         borderBottom="1px solid"
-        borderColor="gray.800"
+        borderColor="border.muted"
         py={4}
         px={10}
       />

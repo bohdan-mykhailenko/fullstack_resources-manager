@@ -7,7 +7,7 @@ export interface AnimalShelterOutput {
   imageUrl: string;
   address: string;
   phone: string;
-  likesCount?: number;
+  ratingsCount?: number;
   feedbacksCount?: number;
   createdAt: string;
   updatedAt?: string;

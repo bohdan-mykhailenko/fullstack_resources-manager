@@ -12,16 +12,16 @@ export async function createAuthGenerator(): Promise<
   const refreshToken = getCookie(AuthCookieKey.REFRESH_TOKEN);
   const isAdmin = getCookie(AuthCookieKey.IS_ADMIN) === "true";
 
-  // if (!accessToken && !refreshToken) {
-  //   return undefined;
-  // }
+  if (!accessToken && !refreshToken) {
+    return undefined;
+  }
 
-  // if (accessToken && !jwtUtils.isTokenExpired(accessToken)) {
-  //   return {
-  //     authorization: generateBearerToken(accessToken),
-  //     accessType: isAdmin ? "admin" : "user",
-  //   };
-  // }
+  if (accessToken && !jwtUtils.isTokenExpired(accessToken)) {
+    return {
+      authorization: generateBearerToken(accessToken),
+      accessType: isAdmin ? "admin" : "user",
+    };
+  }
 
   if (refreshToken && !jwtUtils.isTokenExpired(refreshToken)) {
     try {
