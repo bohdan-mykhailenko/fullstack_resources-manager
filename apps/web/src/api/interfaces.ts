@@ -22,11 +22,18 @@ export interface ClientOptions {
    * a function which returns a new object for each request.
    */
   auth?: AuthDataGenerator;
+
+  /**
+   * Allows you to set the admin authentication data to be used for each
+   * request either by passing in a static object or by passing in
+   * a function which returns a new object for each request.
+   */
+  adminAuth?: AuthDataGenerator;
 }
 
 export interface AuthHandlerParams {
   authorization: string;
-  accessType?: string;
+  accessType: "user" | "admin";
 }
 
 export interface PaginationParams {

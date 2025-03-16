@@ -12,3 +12,11 @@ export const cookiesStorage: StateStorage = {
     removeCookie(name);
   },
 };
+
+export enum CookieKey {
+  ACCESS_TOKEN = "access_token",
+  REFRESH_TOKEN = "refresh_token",
+  ADMIN_ACCESS_TOKEN = "admin_access_token",
+  APP_USER = "app_user",
+  IS_ADMIN = "is_admin",
+}

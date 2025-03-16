@@ -12,7 +12,7 @@ const routes = [
   {
     path: "/",
     component: RootComponent,
-    label: "Home",
+    label: "Shelters",
   },
 ];
 

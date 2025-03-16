@@ -4,10 +4,8 @@ import { createJSONStorage, persist } from "zustand/middleware";
 
 import { UserOutput } from "@/api/services/users/interfaces";
 
-import { cookiesStorage } from "../cookies";
+import { CookieKey, cookiesStorage } from "../cookies";
 import { CurrentUserState } from "./interfaces";
-
-const COOKIE_NAME = "app_user";
 
 export const useCurrentUser = create<CurrentUserState>()(
   persist(
@@ -28,8 +26,8 @@ export const useCurrentUser = create<CurrentUserState>()(
           },
         });
 
-        setCookie("accessToken", user.accessToken);
-        setCookie("refreshToken", user.refreshToken);
+        setCookie(CookieKey.ACCESS_TOKEN, user.accessToken);
+        setCookie(CookieKey.REFRESH_TOKEN, user.refreshToken);
       },
 
       clearCurrentUser: () =>
@@ -38,16 +36,11 @@ export const useCurrentUser = create<CurrentUserState>()(
         }),
     }),
     {
-      name: COOKIE_NAME,
+      name: CookieKey.APP_USER,
       storage: createJSONStorage(() => cookiesStorage),
       partialize: (state) => ({
         currentUser: state.currentUser,
       }),
-      // onRehydrateStorage: () => (state) => {
-      //   if (state) {
-      //     state.isAuthenticated = Boolean(state.currentUser);
-      //   }
-      // },
     }
   )
 );

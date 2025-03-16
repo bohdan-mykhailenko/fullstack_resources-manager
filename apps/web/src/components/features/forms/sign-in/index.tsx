@@ -9,17 +9,24 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useForm } from "@tanstack/react-form";
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link, Navigate, useNavigate } from "@tanstack/react-router";
 
 import { apiClient } from "@/api";
 import { useMutation } from "@/api/hooks/useMutation";
 import { SignInInput, UserOutput } from "@/api/services/users/interfaces";
 import { FormFieldError } from "@/components/ui";
+import { useIsAdmin } from "@/store";
 import { useAuthActions } from "@/store/current-user";
 
 import { signInSchema } from "./validation";
 
 export const SignInForm = () => {
+  const isAdmin = useIsAdmin();
+
+  if (isAdmin) {
+    return <Navigate to="/admin" />;
+  }
+
   const { loginUser } = useAuthActions();
   const navigate = useNavigate();
 

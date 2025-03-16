@@ -1,15 +1,23 @@
 import { Container } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
+import { Navigate } from "@tanstack/react-router";
 import { useState } from "react";
 
 import { getMockPaginatedShelters } from "@/__mocks/shelters_list";
 import { apiClient } from "@/api";
 import { SheltersList } from "@/components/features/lists/shelters";
 import { LoadedContentController } from "@/components/utils";
+import { useIsAdmin } from "@/store";
 
 const PAGE_SIZE = 5;
 
 export const SheltersPage = () => {
+  const isAdmin = useIsAdmin();
+
+  if (isAdmin) {
+    return <Navigate to="/admin" />;
+  }
+
   const [currentPage, setCurrentPage] = useState(1);
 
   const _data = getMockPaginatedShelters(currentPage, PAGE_SIZE);

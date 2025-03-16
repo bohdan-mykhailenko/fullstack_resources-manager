@@ -1,6 +1,5 @@
 import { getCookie, setCookie } from "typescript-cookie";
 
-import { AuthCookieKey } from "@/api/authHandler/keys";
 import {
   clearAuthCookies,
   generateBearerToken,
@@ -8,22 +7,41 @@ import {
 } from "@/api/authHandler/utils";
 import { APIError, ErrorCode } from "@/api/errors";
 import type { AuthHandlerParams } from "@/api/interfaces";
+import { CookieKey } from "@/store/cookies";
 
 export async function createAuthGenerator(): Promise<
   AuthHandlerParams | undefined
 > {
-  const accessToken = getCookie(AuthCookieKey.ACCESS_TOKEN);
-  const refreshToken = getCookie(AuthCookieKey.REFRESH_TOKEN);
-  const isAdmin = getCookie(AuthCookieKey.IS_ADMIN) === "true";
+  const adminAccessToken = getCookie(CookieKey.ADMIN_ACCESS_TOKEN);
+
+  if (adminAccessToken) {
+    if (jwtUtils.isTokenExpired(adminAccessToken)) {
+      throw new APIError(401, {
+        code: ErrorCode.Unauthenticated,
+        message: "Your admin session has expired. Please log in again.",
+      });
+    }
+
+    return {
+      authorization: generateBearerToken(adminAccessToken),
+      accessType: "admin",
+    };
+  }
+
+  const accessToken = getCookie(CookieKey.ACCESS_TOKEN);
+  const refreshToken = getCookie(CookieKey.REFRESH_TOKEN);
 
   if (!accessToken && !refreshToken) {
-    return undefined;
+    throw new APIError(401, {
+      code: ErrorCode.Unauthenticated,
+      message: "Your need to log in to continue.",
+    });
   }
 
   if (accessToken && !jwtUtils.isTokenExpired(accessToken)) {
     return {
       authorization: generateBearerToken(accessToken),
-      accessType: isAdmin ? "admin" : "user",
+      accessType: "user",
     };
   }
 
@@ -35,11 +53,11 @@ export async function createAuthGenerator(): Promise<
         refreshToken,
       });
 
-      setCookie(AuthCookieKey.ACCESS_TOKEN, result.accessToken);
+      setCookie(CookieKey.ACCESS_TOKEN, result.accessToken);
 
       return {
         authorization: generateBearerToken(result.accessToken),
-        accessType: isAdmin ? "admin" : "user",
+        accessType: "user",
       };
     } catch {
       clearAuthCookies();
@@ -55,6 +73,6 @@ export async function createAuthGenerator(): Promise<
 
   throw new APIError(401, {
     code: ErrorCode.Unauthenticated,
-    message: "Authentication expired",
+    message: "Your session has expired. Please log in again.",
   });
 }

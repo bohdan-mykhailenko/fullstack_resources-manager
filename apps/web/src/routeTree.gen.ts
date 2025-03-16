@@ -13,6 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as SignUpImport } from './routes/sign-up'
 import { Route as SignInImport } from './routes/sign-in'
+import { Route as AdminImport } from './routes/admin'
 import { Route as ShelterIdImport } from './routes/$shelterId'
 import { Route as IndexImport } from './routes/index'
 
@@ -27,6 +28,12 @@ const SignUpRoute = SignUpImport.update({
 const SignInRoute = SignInImport.update({
   id: '/sign-in',
   path: '/sign-in',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AdminRoute = AdminImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -60,6 +67,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShelterIdImport
       parentRoute: typeof rootRoute
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminImport
+      parentRoute: typeof rootRoute
+    }
     '/sign-in': {
       id: '/sign-in'
       path: '/sign-in'
@@ -82,6 +96,7 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$shelterId': typeof ShelterIdRoute
+  '/admin': typeof AdminRoute
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
 }
@@ -89,6 +104,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$shelterId': typeof ShelterIdRoute
+  '/admin': typeof AdminRoute
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
 }
@@ -97,22 +113,24 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/$shelterId': typeof ShelterIdRoute
+  '/admin': typeof AdminRoute
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/$shelterId' | '/sign-in' | '/sign-up'
+  fullPaths: '/' | '/$shelterId' | '/admin' | '/sign-in' | '/sign-up'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/$shelterId' | '/sign-in' | '/sign-up'
-  id: '__root__' | '/' | '/$shelterId' | '/sign-in' | '/sign-up'
+  to: '/' | '/$shelterId' | '/admin' | '/sign-in' | '/sign-up'
+  id: '__root__' | '/' | '/$shelterId' | '/admin' | '/sign-in' | '/sign-up'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ShelterIdRoute: typeof ShelterIdRoute
+  AdminRoute: typeof AdminRoute
   SignInRoute: typeof SignInRoute
   SignUpRoute: typeof SignUpRoute
 }
@@ -120,6 +138,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ShelterIdRoute: ShelterIdRoute,
+  AdminRoute: AdminRoute,
   SignInRoute: SignInRoute,
   SignUpRoute: SignUpRoute,
 }
@@ -136,6 +155,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/$shelterId",
+        "/admin",
         "/sign-in",
         "/sign-up"
       ]
@@ -145,6 +165,9 @@ export const routeTree = rootRoute
     },
     "/$shelterId": {
       "filePath": "$shelterId.tsx"
+    },
+    "/admin": {
+      "filePath": "admin.tsx"
     },
     "/sign-in": {
       "filePath": "sign-in.tsx"

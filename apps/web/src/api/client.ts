@@ -34,7 +34,7 @@ export default class APIClient {
       auth: undefined,
     });
 
-    this.admin = new AdminServiceClient(baseWithAuth);
+    this.admin = new AdminServiceClient(baseWithoutAuth);
     this.animalShelters = new AnimalSheltersServiceClient(baseWithAuth);
     this.animalSheltersFeedback = new AnimalSheltersFeedbackServiceClient(
       baseWithAuth

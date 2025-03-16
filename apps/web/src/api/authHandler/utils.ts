@@ -2,8 +2,7 @@ import jwt from "jsonwebtoken";
 import { removeCookie } from "typescript-cookie";
 
 import { SECOND } from "@/constants";
-
-import { AuthCookieKey } from "./keys";
+import { CookieKey } from "@/store/cookies";
 
 interface JWTPayload {
   exp?: number;
@@ -46,7 +45,11 @@ export const jwtUtils = {
 };
 
 export const clearAuthCookies = () => {
-  Object.values(AuthCookieKey).forEach((key) => removeCookie(key));
+  [
+    CookieKey.ACCESS_TOKEN,
+    CookieKey.REFRESH_TOKEN,
+    CookieKey.ADMIN_ACCESS_TOKEN,
+  ].forEach((key) => removeCookie(key));
 };
 
 export const generateBearerToken = (accessToken: string) =>
