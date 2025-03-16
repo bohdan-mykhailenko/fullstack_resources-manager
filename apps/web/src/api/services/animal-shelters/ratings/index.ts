@@ -1,4 +1,4 @@
-import { BaseAPIClient } from "@/api/encore-client/services/baseClient";
+import { BaseAPIClient } from "@/api/services/baseClient";
 
 import { RatingOutput } from "./interfaces";
 

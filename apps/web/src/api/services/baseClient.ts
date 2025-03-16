@@ -3,10 +3,10 @@ import {
   APIErrorResponse,
   ErrorCode,
   isAPIErrorResponse,
-} from "../errors";
-import type { AuthHandlerParams, ClientOptions } from "../interfaces";
-import type { AuthDataGenerator, CallParameters, Fetcher } from "../types";
-import { encodeQuery, makeRecord } from "../utils";
+} from "@/api/errors";
+import type { AuthHandlerParams, ClientOptions } from "@/api/interfaces";
+import type { AuthDataGenerator, CallParameters, Fetcher } from "@/api/types";
+import { encodeQuery, makeRecord } from "@/api/utils";
 
 const boundFetch = fetch.bind(this);
 

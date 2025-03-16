@@ -12,11 +12,8 @@ import { useForm } from "@tanstack/react-form";
 import { Link, useNavigate } from "@tanstack/react-router";
 
 import { apiClient } from "@/api";
-import {
-  SignUpInput,
-  UserOutput,
-} from "@/api/encore-client/services/users/interfaces";
 import { useMutation } from "@/api/hooks/useMutation";
+import { SignUpInput, UserOutput } from "@/api/services/users/interfaces";
 import { FormFieldError } from "@/components/ui";
 import { useAuthActions } from "@/store/current-user";
 

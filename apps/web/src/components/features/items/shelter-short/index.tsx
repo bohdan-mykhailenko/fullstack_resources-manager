@@ -2,7 +2,7 @@ import { Badge, Button, HStack, Heading } from "@chakra-ui/react";
 import { Link as RouterLink } from "@tanstack/react-router";
 import { memo } from "react";
 
-import type { AnimalShelterOutput } from "@/api/encore-client/services/animal-shelters/core/interfaces";
+import type { AnimalShelterOutput } from "@/api/services/animal-shelters/core/interfaces";
 
 interface ShelterShortItemProps {
   shelter: AnimalShelterOutput;

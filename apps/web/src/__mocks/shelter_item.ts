@@ -1,4 +1,4 @@
-import type { AnimalShelterOutput } from "@/api/encore-client/services/animal-shelters/core/interfaces";
+import type { AnimalShelterOutput } from "@/api/services/animal-shelters/core/interfaces";
 
 export const mockShelter: AnimalShelterOutput = {
   id: "115274ca-2866-4517-be12-0b12eeef83fa",

@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { memo } from "react";
 
-import type { AnimalShelterOutput } from "@/api/encore-client/services/animal-shelters/core/interfaces";
+import type { AnimalShelterOutput } from "@/api/services/animal-shelters/core/interfaces";
 import { Icon } from "@/components/ui";
 
 interface ShelterDetailsProps {

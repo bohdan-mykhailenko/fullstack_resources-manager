@@ -1,6 +1,6 @@
-import { BaseAPIClient } from "@/api/encore-client/services/baseClient";
-import { makeRecord } from "@/api/encore-client/utils";
-import { PaginationParams } from "@/api/shared/interfaces";
+import { PaginationParams } from "@/api/interfaces";
+import { BaseAPIClient } from "@/api/services/baseClient";
+import { makeRecord } from "@/api/utils";
 
 import type {
   AnimalShelterOutput,

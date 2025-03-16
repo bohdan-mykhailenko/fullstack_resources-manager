@@ -1,5 +1,5 @@
-import { BaseAPIClient } from "@/api/encore-client/services/baseClient";
-import { makeRecord } from "@/api/encore-client/utils";
+import { BaseAPIClient } from "@/api/services/baseClient";
+import { makeRecord } from "@/api/utils";
 
 import type { FeedbackOutput, FeedbacksList } from "./interface";
 

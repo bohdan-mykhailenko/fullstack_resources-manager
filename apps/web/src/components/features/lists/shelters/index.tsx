@@ -1,6 +1,6 @@
 import { For, IconButton, Pagination, VStack } from "@chakra-ui/react";
 
-import type { AnimalShelterOutput } from "@/api/encore-client/services/animal-shelters/core/interfaces";
+import type { AnimalShelterOutput } from "@/api/services/animal-shelters/core/interfaces";
 import { ShelterShortItem } from "@/components/features";
 
 interface SheltersListProps {

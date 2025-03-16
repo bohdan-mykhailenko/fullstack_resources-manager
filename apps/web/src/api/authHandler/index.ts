@@ -1,9 +1,13 @@
 import { getCookie, setCookie } from "typescript-cookie";
 
-import { APIError, ErrorCode } from "../errors";
-import { AuthHandlerParams } from "../interfaces";
-import { AuthCookieKey } from "./keys";
-import { clearAuthCookies, generateBearerToken, jwtUtils } from "./utils";
+import { AuthCookieKey } from "@/api/authHandler/keys";
+import {
+  clearAuthCookies,
+  generateBearerToken,
+  jwtUtils,
+} from "@/api/authHandler/utils";
+import { APIError, ErrorCode } from "@/api/errors";
+import type { AuthHandlerParams } from "@/api/interfaces";
 
 export async function createAuthGenerator(): Promise<
   AuthHandlerParams | undefined
@@ -26,7 +30,7 @@ export async function createAuthGenerator(): Promise<
   if (refreshToken && !jwtUtils.isTokenExpired(refreshToken)) {
     try {
       // avoid circular dependency by importing apiClient dynamically
-      const { apiClient } = await import("../../index");
+      const { apiClient } = await import("../index");
       const result = await apiClient.users.refresh({
         refreshToken,
       });

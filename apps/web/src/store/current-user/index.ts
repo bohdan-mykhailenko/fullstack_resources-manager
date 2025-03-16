@@ -2,7 +2,7 @@ import { setCookie } from "typescript-cookie";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-import { UserOutput } from "@/api/encore-client/services/users/interfaces";
+import { UserOutput } from "@/api/services/users/interfaces";
 
 import { cookiesStorage } from "../cookies";
 import { CurrentUserState } from "./interfaces";

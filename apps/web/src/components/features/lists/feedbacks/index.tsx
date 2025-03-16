@@ -1,7 +1,7 @@
 import { Avatar, Card, For, HStack, Text, VStack } from "@chakra-ui/react";
 import { format } from "date-fns";
 
-import type { FeedbackOutput } from "@/api/encore-client/services/animal-shelters/feedback/interface";
+import type { FeedbackOutput } from "@/api/services/animal-shelters/feedback/interface";
 
 interface FeedbackListProps {
   feedbacks: FeedbackOutput[];

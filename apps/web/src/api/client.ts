@@ -4,8 +4,8 @@ import {
   AnimalSheltersRatingsServiceClient,
   AnimalSheltersServiceClient,
   UsersServiceClient,
-} from "@/api/encore-client/services";
-import { BaseAPIClient } from "@/api/encore-client/services/baseClient";
+} from "@/api/services";
+import { BaseAPIClient } from "@/api/services/baseClient";
 
 import { ClientOptions } from "./interfaces";
 

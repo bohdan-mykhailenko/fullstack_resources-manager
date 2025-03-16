@@ -1,4 +1,4 @@
-import { AnimalShelterOutput } from "@/api/encore-client/services/animal-shelters/core/interfaces";
+import { AnimalShelterOutput } from "@/api/services/animal-shelters/core/interfaces";
 
 const MOCK_IMAGES = [
   "https://images.unsplash.com/photo-1581888227599-779811939961",

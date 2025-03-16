@@ -28,3 +28,8 @@ export interface AuthHandlerParams {
   authorization: string;
   accessType?: string;
 }
+
+export interface PaginationParams {
+  page?: number;
+  limit?: number;
+}

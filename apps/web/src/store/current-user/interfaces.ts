@@ -1,4 +1,4 @@
-import { UserOutput } from "@/api/encore-client/services/users/interfaces";
+import { UserOutput } from "@/api/services/users/interfaces";
 
 export interface CurrentUser {
   id: string;
