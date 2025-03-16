@@ -1,30 +1,43 @@
 import { Button } from "@chakra-ui/react";
-import { Link, useLocation } from "@tanstack/react-router";
+import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 
-import { useAuthActions, useIsAuthenticated } from "@/store";
+import {
+  useAuthActions,
+  useCurrentUserData,
+  useIsAuthenticated,
+} from "@/store";
 
 export const AuthButton = () => {
   const isAuthenticated = useIsAuthenticated();
   const { logoutUser } = useAuthActions();
+  const navigate = useNavigate();
+
+  const currentUser = useCurrentUserData();
+
+  console.log("CURRENT USER", {
+    isAuthenticated,
+    currentUser,
+  });
 
   const location = useLocation();
 
   if (isAuthenticated) {
     return (
-      <Button colorPalette="black" color="white" onClick={logoutUser}>
+      <Button
+        colorPalette="black"
+        onClick={() => {
+          logoutUser();
+
+          navigate({ to: "/sign-in" });
+        }}
+      >
         Logout
       </Button>
     );
   }
 
-  console.log("PATHNAME", { pathname: location.pathname });
-
   if (location.pathname === "/sign-up") {
-    return (
-      <Button colorPalette="blue" variant="subtle" color="white">
-        <Link to="/sign-in">Sign In</Link>
-      </Button>
-    );
+    return null;
   }
 
   return (

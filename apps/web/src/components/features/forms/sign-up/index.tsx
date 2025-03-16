@@ -9,26 +9,31 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useForm } from "@tanstack/react-form";
-import { Link, redirect } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 
+import { apiClient } from "@/api";
+import {
+  SignUpInput,
+  UserOutput,
+} from "@/api/encore-client/services/users/interfaces";
 import { useMutation } from "@/api/hooks/useMutation";
 import { FormFieldError } from "@/components/ui";
-import { type AuthenticatedUser, authService } from "@/services/auth";
 import { useAuthActions } from "@/store/current-user";
 
-import { SignUpFormData, signUpSchema } from "./validation";
+import { signUpSchema } from "./validation";
 
 export const SignUpForm = () => {
   const { loginUser } = useAuthActions();
+  const navigate = useNavigate();
 
-  const { mutate: signUp, isPending } = useMutation<
-    AuthenticatedUser,
-    SignUpFormData
-  >({
-    mutationFn: (credentials) => authService.signUp(credentials),
+  const { mutate: signUp, isPending } = useMutation<UserOutput, SignUpInput>({
+    mutationFn: (input) => apiClient.users.signUp(input),
     onSuccess: (user) => {
       loginUser(user);
-      redirect({ to: "/" });
+
+      console.log("USER", user);
+
+      navigate({ to: "/" });
     },
     successMessage: "Successfully logged in!",
   });
@@ -179,7 +184,7 @@ export const SignUpForm = () => {
               type="submit"
               colorPalette="orange"
               loading={isPending}
-              loadingText="SignUpg in..."
+              loadingText="Processing..."
               color="white"
             >
               Sign up

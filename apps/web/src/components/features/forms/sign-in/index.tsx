@@ -9,26 +9,29 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useForm } from "@tanstack/react-form";
-import { Link, redirect } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 
+import { apiClient } from "@/api";
+import {
+  SignInInput,
+  UserOutput,
+} from "@/api/encore-client/services/users/interfaces";
 import { useMutation } from "@/api/hooks/useMutation";
 import { FormFieldError } from "@/components/ui";
-import { type AuthenticatedUser, authService } from "@/services/auth";
 import { useAuthActions } from "@/store/current-user";
 
-import { SignInFormData, signInSchema } from "./validation";
+import { signInSchema } from "./validation";
 
 export const SignInForm = () => {
   const { loginUser } = useAuthActions();
+  const navigate = useNavigate();
 
-  const { mutate: signIn, isPending } = useMutation<
-    AuthenticatedUser,
-    SignInFormData
-  >({
-    mutationFn: (credentials) => authService.signIn(credentials),
+  const { mutate: signIn, isPending } = useMutation<UserOutput, SignInInput>({
+    mutationFn: (input) => apiClient.users.signIn(input),
     onSuccess: (user) => {
       loginUser(user);
-      redirect({ to: "/" });
+
+      navigate({ to: "/" });
     },
     successMessage: "Successfully logged in!",
   });
@@ -107,7 +110,7 @@ export const SignInForm = () => {
               type="submit"
               colorPalette="orange"
               loading={isPending}
-              loadingText="Signing in..."
+              loadingText="Processing..."
               color="white"
             >
               Sign in

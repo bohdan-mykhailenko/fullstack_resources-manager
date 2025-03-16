@@ -16,9 +16,7 @@ const routes = [
   },
 ];
 
-const APP_NAME = "AnimalShelter  s";
-// TODO
-https://encore.dev/docs/ts/cli/client-generation#generating-a-client
+const APP_NAME = "AnimalShelters";
 
 function RootComponent() {
   return (

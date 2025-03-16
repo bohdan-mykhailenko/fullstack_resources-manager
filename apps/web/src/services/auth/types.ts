@@ -14,9 +14,9 @@ export interface AuthenticatedUser {
   email: string;
   firstName: string;
   lastName: string;
-  role: string;
 }
 
-export interface AuthResponse {
-  user: AuthenticatedUser;
+export interface AuthTokens {
+  accessToken: string;
+  refreshToken: string;
 }

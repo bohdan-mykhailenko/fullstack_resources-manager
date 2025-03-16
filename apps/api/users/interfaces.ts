@@ -11,3 +11,11 @@ export interface UserOutput {
 }
 
 export interface UserJWTPayload extends UserIdParams, JwtPayload {}
+
+export interface RefreshTokenInput {
+  refreshToken: string;
+}
+
+export interface RefreshTokenOutput {
+  accessToken: string;
+}

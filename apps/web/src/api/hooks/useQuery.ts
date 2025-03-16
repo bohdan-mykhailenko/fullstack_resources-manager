@@ -1,13 +1,14 @@
 import {
-  QueryKey,
   UseQueryResult,
   useQuery as useQueryHook,
 } from "@tanstack/react-query";
 import { useMemo } from "react";
 
+import { APIQueryKey } from "@/queries/keys";
+
 interface QueryConfiguration<TData> {
-  queryKey: QueryKey;
-  queryFunction: () => Promise<TData>;
+  queryKey: APIQueryKey;
+  queryFn: () => Promise<TData>;
   enabled?: boolean;
 }
 
@@ -19,12 +20,12 @@ interface ExtendedQueryResult<TData>
 
 export function useQuery<TData>({
   queryKey,
-  queryFunction,
+  queryFn,
   enabled = true,
 }: QueryConfiguration<TData>): ExtendedQueryResult<TData> {
   const queryResult = useQueryHook({
-    queryKey,
-    queryFn: queryFunction,
+    queryKey: [queryKey],
+    queryFn: queryFn,
     enabled,
   });
 

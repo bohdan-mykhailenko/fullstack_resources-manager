@@ -8,11 +8,6 @@ interface FieldInfoProps<TState extends AnyFieldApi["state"]> {
 export const FormFieldError = <TState extends AnyFieldApi["state"]>({
   state,
 }: FieldInfoProps<TState>) => {
-  console.log("STATE", {
-    state,
-    errors: state.meta.errors,
-    touched: state.meta.isTouched,
-  });
   return (
     <Show when={state.meta.isTouched && state.meta.errors?.length}>
       <Em fontSize="xs" color="red.500">

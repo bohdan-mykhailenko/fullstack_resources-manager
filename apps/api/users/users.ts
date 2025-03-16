@@ -6,13 +6,18 @@ import jwt from "jsonwebtoken";
 
 import { db } from "@/database";
 
-import { UserJWTPayload, UserOutput } from "./interfaces";
+import {
+  RefreshTokenInput,
+  RefreshTokenOutput,
+  UserJWTPayload,
+  UserOutput,
+} from "./interfaces";
 import { generateTokens } from "./utils";
 import { SignInInput, SignUpInput } from "./validation";
 
 const JWT_SECRET = secret("JWT_SECRET")();
 
-export const signUp = api(
+export const signUp = api<SignUpInput, UserOutput>(
   { expose: true, auth: false, method: "POST", path: "/sign-up" },
   async (input: SignUpInput): Promise<UserOutput> => {
     const { email, password, firstName, lastName } = input;
@@ -42,9 +47,9 @@ export const signUp = api(
   }
 );
 
-export const signIn = api(
+export const signIn = api<SignInInput, UserOutput>(
   { expose: true, auth: false, method: "POST", path: "/sign-in" },
-  async (input: SignInInput) => {
+  async (input) => {
     const { email, password } = input;
     const user = await db.queryRow`
       SELECT * FROM users WHERE email = ${email}
@@ -70,9 +75,9 @@ export const signIn = api(
   }
 );
 
-export const refresh = api(
+export const refresh = api<RefreshTokenInput, RefreshTokenOutput>(
   { expose: true, auth: false, method: "POST", path: "/refresh-token" },
-  async (input: { refreshToken: string }) => {
+  async (input) => {
     const { refreshToken } = input;
 
     let payload;

@@ -5,7 +5,8 @@
   "license": "MPL-2.0",
   "type": "module",
   "scripts": {
-    "test": "vitest"
+    "test": "vitest",
+    "generate-client": "encore gen client --output=./client.ts"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
@@ -21,7 +22,7 @@
     "@types/bcrypt": "^5.0.2",
     "@types/jsonwebtoken": "^9.0.9",
     "bcrypt": "^5.1.1",
-    "encore.dev": "^1.46.8",
+    "encore.dev": "^1.46.9",
     "jsonwebtoken": "^9.0.2",
     "prettier": "^3.5.3"
   },

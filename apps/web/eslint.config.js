@@ -18,6 +18,8 @@ export default [
       "@typescript-eslint/ban-ts-comment": "off",
       "react/display-name": "off",
       "react/prop-types": "off",
+      "@typescript-eslint/no-namespace": "off",
+      "@typescript-eslint/no-explicit-any": "off",
     },
   },
 ];
