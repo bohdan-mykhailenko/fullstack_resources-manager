@@ -15,8 +15,6 @@ export const AuthButton = () => {
   const { logoutAdmin } = useAdminActions();
   const navigate = useNavigate();
 
-  console.log("AUTH BUTTON", isAuthenticated, isAdmin);
-
   if (isAuthenticated || isAdmin) {
     return (
       <Button

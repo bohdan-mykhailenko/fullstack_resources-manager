@@ -1,4 +1,4 @@
-import { setCookie } from "typescript-cookie";
+import { removeCookie, setCookie } from "typescript-cookie";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
@@ -59,7 +59,8 @@ export const useAuthActions = () => {
     logoutUser: () => {
       clearCurrentUser();
 
-      document.cookie = "";
+      removeCookie(CookieKey.ACCESS_TOKEN);
+      removeCookie(CookieKey.REFRESH_TOKEN);
     },
   };
 };

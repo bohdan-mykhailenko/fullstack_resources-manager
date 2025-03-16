@@ -28,20 +28,12 @@ export default class APIClient {
    * @param options Options for the client
    */
   constructor(options?: ClientOptions) {
-    const baseWithAuth = new BaseAPIClient(API_URL, options ?? {});
-    const baseWithoutAuth = new BaseAPIClient(API_URL, {
-      ...options,
-      auth: undefined,
-    });
+    const base = new BaseAPIClient(API_URL, options ?? {});
 
-    this.admin = new AdminServiceClient(baseWithoutAuth);
-    this.animalShelters = new AnimalSheltersServiceClient(baseWithAuth);
-    this.animalSheltersFeedback = new AnimalSheltersFeedbackServiceClient(
-      baseWithAuth
-    );
-    this.animalSheltersRatings = new AnimalSheltersRatingsServiceClient(
-      baseWithAuth
-    );
-    this.users = new UsersServiceClient(baseWithoutAuth);
+    this.admin = new AdminServiceClient(base);
+    this.animalShelters = new AnimalSheltersServiceClient(base);
+    this.animalSheltersFeedback = new AnimalSheltersFeedbackServiceClient(base);
+    this.animalSheltersRatings = new AnimalSheltersRatingsServiceClient(base);
+    this.users = new UsersServiceClient(base);
   }
 }

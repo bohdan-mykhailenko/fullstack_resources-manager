@@ -3,15 +3,21 @@ import { getCookie, setCookie } from "typescript-cookie";
 import {
   clearAuthCookies,
   generateBearerToken,
+  isPublicRoute,
   jwtUtils,
 } from "@/api/authHandler/utils";
 import { APIError, ErrorCode } from "@/api/errors";
 import type { AuthHandlerParams } from "@/api/interfaces";
 import { CookieKey } from "@/store/cookies";
 
-export async function createAuthGenerator(): Promise<
-  AuthHandlerParams | undefined
-> {
+export async function createAuthGenerator(
+  path: string
+): Promise<AuthHandlerParams | undefined> {
+  console.log("path", path);
+  if (isPublicRoute(path)) {
+    return undefined;
+  }
+
   const adminAccessToken = getCookie(CookieKey.ADMIN_ACCESS_TOKEN);
 
   if (adminAccessToken) {

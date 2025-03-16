@@ -1,13 +1,14 @@
 import { createQueryKeyStore } from "@lukemorales/query-key-factory";
 
 import { apiClient } from "@/api";
-import { PaginationParams } from "@/api/shared/interfaces";
+import { PaginationParams } from "@/api/interfaces";
 
 export enum APIQueryKey {
   ANIMAL_SHELTERS = "animalShelters",
   ANIMAL_SHELTER_FEEDBACKS = "animalShelterFeedbacks",
   USERS = "users",
   SHELTER = "shelter",
+  USERS_STATISTICS = "usersStatistics",
 }
 
 // TODO: complete integration

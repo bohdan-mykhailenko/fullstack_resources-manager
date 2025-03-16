@@ -45,12 +45,12 @@ export class BaseAPIClient {
     }
   }
 
-  private async getAuthData(): Promise<CallParameters | undefined> {
+  private async getAuthData(path: string): Promise<CallParameters | undefined> {
     let authData: AuthHandlerParams | undefined;
 
     // If authorization data generator is present, call it and add the returned data to the request
     if (this.authGenerator) {
-      const mayBePromise = this.authGenerator();
+      const mayBePromise = this.authGenerator(path);
 
       if (mayBePromise instanceof Promise) {
         authData = await mayBePromise;
@@ -93,7 +93,7 @@ export class BaseAPIClient {
     init.headers = { ...this.headers, ...init.headers, ...headers };
 
     // Fetch auth data if there is any
-    const authData = await this.getAuthData();
+    const authData = await this.getAuthData(path);
 
     // If we now have authentication data, add it to the request
     if (authData) {

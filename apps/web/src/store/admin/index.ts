@@ -1,4 +1,4 @@
-import { setCookie } from "typescript-cookie";
+import { removeCookie, setCookie } from "typescript-cookie";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
@@ -18,7 +18,11 @@ export const useAdmin = create<AdminState>()(
         setCookie(CookieKey.ADMIN_ACCESS_TOKEN, accessToken);
       },
 
-      clearAdminToken: () => set({ isAdmin: false }),
+      clearAdminToken: () => {
+        set({ isAdmin: false });
+
+        removeCookie(CookieKey.ADMIN_ACCESS_TOKEN);
+      },
     }),
     {
       name: CookieKey.IS_ADMIN,
@@ -37,10 +41,6 @@ export const useAdminActions = () => {
 
   return {
     loginAdmin: (accessToken: string) => setAdminToken(accessToken),
-    logoutAdmin: () => {
-      clearAdminToken();
-
-      document.cookie = "";
-    },
+    logoutAdmin: clearAdminToken,
   };
 };

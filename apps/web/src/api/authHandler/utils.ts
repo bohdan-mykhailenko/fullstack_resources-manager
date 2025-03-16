@@ -4,6 +4,8 @@ import { removeCookie } from "typescript-cookie";
 import { SECOND } from "@/constants";
 import { CookieKey } from "@/store/cookies";
 
+import { PublicRoute } from "./routes";
+
 interface JWTPayload {
   exp?: number;
   [key: string]: unknown;
@@ -54,3 +56,6 @@ export const clearAuthCookies = () => {
 
 export const generateBearerToken = (accessToken: string) =>
   `Bearer ${accessToken}`;
+
+export const isPublicRoute = (path: string) =>
+  Object.values(PublicRoute).includes(path as PublicRoute);

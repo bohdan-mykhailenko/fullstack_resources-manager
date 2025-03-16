@@ -16,7 +16,6 @@ export type CallParameters = Omit<
 };
 
 // AuthDataGenerator is a function that returns a new instance of the authentication data required by this API
-export type AuthDataGenerator = () =>
-  | AuthHandlerParams
-  | Promise<AuthHandlerParams | undefined>
-  | undefined;
+export type AuthDataGenerator = (
+  path: string
+) => AuthHandlerParams | Promise<AuthHandlerParams | undefined> | undefined;

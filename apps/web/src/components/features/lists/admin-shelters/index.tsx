@@ -78,7 +78,6 @@ export const AdminSheltersList = ({
 
       <For each={shelters}>
         {(shelter) => {
-          console.log("SHELTER", shelter);
           return (
             <HStack
               key={shelter.id}
@@ -132,7 +131,7 @@ export const AdminSheltersList = ({
                     }
                     variant="ghost"
                   >
-                    <Icon name={shelter.isVerified ? "X" : "Check"} />
+                    <Icon name="Check" />
                   </IconButton>
                 </Tooltip>
 

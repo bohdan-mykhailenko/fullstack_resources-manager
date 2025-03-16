@@ -37,7 +37,6 @@ interface HeaderProps extends BoxProps {
 
 export const Header = ({ routes, appName, ...props }: HeaderProps) => {
   const isAdmin = useIsAdmin();
-  console.log("isAdmin", isAdmin);
 
   const [open, setOpen] = useState<boolean>(false);
 
