@@ -45,7 +45,7 @@ export const ShelterPage = () => {
   });
 
   return (
-    <Container maxW="container.lg" py={8}>
+    <Container maxW="2xl" py={8} spaceY={4}>
       <LoadedContentController
         isLoading={isLoading}
         isError={!!error}

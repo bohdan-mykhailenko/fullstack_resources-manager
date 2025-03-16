@@ -1,5 +1,4 @@
 import {
-  Button,
   For,
   HStack,
   IconButton,
@@ -10,10 +9,7 @@ import {
 import { useState } from "react";
 
 import { AnimalShelterOutput } from "@/api/services/animal-shelters/core/interfaces";
-import {
-  CreateShelterForm,
-  UpdateShelterForm,
-} from "@/components/features/forms";
+import { UpdateShelterForm } from "@/components/features/forms";
 import { Dialog, Icon, Tooltip } from "@/components/ui";
 
 interface AdminSheltersListProps {
@@ -39,7 +35,6 @@ export const AdminSheltersList = ({
   onUnverify,
   onRefetchList,
 }: AdminSheltersListProps) => {
-  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
   return (
@@ -52,30 +47,6 @@ export const AdminSheltersList = ({
         xl: 700,
       }}
     >
-      <HStack justify="space-between" w="full">
-        <Text fontSize="2xl" fontWeight="bold">
-          Shelters Management
-        </Text>
-        <Dialog
-          title="Create New Shelter"
-          trigger={
-            <Button colorPalette="black" variant="subtle">
-              <Icon name="Plus" />
-              Create Shelter
-            </Button>
-          }
-          onOpenChange={(event) => setIsCreateDialogOpen(event.open)}
-          isOpen={isCreateDialogOpen}
-        >
-          <CreateShelterForm
-            onSuccess={() => {
-              setIsCreateDialogOpen(false);
-              onRefetchList();
-            }}
-          />
-        </Dialog>
-      </HStack>
-
       <For each={shelters}>
         {(shelter) => {
           return (
@@ -123,7 +94,7 @@ export const AdminSheltersList = ({
                   <IconButton
                     size="xs"
                     aria-label="Verify shelter"
-                    colorPalette={shelter.isVerified ? "gray" : "green"}
+                    colorPalette={shelter.isVerified ? "red" : "green"}
                     onClick={() =>
                       shelter.isVerified
                         ? onUnverify(shelter.id)
@@ -131,7 +102,9 @@ export const AdminSheltersList = ({
                     }
                     variant="ghost"
                   >
-                    <Icon name="Check" />
+                    <Icon
+                      name={shelter.isVerified ? "ShieldX" : "ShieldCheck"}
+                    />
                   </IconButton>
                 </Tooltip>
 

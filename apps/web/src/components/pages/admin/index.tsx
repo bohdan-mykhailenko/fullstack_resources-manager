@@ -1,14 +1,24 @@
-import { Accordion, Separator, VStack } from "@chakra-ui/react";
+import {
+  Accordion,
+  Button,
+  Container,
+  HStack,
+  Heading,
+  Text,
+} from "@chakra-ui/react";
 import { Navigate } from "@tanstack/react-router";
 import { useState } from "react";
 
 import { apiClient } from "@/api";
 import { useMutation } from "@/api/hooks/useMutation";
 import { useQuery } from "@/api/hooks/useQuery";
-import { AdminVerificationForm } from "@/components/features/forms";
-import { AdminSheltersList, UsersList } from "@/components/features/lists";
+import {
+  AdminVerificationForm,
+  CreateShelterForm,
+} from "@/components/features/forms";
+import { AdminSheltersList } from "@/components/features/lists";
 import { UsersStatistics } from "@/components/features/sections";
-import { Icon } from "@/components/ui";
+import { Dialog, Icon } from "@/components/ui";
 import { LoadedContentController } from "@/components/utils";
 import { APIQueryKey } from "@/queries/keys";
 import { useIsAdmin, useIsAuthenticated } from "@/store";
@@ -17,6 +27,8 @@ export const AdminPage = () => {
   const isAdmin = useIsAdmin();
   const isAuthenticated = useIsAuthenticated();
   const [currentPage, setCurrentPage] = useState(1);
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+
   const pageSize = 10;
 
   if (isAuthenticated) {
@@ -37,16 +49,6 @@ export const AdminPage = () => {
     queryKey: [APIQueryKey.ANIMAL_SHELTERS, currentPage],
     queryFn: () =>
       apiClient.animalShelters.getList({ page: currentPage, limit: pageSize }),
-  });
-
-  const {
-    data: usersData,
-    isLoading: isLoadingUsers,
-    isError: isErrorUsers,
-    isSuccess: isSuccessUsers,
-  } = useQuery({
-    queryKey: [APIQueryKey.USERS, currentPage],
-    queryFn: () => apiClient.admin.getUsersList(),
   });
 
   const {
@@ -78,7 +80,32 @@ export const AdminPage = () => {
   });
 
   return (
-    <VStack align="stretch" spaceY={4}>
+    <Container maxW="2xl" py={8} spaceY={6}>
+      <HStack justify="space-between" w="full">
+        <Text fontSize="xl" fontWeight="bold">
+          Shelters Management
+        </Text>
+
+        <Dialog
+          title="Create New Shelter"
+          trigger={
+            <Button colorPalette="black" variant="subtle">
+              <Icon name="Plus" />
+              Create Shelter
+            </Button>
+          }
+          onOpenChange={(event) => setIsCreateDialogOpen(event.open)}
+          isOpen={isCreateDialogOpen}
+        >
+          <CreateShelterForm
+            onSuccess={() => {
+              setIsCreateDialogOpen(false);
+              refetchShelters();
+            }}
+          />
+        </Dialog>
+      </HStack>
+
       <LoadedContentController
         data={sheltersData ?? null}
         isLoading={isLoadingShelters}
@@ -102,36 +129,15 @@ export const AdminPage = () => {
         )}
       </LoadedContentController>
 
-      <Separator />
-
-      <Accordion.Root collapsible>
+      <Accordion.Root collapsible multiple>
         <Accordion.Item value="users-statistics">
-          <Accordion.ItemTrigger>
-            <Icon name="Users" />
-            All Users
-          </Accordion.ItemTrigger>
-          <Accordion.ItemContent>
-            <Accordion.ItemBody>
-              <LoadedContentController
-                data={usersData ?? null}
-                isLoading={isLoadingUsers}
-                isError={isErrorUsers}
-                isEmpty={isSuccessUsers && usersData?.users.length === 0}
-                errorMessage="Failed to fetch users"
-                emptyMessage="No users found"
-              >
-                {(data) => <UsersList users={data.users} />}
-              </LoadedContentController>
-            </Accordion.ItemBody>
-          </Accordion.ItemContent>
-        </Accordion.Item>
-      </Accordion.Root>
+          <Accordion.ItemTrigger justifyContent="space-between">
+            <HStack spaceX={2}>
+              <Icon name="ScatterChart" />
+              <Heading size="lg">Users Statistics</Heading>
+            </HStack>
 
-      <Accordion.Root collapsible>
-        <Accordion.Item value="users-statistics">
-          <Accordion.ItemTrigger>
-            <Icon name="ScatterChart" />
-            Users Statistics
+            <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
           <Accordion.ItemContent>
             <Accordion.ItemBody>
@@ -149,6 +155,6 @@ export const AdminPage = () => {
           </Accordion.ItemContent>
         </Accordion.Item>
       </Accordion.Root>
-    </VStack>
+    </Container>
   );
 };

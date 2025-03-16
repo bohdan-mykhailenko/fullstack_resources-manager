@@ -32,14 +32,14 @@ export const SheltersPage = () => {
   });
 
   return (
-    <Container maxW="container.lg" py={8}>
+    <Container maxW="2xl" py={8} spaceY={4}>
       <LoadedContentController
         isLoading={isLoading}
         isError={!!error}
         isEmpty={isSuccess && data?.items.length === 0}
         errorMessage="Failed to fetch shelters. Please try again."
         emptyMessage="No shelters found"
-        data={data}
+        data={data ?? null}
       >
         {(shelters) => (
           <SheltersList

@@ -26,26 +26,27 @@ export const SheltersList = ({
         {(shelter) => <ShelterShortItem key={shelter.id} shelter={shelter} />}
       </For>
 
-      {totalItems > pageSize && (
-        <Pagination.Root
-          count={totalItems}
-          pageSize={pageSize}
-          page={currentPage}
-          onPageChange={({ page }) => onPageChange(page)}
-          siblingCount={1}
-        >
-          <Pagination.PrevTrigger />
-          <Pagination.Items
-            render={(page) => (
-              <IconButton variant={{ base: "ghost", _selected: "outline" }}>
-                {page.value}
-              </IconButton>
-            )}
-          />
-          <Pagination.NextTrigger />
-          <Pagination.PageText format="long" />
-        </Pagination.Root>
-      )}
+      <Pagination.Root
+        count={totalItems}
+        pageSize={pageSize}
+        page={currentPage}
+        onPageChange={({ page }) => onPageChange(page)}
+        siblingCount={1}
+      >
+        <Pagination.PrevTrigger />
+        <Pagination.Items
+          render={(page) => (
+            <IconButton
+              disabled={page.value === currentPage || totalItems <= pageSize}
+              variant={{ base: "ghost", _selected: "outline" }}
+            >
+              {page.value}
+            </IconButton>
+          )}
+        />
+        <Pagination.NextTrigger />
+        <Pagination.PageText format="long" />
+      </Pagination.Root>
     </VStack>
   );
 };

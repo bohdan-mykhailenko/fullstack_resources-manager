@@ -1,4 +1,4 @@
-import { Box, VStack } from "@chakra-ui/react";
+import { Container, VStack } from "@chakra-ui/react";
 import { Outlet, createRootRoute } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 
@@ -29,9 +29,9 @@ function RootComponent() {
         py={4}
         px={10}
       />
-      <Box px={10} py={4}>
+      <Container maxW="container.2xl" px={10} py={4}>
         <Outlet />
-      </Box>
+      </Container>
 
       <TanStackRouterDevtools position="bottom-right" />
     </VStack>

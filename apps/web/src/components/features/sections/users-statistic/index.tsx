@@ -12,41 +12,37 @@ export const UsersStatistics = ({ statistics }: UsersStatisticsProps) => {
   const { totalUsers, recentUsers, userActivity } = statistics;
 
   return (
-    <Card.Root width="full">
-      <Card.Header>
-        <Card.Title>Users Statistics</Card.Title>
-      </Card.Header>
-
+    <Card.Root width="full" bg="black">
       <Card.Body>
         <VStack spaceY={8}>
           <HStack spaceX={8} justify="center">
             <VStack spaceY={2} align="center">
               <HStack spaceX={2}>
-                <Icon name="Users" />
+                <Icon name="Users" size={16} />
                 <Text fontWeight="bold">Total Users</Text>
               </HStack>
-              <Text fontSize="2xl">{totalUsers}</Text>
+              <Text fontSize="md">{totalUsers}</Text>
             </VStack>
 
             <VStack spaceY={2} align="center">
               <HStack spaceX={2}>
-                <Icon name="MessageCircle" />
+                <Icon name="MessageCircle" size={16} />
                 <Text fontWeight="bold">Total Feedbacks</Text>
               </HStack>
-              <Text fontSize="2xl">{userActivity.totalFeedbacks}</Text>
+              <Text fontSize="md">{userActivity.totalFeedbacks}</Text>
             </VStack>
 
             <VStack spaceY={2} align="center">
               <HStack spaceX={2}>
-                <Icon name="Star" />
+                <Icon name="Star" size={16} />
                 <Text fontWeight="bold">Total Ratings</Text>
               </HStack>
-              <Text fontSize="2xl">{userActivity.totalRatings}</Text>
+              <Text fontSize="md">{userActivity.totalRatings}</Text>
             </VStack>
           </HStack>
 
           <VStack spaceY={4} width="full">
-            <Text fontWeight="bold" fontSize="lg">
+            <Text fontWeight="bold" fontSize="md">
               Most Active Users
             </Text>
 
@@ -81,7 +77,7 @@ export const UsersStatistics = ({ statistics }: UsersStatisticsProps) => {
           </VStack>
 
           <VStack spaceY={4} width="full">
-            <Text fontWeight="bold" fontSize="lg">
+            <Text fontWeight="bold" fontSize="md">
               Recently Joined Users
             </Text>
 
