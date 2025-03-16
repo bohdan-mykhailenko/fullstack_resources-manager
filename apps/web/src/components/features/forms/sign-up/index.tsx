@@ -16,15 +16,20 @@ import { useMutation } from "@/api/hooks/useMutation";
 import { SignUpInput, UserOutput } from "@/api/services/users/interfaces";
 import { FormFieldError } from "@/components/ui";
 import { useIsAdmin } from "@/store";
-import { useAuthActions } from "@/store/current-user";
+import { useAuthActions, useIsAuthenticated } from "@/store/current-user";
 
 import { signUpSchema } from "./validation";
 
 export const SignUpForm = () => {
   const isAdmin = useIsAdmin();
+  const isAuthenticated = useIsAuthenticated();
 
   if (isAdmin) {
     return <Navigate to="/admin" />;
+  }
+
+  if (isAuthenticated) {
+    return <Navigate to="/" />;
   }
 
   const { loginUser } = useAuthActions();

@@ -99,4 +99,18 @@ export class AnimalSheltersServiceClient {
 
     return (await response.json()) as AnimalShelterOutput;
   }
+
+  public async verify(id: string): Promise<void> {
+    await this.baseClient.callTypedAPI(
+      "POST",
+      `/shelters/${encodeURIComponent(id)}/verify`
+    );
+  }
+
+  public async unverify(id: string): Promise<void> {
+    await this.baseClient.callTypedAPI(
+      "POST",
+      `/shelters/${encodeURIComponent(id)}/unverify`
+    );
+  }
 }

@@ -225,7 +225,7 @@ export const remove = api<IdParams, void>(
     tags: ["shelters", "admin"],
   },
   async (params) => {
-    db.query`DELETE FROM shelters WHERE id = ${params.id}`;
+    db.exec`DELETE FROM shelters WHERE id = ${params.id}`;
 
     return { message: "Shelter deleted successfully" };
   }
@@ -240,7 +240,7 @@ export const verify = api<IdParams, VerifyShelterOutput>(
     tags: ["shelters", "admin"],
   },
   async (params) => {
-    db.query`UPDATE shelters SET is_verified = TRUE WHERE id = ${params.id}`;
+    db.exec`UPDATE shelters SET is_verified = TRUE WHERE id = ${params.id}`;
 
     return { message: "Shelter verified successfully" };
   }
@@ -250,9 +250,12 @@ export const unverify = api<IdParams, UnverifyShelterOutput>(
   {
     expose: true,
     auth: true,
+    method: "POST",
+    path: "/shelters/:id/unverify",
+    tags: ["shelters", "admin"],
   },
   async (params) => {
-    db.query`UPDATE shelters SET is_verified = FALSE WHERE id = ${params.id}`;
+    db.exec`UPDATE shelters SET is_verified = FALSE WHERE id = ${params.id}`;
 
     return { message: "Shelter unverified successfully" };
   }

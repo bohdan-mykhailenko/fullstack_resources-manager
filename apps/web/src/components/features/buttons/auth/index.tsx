@@ -1,5 +1,5 @@
 import { Button } from "@chakra-ui/react";
-import { Link, useLocation, useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 
 import {
   useAdminActions,
@@ -15,7 +15,7 @@ export const AuthButton = () => {
   const { logoutAdmin } = useAdminActions();
   const navigate = useNavigate();
 
-  const location = useLocation();
+  console.log("AUTH BUTTON", isAuthenticated, isAdmin);
 
   if (isAuthenticated || isAdmin) {
     return (
@@ -36,13 +36,11 @@ export const AuthButton = () => {
     );
   }
 
-  if (location.pathname === "/sign-up") {
-    return null;
+  if (!isAuthenticated) {
+    return (
+      <Button colorPalette="blue" variant="subtle" color="white">
+        <Link to="/sign-in">Sign In</Link>
+      </Button>
+    );
   }
-
-  return (
-    <Button colorPalette="blue" variant="subtle" color="white">
-      <Link to="/sign-up">Sign Up</Link>
-    </Button>
-  );
 };

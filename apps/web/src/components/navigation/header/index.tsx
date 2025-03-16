@@ -25,6 +25,7 @@ import {
   DrawerTrigger,
   Icon,
 } from "@/components/ui";
+import { useIsAdmin } from "@/store";
 
 interface HeaderProps extends BoxProps {
   routes: {
@@ -35,6 +36,9 @@ interface HeaderProps extends BoxProps {
 }
 
 export const Header = ({ routes, appName, ...props }: HeaderProps) => {
+  const isAdmin = useIsAdmin();
+  console.log("isAdmin", isAdmin);
+
   const [open, setOpen] = useState<boolean>(false);
 
   return (
@@ -54,31 +58,33 @@ export const Header = ({ routes, appName, ...props }: HeaderProps) => {
         </Heading>
 
         <HStack hideBelow="md" as="nav" justify="space-between">
-          <List.Root display="flex" flexDirection="row" listStyle="none">
-            <For each={routes}>
-              {({ path, label }) => (
-                <List.Item
-                  h={10}
-                  key={path}
-                  fontWeight="semibold"
-                  css={{
-                    a: {
-                      textDecoration: "none",
-                    },
-                  }}
-                >
-                  <Button
-                    border="none"
-                    colorPalette="orange"
-                    variant="ghost"
-                    color="white"
+          {!isAdmin && (
+            <List.Root display="flex" flexDirection="row" listStyle="none">
+              <For each={routes}>
+                {({ path, label }) => (
+                  <List.Item
+                    h={10}
+                    key={path}
+                    fontWeight="semibold"
+                    css={{
+                      a: {
+                        textDecoration: "none",
+                      },
+                    }}
                   >
-                    <Link to={path}>{label}</Link>
-                  </Button>
-                </List.Item>
-              )}
-            </For>
-          </List.Root>
+                    <Button
+                      border="none"
+                      colorPalette="orange"
+                      variant="ghost"
+                      color="white"
+                    >
+                      <Link to={path}>{label}</Link>
+                    </Button>
+                  </List.Item>
+                )}
+              </For>
+            </List.Root>
+          )}
 
           <AuthButton />
         </HStack>
@@ -101,12 +107,12 @@ export const Header = ({ routes, appName, ...props }: HeaderProps) => {
               </IconButton>
             </DrawerTrigger>
 
-            <DrawerContent bg="gray.900" h="100%">
+            <DrawerContent bg="black" h="100%">
               <DrawerCloseTrigger />
 
               <DrawerBody pt={12}>
                 <VStack spaceY={10} align="center" w="full">
-                  <VStack spaceY={2} align="stretch">
+                  {!isAdmin && (
                     <For each={routes}>
                       {({ path, label }) => (
                         <DrawerActionTrigger asChild key={path}>
@@ -122,7 +128,7 @@ export const Header = ({ routes, appName, ...props }: HeaderProps) => {
                         </DrawerActionTrigger>
                       )}
                     </For>
-                  </VStack>
+                  )}
 
                   <Separator w="full" />
 

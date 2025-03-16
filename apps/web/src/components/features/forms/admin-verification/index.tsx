@@ -85,6 +85,7 @@ export const AdminVerificationForm = () => {
               loading={isPending}
               loadingText="Verifying..."
               color="white"
+              fontWeight="bold"
             >
               Verify Admin Access
             </Button>

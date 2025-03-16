@@ -5,3 +5,5 @@ export * from "./toaster";
 export * from "./form-field-error";
 export * from "./close-button";
 export * from "./drawer";
+export * from "./dialog";
+export * from "./tooltip";

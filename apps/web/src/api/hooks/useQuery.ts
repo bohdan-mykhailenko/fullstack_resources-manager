@@ -7,7 +7,7 @@ import { useMemo } from "react";
 import { APIQueryKey } from "@/queries/keys";
 
 interface QueryConfiguration<TData> {
-  queryKey: APIQueryKey;
+  queryKey: APIQueryKey | number | string | APIQueryKey[] | (number | string)[];
   queryFn: () => Promise<TData>;
   enabled?: boolean;
 }

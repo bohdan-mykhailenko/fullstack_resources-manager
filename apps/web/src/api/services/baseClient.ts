@@ -1,3 +1,4 @@
+import { DeepSnakeToCamelCase, transformKeys } from "@/api/cases";
 import {
   APIError,
   APIErrorResponse,
@@ -146,15 +147,29 @@ export class BaseAPIClient {
   }
 
   // callTypedAPI makes an API call, defaulting content type to "application/json"
-  public async callTypedAPI(
+  public async callTypedAPI<T = unknown>(
     method: string,
     path: string,
     body?: BodyInit,
     params?: CallParameters
   ): Promise<Response> {
-    return this.callAPI(method, path, body, {
+    const response = await this.callAPI(method, path, body, {
       ...params,
       headers: { "Content-Type": "application/json", ...params?.headers },
     });
+
+    const contentType = response.headers.get("content-type");
+
+    if (contentType?.includes("application/json")) {
+      const originalJson = response.json;
+
+      response.json = async () => {
+        const data = await originalJson.call(response);
+
+        return transformKeys(data) as DeepSnakeToCamelCase<T>;
+      };
+    }
+
+    return response;
   }
 }

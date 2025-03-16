@@ -14,6 +14,7 @@ export interface AnimalShelterOutput {
   createdAt: Date;
   updatedAt?: Date;
   averageRating?: number;
+  isVerified: boolean;
 }
 
 export interface SearchedAnimalSheltersList {

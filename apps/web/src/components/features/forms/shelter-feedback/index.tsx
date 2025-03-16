@@ -73,6 +73,8 @@ export const FeedbackForm = ({ shelterId, onSuccess }: FeedbackFormProps) => {
         />
 
         <Button
+          color="white"
+          fontWeight="bold"
           type="submit"
           colorPalette="orange"
           loading={isPending}
