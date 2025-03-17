@@ -1,5 +1,7 @@
 import { PaginatedList } from "@/shared/interfaces";
 
+import { FilterByField, SortBy, SortOrder } from "./enums";
+
 export interface AnimalShelterOutput {
   id: string;
   name: string;
@@ -15,6 +17,7 @@ export interface AnimalShelterOutput {
   updatedAt?: Date;
   averageRating?: number;
   isVerified: boolean;
+  totalCount?: number;
 }
 
 export interface SearchedAnimalSheltersList {
@@ -34,4 +37,18 @@ export interface VerifyShelterOutput {
 
 export interface UnverifyShelterOutput {
   message: string;
+}
+
+export interface ShelterFilterParams {
+  query?: string;
+  fields?: string; // FilterByField[];
+  sortBy?: SortBy;
+  sortOrder?: SortOrder;
+}
+
+export interface FilteredSheltersList {
+  items: AnimalShelterOutput[];
+  total: number;
+  page: number;
+  limit: number;
 }

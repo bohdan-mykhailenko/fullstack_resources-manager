@@ -4,11 +4,14 @@ import { db } from "@/database";
 import { IdParams, PaginationParams } from "@/shared/interfaces";
 import { getPagination, processDbList } from "@/shared/utils";
 
+import { FilterByField, SortBy, SortOrder } from "./enums";
 import {
   AnimalShelterOutput,
+  FilteredSheltersList,
   PaginatedAnimalSheltersList,
   SearchAnimalShelterParams,
   SearchedAnimalSheltersList,
+  ShelterFilterParams,
   UnverifyShelterOutput,
   VerifyShelterOutput,
 } from "./interfaces";
@@ -91,7 +94,8 @@ export const getList = api<PaginationParams, PaginatedAnimalSheltersList>(
     );
 
     const totalCount = await db.queryRow`
-      SELECT COUNT(*) as count FROM shelters
+      SELECT COUNT(*) as count
+      FROM shelters s
     `;
 
     return {
@@ -103,42 +107,119 @@ export const getList = api<PaginationParams, PaginatedAnimalSheltersList>(
   }
 );
 
-export const search = api<
-  SearchAnimalShelterParams,
-  SearchedAnimalSheltersList
+export const getFilteredList = api<
+  ShelterFilterParams & PaginationParams,
+  FilteredSheltersList
 >(
   {
     expose: true,
     auth: true,
     method: "GET",
-    path: "/shelters/search",
+    path: "/shelters/filter",
     tags: ["shelters"],
   },
   async (params) => {
-    const { query } = params;
+    const {
+      query = null,
+      page = 1,
+      limit = 10,
+      fields = null,
+      sortBy = null,
+      sortOrder = null,
+    } = params;
 
-    if (!query) {
-      const result = await processDbList<AnimalShelterOutput>(
-        db.query`
-          SELECT * FROM shelters
-          ORDER BY created_at DESC
-        `
-      );
+    const { offset } = getPagination(params);
 
-      return { items: result };
-    }
+    const filterByFields = fields ? fields.split(",") : [];
+
+    const hasIsVerifiedFilter =
+      Array.isArray(filterByFields) &&
+      filterByFields.includes(FilterByField.IS_VERIFIED);
 
     const result = await processDbList<AnimalShelterOutput>(
       db.query`
-        SELECT * FROM shelters 
-        WHERE 
-          name ILIKE ${`%${query}%`} OR 
-          description ILIKE ${`%${query}%`}
-        ORDER BY created_at DESC
-      `
+    SELECT 
+      s.id,
+      s.name,
+      s.description,
+      s.image_url as "imageUrl",
+      s.website_url as "websiteUrl",
+      s.address,
+      s.phone,
+      s.email,
+      s.is_verified as "isVerified",
+      s.created_at as "createdAt",
+      s.updated_at as "updatedAt",
+      CAST(COALESCE(AVG(sr.rating), 0) AS FLOAT) as "averageRating",
+      COUNT(DISTINCT sr.id) as "ratingsCount",
+      COUNT(DISTINCT sf.id) as "feedbacksCount"
+    FROM shelters s
+    LEFT JOIN shelter_ratings sr ON sr.shelter_id = s.id
+    LEFT JOIN shelter_feedbacks sf ON sf.shelter_id = s.id
+      WHERE
+      (
+        CASE
+          WHEN ${query}::text IS NOT NULL AND ${query}::text != '' THEN
+            s.name ILIKE ${`%${query}%`}::text OR 
+            s.description ILIKE ${`%${query}%`}::text OR
+            s.address ILIKE ${`%${query}%`}::text OR
+            s.email ILIKE ${`%${query}%`}::text
+          ELSE TRUE
+        END
+      )
+      AND
+      (
+          CASE
+          WHEN ${hasIsVerifiedFilter} THEN s.is_verified = true
+          ELSE TRUE
+        END
+      )
+    GROUP BY 
+      s.id,
+      s.name,
+      s.description,
+      s.image_url,
+      s.website_url,
+      s.address,
+      s.phone,
+      s.email,
+      s.is_verified,
+      s.created_at,
+      s.updated_at
+      ORDER BY 
+      CASE WHEN ${sortBy}::text = ${SortBy.RATING} AND ${sortOrder}::text = ${SortOrder.ASC} THEN CAST(COALESCE(AVG(sr.rating), 0) AS FLOAT) END ,
+      CASE WHEN ${sortBy}::text = ${SortBy.RATING} AND ${sortOrder}::text = ${SortOrder.DESC} THEN CAST(COALESCE(AVG(sr.rating), 0) AS FLOAT) END DESC,
+      CASE WHEN ${sortBy}::text = ${SortBy.CREATED_AT} AND ${sortOrder}::text = ${SortOrder.ASC} THEN s.created_at END ASC,
+      s.created_at DESC
+    LIMIT ${limit} OFFSET ${offset}
+  `
     );
 
-    return { items: result };
+    const totalCount = await db.queryRow`
+  SELECT COUNT(*) as count
+  FROM shelters s
+  WHERE
+    CASE
+      WHEN ${query}::text IS NOT NULL AND ${query}::text != '' THEN
+        s.name ILIKE ${`%${query}%`}::text OR 
+        s.description ILIKE ${`%${query}%`}::text OR
+        s.address ILIKE ${`%${query}%`}::text OR
+        s.email ILIKE ${`%${query}%`}::text
+      ELSE TRUE
+    END
+    AND
+      CASE
+          WHEN ${hasIsVerifiedFilter} THEN s.is_verified = true
+          ELSE TRUE
+        END
+`;
+
+    return {
+      items: result,
+      total: totalCount?.count || 0,
+      page,
+      limit,
+    };
   }
 );
 

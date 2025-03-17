@@ -17,3 +17,13 @@ export const mockShelter: AnimalShelterOutput = {
   isVerified: true,
   averageRating: 8,
 };
+
+export const mockShelterAsJson = `{
+  "name": "Happy Tails Animal Sanctuary",
+  "description": "A state-of-the-art animal shelter providing comprehensive care and rehabilitation services for abandoned and rescued animals. We focus on creating a nurturing environment and finding perfect forever homes.",
+  "address": "1234 Shelter Lane, Sacramento, CA 95814",
+  "phone": "(916) 555-0123",
+  "email": "contact@happytails.org",
+  "websiteUrl": "https://happytails.org",
+  "imageUrl": "https://images.unsplash.com/photo-1581888227599-779811939961"
+}`;

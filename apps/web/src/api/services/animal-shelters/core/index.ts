@@ -5,9 +5,9 @@ import { makeRecord } from "@/api/utils";
 import type {
   AnimalShelterOutput,
   CreateAnimalShelterInput,
+  FilteredSheltersList,
   PaginatedAnimalSheltersList,
-  SearchAnimalShelterParams,
-  SearchedAnimalSheltersList,
+  ShelterFilterParams,
 } from "./interfaces";
 
 export class AnimalSheltersServiceClient {
@@ -62,21 +62,21 @@ export class AnimalSheltersServiceClient {
     );
   }
 
-  public async search(
-    params: SearchAnimalShelterParams
-  ): Promise<SearchedAnimalSheltersList> {
-    const query = makeRecord<string, string | string[]>({
-      query: params.query,
+  public async filter(
+    params: ShelterFilterParams
+  ): Promise<FilteredSheltersList> {
+    const query = makeRecord<string, string | boolean | number | undefined>({
+      ...params,
     });
 
     const response = await this.baseClient.callTypedAPI(
       "GET",
-      `/shelters/search`,
+      `/shelters/filter`,
       undefined,
       { query }
     );
 
-    return (await response.json()) as SearchedAnimalSheltersList;
+    return await response.json();
   }
 
   public async update(

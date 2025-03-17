@@ -12,7 +12,7 @@ export type CallParameters = Omit<
   headers?: Record<string, string>;
 
   /** Query parameters to be sent with the request */
-  query?: Record<string, string | string[]>;
+  query?: Record<string, string | string[] | boolean | number | undefined>;
 };
 
 // AuthDataGenerator is a function that returns a new instance of the authentication data required by this API

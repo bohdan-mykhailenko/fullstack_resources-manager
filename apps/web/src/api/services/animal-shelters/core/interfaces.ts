@@ -1,3 +1,15 @@
+import { PaginationParams } from "@/api/interfaces";
+
+export enum ShelterSortBy {
+  RATING = "rating",
+  CREATED_AT = "created_at",
+}
+
+export enum SortOrder {
+  ASC = "asc",
+  DESC = "desc",
+}
+
 export interface AnimalShelterOutput {
   id: string;
   name: string;
@@ -32,10 +44,14 @@ export interface PaginatedAnimalSheltersList {
   limit: number;
 }
 
-export interface SearchAnimalShelterParams {
+export interface ShelterFilterParams extends PaginationParams {
   query?: string;
+  isVerified?: boolean;
+  sortBy?: ShelterSortBy;
+  sortOrder?: SortOrder;
 }
 
-export interface SearchedAnimalSheltersList {
+export interface FilteredSheltersList {
   items: AnimalShelterOutput[];
+  total: number;
 }
