@@ -9,8 +9,6 @@ import {
   AnimalShelterOutput,
   FilteredSheltersList,
   PaginatedAnimalSheltersList,
-  SearchAnimalShelterParams,
-  SearchedAnimalSheltersList,
   ShelterFilterParams,
   UnverifyShelterOutput,
   VerifyShelterOutput,

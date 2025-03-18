@@ -1,6 +1,6 @@
 import { PaginationParams } from "@/api/interfaces";
 
-export enum ShelterSortBy {
+export enum SortBy {
   RATING = "rating",
   CREATED_AT = "created_at",
 }
@@ -47,7 +47,7 @@ export interface PaginatedAnimalSheltersList {
 export interface ShelterFilterParams extends PaginationParams {
   query?: string;
   isVerified?: boolean;
-  sortBy?: ShelterSortBy;
+  sortBy?: SortBy;
   sortOrder?: SortOrder;
 }
 

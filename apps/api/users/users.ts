@@ -7,8 +7,10 @@ import jwt from "jsonwebtoken";
 import { db } from "@/database";
 
 import {
+  ConfirmEmailParams,
   RefreshTokenInput,
   RefreshTokenOutput,
+  SignUpOutput,
   UserJWTPayload,
   UserOutput,
 } from "./interfaces";
@@ -16,10 +18,11 @@ import { generateTokens } from "./utils";
 import { SignInInput, SignUpInput } from "./validation";
 
 const JWT_SECRET = secret("JWT_SECRET")();
+const CONFIRMATION_SECRET = secret("CONFIRMATION_SECRET")();
 
 export const signUp = api<SignUpInput, UserOutput>(
   { expose: true, auth: false, method: "POST", path: "/sign-up" },
-  async (input: SignUpInput): Promise<UserOutput> => {
+  async (input) => {
     const { email, password, firstName, lastName } = input;
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -34,22 +37,23 @@ export const signUp = api<SignUpInput, UserOutput>(
     const user = await db.queryRow`
       INSERT INTO users (email, password, first_name, last_name)
       VALUES (${email}, ${hashedPassword}, ${firstName}, ${lastName})
-      RETURNING id
+      RETURNING *
     `;
 
-    if (!user || !user.id) {
-      throw APIError.internal("Failed to retrieve user ID after sign-up");
+    if (!user) {
+      throw APIError.internal("Failed to create user");
     }
 
-    const { accessToken, refreshToken } = generateTokens(user?.id);
+    const confirmation_token = jwt.sign(
+      { userId: user.id },
+      CONFIRMATION_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
 
     return {
-      accessToken,
-      refreshToken,
-      id: user.id,
-      email,
-      firstName,
-      lastName,
+      user,
     };
   }
 );
@@ -79,6 +83,7 @@ export const signIn = api<SignInInput, UserOutput>(
       email,
       firstName: user.first_name,
       lastName: user.last_name,
+      is_confirmed: user.is_confirmed,
     };
   }
 );
@@ -101,5 +106,22 @@ export const refresh = api<RefreshTokenInput, RefreshTokenOutput>(
     const { accessToken } = generateTokens(Number(userId));
 
     return { accessToken };
+  }
+);
+
+export const confirmEmail = api<ConfirmEmailParams, void>(
+  { expose: true, auth: false, method: "POST", path: "/confirm-email" },
+  async (input) => {
+    const { confirmationToken } = input;
+
+    const payload = jwt.verify(confirmationToken, CONFIRMATION_SECRET);
+
+    const { userId } = payload as UserJWTPayload;
+
+    await db.exec`
+      UPDATE users SET is_confirmed = TRUE WHERE id = ${userId}
+    `;
+
+    return { message: "Email confirmed" };
   }
 );

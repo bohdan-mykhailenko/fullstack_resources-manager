@@ -45,7 +45,6 @@ export const SheltersList = ({
           )}
         />
         <Pagination.NextTrigger />
-        <Pagination.PageText format="long" />
       </Pagination.Root>
     </VStack>
   );

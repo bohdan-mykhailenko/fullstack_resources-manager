@@ -14,7 +14,7 @@ import { useDebounce } from "use-debounce";
 
 import { apiClient } from "@/api";
 import {
-  ShelterSortBy,
+  SortBy,
   SortOrder,
 } from "@/api/services/animal-shelters/core/interfaces";
 import { SheltersList } from "@/components/features/lists/shelters";
@@ -28,24 +28,24 @@ import {
 import { LoadedContentController } from "@/components/utils";
 import { useIsAdmin } from "@/store";
 
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 10;
 
 const sortByCollection = createListCollection({
   items: [
     {
-      value: `${ShelterSortBy.RATING}-${SortOrder.DESC}`,
+      value: `${SortBy.RATING}-${SortOrder.DESC}`,
       label: "Highest Rated",
     },
     {
-      value: `${ShelterSortBy.RATING}-${SortOrder.ASC}`,
+      value: `${SortBy.RATING}-${SortOrder.ASC}`,
       label: "Lowest Rated",
     },
     {
-      value: `${ShelterSortBy.CREATED_AT}-${SortOrder.DESC}`,
+      value: `${SortBy.CREATED_AT}-${SortOrder.DESC}`,
       label: "Newest First",
     },
     {
-      value: `${ShelterSortBy.CREATED_AT}-${SortOrder.ASC}`,
+      value: `${SortBy.CREATED_AT}-${SortOrder.ASC}`,
       label: "Oldest First",
     },
   ],
@@ -55,7 +55,6 @@ const verificationCollection = createListCollection({
   items: [
     { value: "all", label: "All Shelters" },
     { value: "verified", label: "Verified Only" },
-    { value: "unverified", label: "Unverified Only" },
   ],
 });
 
@@ -64,13 +63,13 @@ export const SheltersPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [verificationFilter, setVerificationFilter] = useState<
-    "all" | "verified" | "unverified"
+    "all" | "verified"
   >("all");
   const [sortBy, setSortBy] = useState<{
-    field: ShelterSortBy;
+    field: SortBy;
     order: SortOrder;
   }>({
-    field: ShelterSortBy.RATING,
+    field: SortBy.RATING,
     order: SortOrder.DESC,
   });
 
@@ -91,10 +90,7 @@ export const SheltersPage = () => {
     queryFn: () =>
       apiClient.animalShelters.filter({
         query: debouncedSearch || undefined,
-        isVerified:
-          verificationFilter === "all"
-            ? undefined
-            : verificationFilter === "verified",
+        isVerified: verificationFilter === "verified",
         sortBy: sortBy.field,
         sortOrder: sortBy.order,
         page: currentPage,
@@ -151,7 +147,7 @@ export const SheltersPage = () => {
               value={[`${sortBy.field}-${sortBy.order}`]}
               onValueChange={({ value }) => {
                 const [field, order] = value[0].split("-") as [
-                  ShelterSortBy,
+                  SortBy,
                   SortOrder,
                 ];
                 setSortBy({ field, order });

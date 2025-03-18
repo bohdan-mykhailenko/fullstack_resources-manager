@@ -5,6 +5,7 @@ CREATE TABLE users (
   email VARCHAR(255) UNIQUE NOT NULL,
   password VARCHAR(255) NOT NULL,
   created_at TIMESTAMPTZ DEFAULT NOW()
+  is_confirmed BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE shelters (

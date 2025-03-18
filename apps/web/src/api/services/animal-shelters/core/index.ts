@@ -65,9 +65,20 @@ export class AnimalSheltersServiceClient {
   public async filter(
     params: ShelterFilterParams
   ): Promise<FilteredSheltersList> {
+    const fields: string[] = [];
+
+    if (params.isVerified) {
+      delete params.isVerified;
+
+      fields.push("is_verified");
+    }
+
     const query = makeRecord<string, string | boolean | number | undefined>({
       ...params,
+      fields: fields.join(","),
     });
+
+    console.log("========================query======================", query);
 
     const response = await this.baseClient.callTypedAPI(
       "GET",
