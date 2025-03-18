@@ -17,8 +17,17 @@ export interface UserOutput {
   email: string;
   accessToken: string;
   refreshToken: string;
+  is_confirmed: boolean;
 }
 
 export interface RefreshTokenOutput {
   accessToken: string;
+}
+
+export interface ConfirmEmailInput {
+  token: string;
+}
+
+export interface ConfirmEmailOutput {
+  message: string;
 }

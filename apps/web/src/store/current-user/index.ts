@@ -23,6 +23,7 @@ export const useCurrentUser = create<CurrentUserState>()(
             email: user.email,
             firstName: user.firstName,
             lastName: user.lastName,
+            isConfirmed: user.is_confirmed,
           },
         });
 
@@ -47,6 +48,9 @@ export const useCurrentUser = create<CurrentUserState>()(
 
 export const useIsAuthenticated = () =>
   useCurrentUser((state) => Boolean(state.currentUser));
+
+export const useIsConfirmed = () =>
+  useCurrentUser((state) => state.currentUser?.isConfirmed);
 
 export const useCurrentUserData = () =>
   useCurrentUser((state) => state.currentUser);

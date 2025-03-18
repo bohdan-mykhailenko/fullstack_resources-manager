@@ -25,7 +25,7 @@ import {
   DrawerTrigger,
   Icon,
 } from "@/components/ui";
-import { useIsAdmin } from "@/store";
+import { useIsAuthenticated } from "@/store";
 
 interface HeaderProps extends BoxProps {
   routes: {
@@ -36,7 +36,7 @@ interface HeaderProps extends BoxProps {
 }
 
 export const Header = ({ routes, appName, ...props }: HeaderProps) => {
-  const isAdmin = useIsAdmin();
+  const isAuthenticated = useIsAuthenticated();
 
   const [open, setOpen] = useState<boolean>(false);
 
@@ -57,7 +57,7 @@ export const Header = ({ routes, appName, ...props }: HeaderProps) => {
         </Heading>
 
         <HStack hideBelow="md" as="nav" justify="space-between">
-          {!isAdmin && (
+          {isAuthenticated && (
             <List.Root display="flex" flexDirection="row" listStyle="none">
               <For each={routes}>
                 {({ path, label }) => (
@@ -111,7 +111,7 @@ export const Header = ({ routes, appName, ...props }: HeaderProps) => {
 
               <DrawerBody pt={12}>
                 <VStack spaceY={10} align="center" w="full">
-                  {!isAdmin && (
+                  {isAuthenticated && (
                     <For each={routes}>
                       {({ path, label }) => (
                         <DrawerActionTrigger asChild key={path}>

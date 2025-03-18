@@ -11,7 +11,10 @@ export const Route = createRootRoute({
 const routes = [
   {
     path: "/",
-    component: RootComponent,
+    label: "Home",
+  },
+  {
+    path: "/shelters",
     label: "Shelters",
   },
 ];
@@ -29,7 +32,14 @@ function RootComponent() {
         py={4}
         px={10}
       />
-      <Container maxW="container.2xl" px={10} py={4}>
+
+      <Container
+        maxW="2xl"
+        px={10}
+        py={4}
+        alignItems="center"
+        justifyContent="center"
+      >
         <Outlet />
       </Container>
 

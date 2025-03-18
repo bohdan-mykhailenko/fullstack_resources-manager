@@ -6,11 +6,12 @@ import jwt from "jsonwebtoken";
 
 import { db } from "@/database";
 
+import { sendConfirmationEmail } from "./emails";
 import {
+  ConfirmEmailOutput,
   ConfirmEmailParams,
   RefreshTokenInput,
   RefreshTokenOutput,
-  SignUpOutput,
   UserJWTPayload,
   UserOutput,
 } from "./interfaces";
@@ -37,23 +38,36 @@ export const signUp = api<SignUpInput, UserOutput>(
     const user = await db.queryRow`
       INSERT INTO users (email, password, first_name, last_name)
       VALUES (${email}, ${hashedPassword}, ${firstName}, ${lastName})
-      RETURNING *
+      RETURNING id
     `;
 
-    if (!user) {
+    if (!user || !user.id) {
       throw APIError.internal("Failed to create user");
     }
 
-    const confirmation_token = jwt.sign(
-      { userId: user.id },
-      CONFIRMATION_SECRET,
-      {
-        expiresIn: "1h",
-      }
-    );
+    const { accessToken, refreshToken } = generateTokens(user?.id);
+
+    try {
+      await sendConfirmationEmail({
+        firstName,
+        email,
+        confirmationToken: jwt.sign({ userId: user.id }, CONFIRMATION_SECRET, {
+          expiresIn: "8h",
+        }),
+      });
+    } catch (error) {
+      console.error(error);
+      throw APIError.internal("Failed to send confirmation email");
+    }
 
     return {
-      user,
+      id: user.id,
+      accessToken,
+      refreshToken,
+      email,
+      firstName,
+      lastName,
+      is_confirmed: false,
     };
   }
 );
@@ -109,12 +123,10 @@ export const refresh = api<RefreshTokenInput, RefreshTokenOutput>(
   }
 );
 
-export const confirmEmail = api<ConfirmEmailParams, void>(
-  { expose: true, auth: false, method: "POST", path: "/confirm-email" },
-  async (input) => {
-    const { confirmationToken } = input;
-
-    const payload = jwt.verify(confirmationToken, CONFIRMATION_SECRET);
+export const confirmEmail = api<ConfirmEmailParams, ConfirmEmailOutput>(
+  { expose: true, auth: false, method: "POST", path: "/confirm-email/:token" },
+  async ({ token }) => {
+    const payload = jwt.verify(token, CONFIRMATION_SECRET);
 
     const { userId } = payload as UserJWTPayload;
 
@@ -122,6 +134,6 @@ export const confirmEmail = api<ConfirmEmailParams, void>(
       UPDATE users SET is_confirmed = TRUE WHERE id = ${userId}
     `;
 
-    return { message: "Email confirmed" };
+    return { message: "Email is successfully confirmed" };
   }
 );

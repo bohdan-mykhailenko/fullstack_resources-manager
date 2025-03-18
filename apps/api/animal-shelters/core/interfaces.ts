@@ -1,6 +1,6 @@
 import { PaginatedList } from "@/shared/interfaces";
 
-import { FilterByField, SortBy, SortOrder } from "./enums";
+import { SortBy, SortOrder } from "./enums";
 
 export interface AnimalShelterOutput {
   id: string;

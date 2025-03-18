@@ -78,8 +78,6 @@ export class AnimalSheltersServiceClient {
       fields: fields.join(","),
     });
 
-    console.log("========================query======================", query);
-
     const response = await this.baseClient.callTypedAPI(
       "GET",
       `/shelters/filter`,

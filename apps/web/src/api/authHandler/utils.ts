@@ -57,5 +57,12 @@ export const clearAuthCookies = () => {
 export const generateBearerToken = (accessToken: string) =>
   `Bearer ${accessToken}`;
 
-export const isPublicRoute = (path: string) =>
-  Object.values(PublicRoute).includes(path as PublicRoute);
+export const isPublicRoute = (path: string) => {
+  for (const route of Object.values(PublicRoute)) {
+    if (path.startsWith(route)) {
+      return true;
+    }
+  }
+
+  return false;
+};

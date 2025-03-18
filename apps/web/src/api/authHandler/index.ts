@@ -15,6 +15,7 @@ export async function createAuthGenerator(
 ): Promise<AuthHandlerParams | undefined> {
   console.log("path", path);
   if (isPublicRoute(path)) {
+    console.log("isPublicRoute", path);
     return undefined;
   }
 

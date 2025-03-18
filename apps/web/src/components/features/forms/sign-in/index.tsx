@@ -24,8 +24,6 @@ export const SignInForm = () => {
   const isAdmin = useIsAdmin();
   const isAuthenticated = useIsAuthenticated();
 
-  console.log("isAdmin", isAdmin);
-
   if (isAdmin) {
     return <Navigate to="/admin" />;
   }

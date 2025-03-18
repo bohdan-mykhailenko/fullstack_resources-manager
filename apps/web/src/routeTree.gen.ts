@@ -14,8 +14,11 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as SignUpImport } from './routes/sign-up'
 import { Route as SignInImport } from './routes/sign-in'
 import { Route as AdminImport } from './routes/admin'
-import { Route as ShelterIdImport } from './routes/$shelterId'
 import { Route as IndexImport } from './routes/index'
+import { Route as SheltersIndexImport } from './routes/shelters/index'
+import { Route as SheltersShelterIdImport } from './routes/shelters/$shelterId'
+import { Route as ConfirmEmailRequireActionImport } from './routes/confirm-email/require-action'
+import { Route as ConfirmEmailTokenImport } from './routes/confirm-email/$token'
 
 // Create/Update Routes
 
@@ -37,15 +40,33 @@ const AdminRoute = AdminImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const ShelterIdRoute = ShelterIdImport.update({
-  id: '/$shelterId',
-  path: '/$shelterId',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const SheltersIndexRoute = SheltersIndexImport.update({
+  id: '/shelters/',
+  path: '/shelters/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const SheltersShelterIdRoute = SheltersShelterIdImport.update({
+  id: '/shelters/$shelterId',
+  path: '/shelters/$shelterId',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ConfirmEmailRequireActionRoute = ConfirmEmailRequireActionImport.update({
+  id: '/confirm-email/require-action',
+  path: '/confirm-email/require-action',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ConfirmEmailTokenRoute = ConfirmEmailTokenImport.update({
+  id: '/confirm-email/$token',
+  path: '/confirm-email/$token',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -58,13 +79,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/$shelterId': {
-      id: '/$shelterId'
-      path: '/$shelterId'
-      fullPath: '/$shelterId'
-      preLoaderRoute: typeof ShelterIdImport
       parentRoute: typeof rootRoute
     }
     '/admin': {
@@ -88,6 +102,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignUpImport
       parentRoute: typeof rootRoute
     }
+    '/confirm-email/$token': {
+      id: '/confirm-email/$token'
+      path: '/confirm-email/$token'
+      fullPath: '/confirm-email/$token'
+      preLoaderRoute: typeof ConfirmEmailTokenImport
+      parentRoute: typeof rootRoute
+    }
+    '/confirm-email/require-action': {
+      id: '/confirm-email/require-action'
+      path: '/confirm-email/require-action'
+      fullPath: '/confirm-email/require-action'
+      preLoaderRoute: typeof ConfirmEmailRequireActionImport
+      parentRoute: typeof rootRoute
+    }
+    '/shelters/$shelterId': {
+      id: '/shelters/$shelterId'
+      path: '/shelters/$shelterId'
+      fullPath: '/shelters/$shelterId'
+      preLoaderRoute: typeof SheltersShelterIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/shelters/': {
+      id: '/shelters/'
+      path: '/shelters'
+      fullPath: '/shelters'
+      preLoaderRoute: typeof SheltersIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -95,52 +137,92 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/$shelterId': typeof ShelterIdRoute
   '/admin': typeof AdminRoute
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
+  '/confirm-email/$token': typeof ConfirmEmailTokenRoute
+  '/confirm-email/require-action': typeof ConfirmEmailRequireActionRoute
+  '/shelters/$shelterId': typeof SheltersShelterIdRoute
+  '/shelters': typeof SheltersIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/$shelterId': typeof ShelterIdRoute
   '/admin': typeof AdminRoute
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
+  '/confirm-email/$token': typeof ConfirmEmailTokenRoute
+  '/confirm-email/require-action': typeof ConfirmEmailRequireActionRoute
+  '/shelters/$shelterId': typeof SheltersShelterIdRoute
+  '/shelters': typeof SheltersIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/$shelterId': typeof ShelterIdRoute
   '/admin': typeof AdminRoute
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
+  '/confirm-email/$token': typeof ConfirmEmailTokenRoute
+  '/confirm-email/require-action': typeof ConfirmEmailRequireActionRoute
+  '/shelters/$shelterId': typeof SheltersShelterIdRoute
+  '/shelters/': typeof SheltersIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/$shelterId' | '/admin' | '/sign-in' | '/sign-up'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/sign-in'
+    | '/sign-up'
+    | '/confirm-email/$token'
+    | '/confirm-email/require-action'
+    | '/shelters/$shelterId'
+    | '/shelters'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/$shelterId' | '/admin' | '/sign-in' | '/sign-up'
-  id: '__root__' | '/' | '/$shelterId' | '/admin' | '/sign-in' | '/sign-up'
+  to:
+    | '/'
+    | '/admin'
+    | '/sign-in'
+    | '/sign-up'
+    | '/confirm-email/$token'
+    | '/confirm-email/require-action'
+    | '/shelters/$shelterId'
+    | '/shelters'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/sign-in'
+    | '/sign-up'
+    | '/confirm-email/$token'
+    | '/confirm-email/require-action'
+    | '/shelters/$shelterId'
+    | '/shelters/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ShelterIdRoute: typeof ShelterIdRoute
   AdminRoute: typeof AdminRoute
   SignInRoute: typeof SignInRoute
   SignUpRoute: typeof SignUpRoute
+  ConfirmEmailTokenRoute: typeof ConfirmEmailTokenRoute
+  ConfirmEmailRequireActionRoute: typeof ConfirmEmailRequireActionRoute
+  SheltersShelterIdRoute: typeof SheltersShelterIdRoute
+  SheltersIndexRoute: typeof SheltersIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ShelterIdRoute: ShelterIdRoute,
   AdminRoute: AdminRoute,
   SignInRoute: SignInRoute,
   SignUpRoute: SignUpRoute,
+  ConfirmEmailTokenRoute: ConfirmEmailTokenRoute,
+  ConfirmEmailRequireActionRoute: ConfirmEmailRequireActionRoute,
+  SheltersShelterIdRoute: SheltersShelterIdRoute,
+  SheltersIndexRoute: SheltersIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -154,17 +236,17 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/$shelterId",
         "/admin",
         "/sign-in",
-        "/sign-up"
+        "/sign-up",
+        "/confirm-email/$token",
+        "/confirm-email/require-action",
+        "/shelters/$shelterId",
+        "/shelters/"
       ]
     },
     "/": {
       "filePath": "index.tsx"
-    },
-    "/$shelterId": {
-      "filePath": "$shelterId.tsx"
     },
     "/admin": {
       "filePath": "admin.tsx"
@@ -174,6 +256,18 @@ export const routeTree = rootRoute
     },
     "/sign-up": {
       "filePath": "sign-up.tsx"
+    },
+    "/confirm-email/$token": {
+      "filePath": "confirm-email/$token.tsx"
+    },
+    "/confirm-email/require-action": {
+      "filePath": "confirm-email/require-action.tsx"
+    },
+    "/shelters/$shelterId": {
+      "filePath": "shelters/$shelterId.tsx"
+    },
+    "/shelters/": {
+      "filePath": "shelters/index.tsx"
     }
   }
 }

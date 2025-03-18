@@ -16,7 +16,7 @@ import { useMutation } from "@/api/hooks/useMutation";
 import { SignUpInput, UserOutput } from "@/api/services/users/interfaces";
 import { FormFieldError } from "@/components/ui";
 import { useIsAdmin } from "@/store";
-import { useAuthActions, useIsAuthenticated } from "@/store/current-user";
+import { useIsAuthenticated } from "@/store/current-user";
 
 import { signUpSchema } from "./validation";
 
@@ -32,15 +32,12 @@ export const SignUpForm = () => {
     return <Navigate to="/" />;
   }
 
-  const { loginUser } = useAuthActions();
   const navigate = useNavigate();
 
   const { mutate: signUp, isPending } = useMutation<UserOutput, SignUpInput>({
     mutationFn: (input) => apiClient.users.signUp(input),
-    onSuccess: (user) => {
-      loginUser(user);
-
-      navigate({ to: "/" });
+    onSuccess: () => {
+      navigate({ to: "/confirm-email/require-action" });
     },
     successMessage: "Successfully logged in!",
   });

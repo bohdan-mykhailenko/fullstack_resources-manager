@@ -5,6 +5,7 @@ export interface CurrentUser {
   email: string;
   firstName: string;
   lastName: string;
+  isConfirmed: boolean;
 }
 
 export interface CurrentUserState {
