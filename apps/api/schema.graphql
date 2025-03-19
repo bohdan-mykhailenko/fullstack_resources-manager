@@ -1,0 +1,47 @@
+type Mutation {
+  signUp(params: SignUpInput!): SignUpOutput!
+}
+
+input SignUpInput {
+  email: String!
+  firstName: String!
+  lastName: String!
+  password: String!
+}
+
+type SignUpOutput {
+  id: Int!
+  email: String!
+  firstName: String!
+  lastName: String!
+  is_confirmed: Boolean!
+}
+
+input PaginationParams {
+  page: Int!
+  limit: Int!
+}
+
+type Query {
+  sheltersList(params: PaginationParams!): PaginatedAnimalSheltersList!
+}
+
+type AnimalShelterOutput {
+  id: String!
+  name: String!
+  description: String!
+  email: String!
+  website_url: String!
+  image_url: String!
+  address: String!
+  phone: String!
+  ratings_count: Int
+  feedbacks_count: Int
+  created_at: String!
+  is_verified: Boolean!
+}
+
+type PaginatedAnimalSheltersList {
+  items: [AnimalShelterOutput!]!
+  total: Int!
+}

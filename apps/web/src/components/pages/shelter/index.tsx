@@ -51,7 +51,7 @@ export const ShelterPage = () => {
             {!isAdmin && (
               <ShelterRating
                 shelterId={id}
-                currentRating={shelter?.averageRating}
+                currentRating={shelter?.average_rating}
                 onSuccess={() => {
                   refetchShelter();
                 }}

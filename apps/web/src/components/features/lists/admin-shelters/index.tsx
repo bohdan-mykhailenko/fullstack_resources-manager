@@ -102,22 +102,22 @@ export const AdminSheltersList = ({
 
                 <Tooltip
                   content={
-                    shelter.isVerified ? "Unverify shelter" : "Verify shelter"
+                    shelter.is_verified ? "Unverify shelter" : "Verify shelter"
                   }
                 >
                   <IconButton
                     size="xs"
                     aria-label="Verify shelter"
-                    colorPalette={shelter.isVerified ? "red" : "green"}
+                    colorPalette={shelter.is_verified ? "red" : "green"}
                     onClick={() =>
-                      shelter.isVerified
+                      shelter.is_verified
                         ? onUnverify(shelter.id)
                         : onVerify(shelter.id)
                     }
                     variant="ghost"
                   >
                     <Icon
-                      name={shelter.isVerified ? "ShieldX" : "ShieldCheck"}
+                      name={shelter.is_verified ? "ShieldX" : "ShieldCheck"}
                     />
                   </IconButton>
                 </Tooltip>

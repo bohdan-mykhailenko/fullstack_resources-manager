@@ -32,8 +32,8 @@ export const CreateShelterForm = ({ onSuccess }: CreateShelterFormProps) => {
       name: "",
       description: "",
       email: "",
-      websiteUrl: "",
-      imageUrl: "",
+      website_url: "",
+      image_url: "",
       address: "",
       phone: "",
     },
@@ -102,7 +102,7 @@ export const CreateShelterForm = ({ onSuccess }: CreateShelterFormProps) => {
           />
 
           <Field
-            name="websiteUrl"
+            name="website_url"
             children={(field) => (
               <FormControl.Root>
                 <FormControl.Label htmlFor={field.name}>
@@ -123,7 +123,7 @@ export const CreateShelterForm = ({ onSuccess }: CreateShelterFormProps) => {
           />
 
           <Field
-            name="imageUrl"
+            name="image_url"
             children={(field) => (
               <FormControl.Root>
                 <FormControl.Label htmlFor={field.name}>

@@ -36,8 +36,8 @@ export const UpdateShelterForm = ({
       name: shelter.name,
       description: shelter.description,
       email: shelter.email,
-      websiteUrl: shelter.websiteUrl,
-      imageUrl: shelter.imageUrl,
+      website_url: shelter.website_url,
+      image_url: shelter.image_url,
       address: shelter.address,
       phone: shelter.phone,
     },
@@ -121,7 +121,7 @@ export const UpdateShelterForm = ({
           />
 
           <Field
-            name="websiteUrl"
+            name="website_url"
             children={(field) => (
               <FormControl.Root>
                 <FormControl.Label htmlFor={field.name}>
@@ -142,7 +142,7 @@ export const UpdateShelterForm = ({
           />
 
           <Field
-            name="imageUrl"
+            name="image_url"
             children={(field) => (
               <FormControl.Root>
                 <FormControl.Label htmlFor={field.name}>

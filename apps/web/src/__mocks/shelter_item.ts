@@ -8,14 +8,13 @@ export const mockShelter: AnimalShelterOutput = {
   address: "1234 Shelter Lane, Sacramento, CA 95814",
   phone: "(916) 555-0123",
   email: "contact@happytails.org",
-  websiteUrl: "https://happytails.org",
-  imageUrl: "https://images.unsplash.com/photo-1581888227599-779811939961",
-  ratingsCount: 156,
-  feedbacksCount: 42,
-  createdAt: "2024-01-15T12:09:43.058Z",
-  updatedAt: "2024-03-15T08:30:00.000Z",
-  isVerified: true,
-  averageRating: 8,
+  website_url: "https://happytails.org",
+  image_url: "https://images.unsplash.com/photo-1581888227599-779811939961",
+  ratings_count: 156,
+  feedbacks_count: 42,
+  created_at: "2024-01-15T12:09:43.058Z",
+  is_verified: true,
+  average_rating: 8,
 };
 
 export const mockShelterAsJson = `{
@@ -24,6 +23,6 @@ export const mockShelterAsJson = `{
   "address": "1234 Shelter Lane, Sacramento, CA 95814",
   "phone": "(916) 555-0123",
   "email": "contact@happytails.org",
-  "websiteUrl": "https://happytails.org",
-  "imageUrl": "https://images.unsplash.com/photo-1581888227599-779811939961"
+  "website_url": "https://happytails.org",
+  "image_url": "https://images.unsplash.com/photo-1581888227599-779811939961"
 }`;

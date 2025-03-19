@@ -22,7 +22,7 @@ export interface UsersStatistics {
     firstName: string;
     lastName: string;
     email: string;
-    createdAt: string;
+    created_at: string;
   }[];
   userActivity: {
     totalFeedbacks: number;
@@ -32,17 +32,17 @@ export interface UsersStatistics {
       firstName: string;
       lastName: string;
       email: string;
-      feedbacksCount: number;
-      ratingsCount: number;
+      feedbacks_count: number;
+      ratings_count: number;
     }[];
   };
 }
 
 export interface DetailedUserOutput
   extends Omit<UserOutput, "accessToken" | "refreshToken"> {
-  createdAt: string;
-  feedbacksCount: number;
-  ratingsCount: number;
+  created_at: string;
+  feedbacks_count: number;
+  ratings_count: number;
 }
 
 export interface UsersList {

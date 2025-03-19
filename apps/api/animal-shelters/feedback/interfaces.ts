@@ -2,7 +2,7 @@ import { IdParams, PaginatedList } from "@/shared/interfaces";
 
 export interface FeedbackOutput extends IdParams {
   content: string;
-  created_at: Date;
+  created_at: string;
   first_name: string;
   last_name: string;
 }

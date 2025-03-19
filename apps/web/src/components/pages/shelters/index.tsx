@@ -90,7 +90,7 @@ export const SheltersPage = () => {
     queryFn: () =>
       apiClient.animalShelters.filter({
         query: debouncedSearch || undefined,
-        isVerified: verificationFilter === "verified",
+        is_verified: verificationFilter === "verified",
         sortBy: sortBy.field,
         sortOrder: sortBy.order,
         page: currentPage,

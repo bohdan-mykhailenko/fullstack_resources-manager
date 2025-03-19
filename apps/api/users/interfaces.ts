@@ -4,12 +4,17 @@ import { UserIdParams } from "@/shared/interfaces";
 
 export interface UserOutput {
   id: number;
+  email: string;
   firstName: string;
   lastName: string;
-  email: string;
+  is_confirmed: boolean;
+}
+
+export interface SignUpOutput extends UserOutput {}
+
+export interface SignInOutput extends UserOutput {
   accessToken: string;
   refreshToken: string;
-  is_confirmed: boolean;
 }
 
 export interface UserJWTPayload extends UserIdParams, JwtPayload {}

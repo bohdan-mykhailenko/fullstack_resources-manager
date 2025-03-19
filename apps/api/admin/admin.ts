@@ -128,9 +128,9 @@ export const usersList = api<void, UsersList>(
               'firstName', s.first_name,
               'lastName', s.last_name,
               'email', s.email,
-              'createdAt', s.created_at,
-              'feedbacksCount', s.feedbacks_count,
-              'ratingsCount', s.ratings_count
+              'created_at', s.created_at,
+              'feedbacks_count', s.feedbacks_count,
+              'ratings_count', s.ratings_count
             )
             ORDER BY s.created_at DESC
           )

@@ -43,25 +43,25 @@ export const ShelterDetails = memo(({ shelter }: ShelterDetailsProps) => {
 
             <HStack spaceX={2}>
               <Icon name="Globe" size={16} />
-              <Link color="blue.600" href={shelter.websiteUrl} target="_blank">
-                {shelter.websiteUrl}
+              <Link color="blue.600" href={shelter.website_url} target="_blank">
+                {shelter.website_url}
               </Link>
             </HStack>
           </VStack>
 
           <Badge
-            colorPalette={shelter.isVerified ? "green" : "gray"}
+            colorPalette={shelter.is_verified ? "green" : "gray"}
             variant="subtle"
           >
-            {shelter.isVerified ? "Verified" : "Unverified"}
+            {shelter.is_verified ? "Verified" : "Unverified"}
           </Badge>
         </HStack>
       </Card.Header>
 
       <Card.Body>
         <VStack align="start" spaceY={2}>
-          {shelter.imageUrl && (
-            <Image src={shelter.imageUrl} alt={shelter.name} />
+          {shelter.image_url && (
+            <Image src={shelter.image_url} alt={shelter.name} />
           )}
 
           {shelter.description && (

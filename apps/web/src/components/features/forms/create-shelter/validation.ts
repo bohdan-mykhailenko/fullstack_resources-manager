@@ -10,11 +10,11 @@ export const shelterSchema = z.object({
     .min(1, "Description is required")
     .min(10, "Description must be at least 10 characters"),
   email: z.string().min(1, "Email is required").email("Invalid email format"),
-  websiteUrl: z
+  website_url: z
     .string()
     .min(1, "Website URL is required")
     .url("Invalid URL format"),
-  imageUrl: z
+  image_url: z
     .string()
     .min(1, "Image URL is required")
     .url("Invalid URL format"),

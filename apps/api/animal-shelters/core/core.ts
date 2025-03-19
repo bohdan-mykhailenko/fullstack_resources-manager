@@ -32,17 +32,16 @@ export const getOne = api<IdParams, AnimalShelterOutput>(
         s.id,
         s.name,
         s.description,
-        s.image_url as "imageUrl",
-        s.website_url as "websiteUrl",
+        s.image_url,
+        s.website_url,
         s.address,
         s.phone,
         s.email,
-        s.is_verified as "isVerified",
-        s.created_at as "createdAt",
-        s.updated_at as "updatedAt",
-        CAST(COALESCE(AVG(sr.rating), 0) AS FLOAT) as "averageRating",
-        COUNT(DISTINCT sr.id) as "ratingsCount",
-        COUNT(DISTINCT sf.id) as "feedbacksCount"
+        s.is_verified,
+        s.created_at,
+        CAST(COALESCE(AVG(sr.rating), 0) AS FLOAT) as "average_rating",
+        COUNT(DISTINCT sr.id) as "ratings_count",
+        COUNT(DISTINCT sf.id) as "feedbacks_count"
       FROM shelters s
       LEFT JOIN shelter_ratings sr ON sr.shelter_id = s.id
       LEFT JOIN shelter_feedbacks sf ON sf.shelter_id = s.id
@@ -57,9 +56,7 @@ export const getOne = api<IdParams, AnimalShelterOutput>(
         s.phone,
         s.email,
         s.is_verified,
-        s.created_at,
-        s.updated_at
-    `;
+        s.created_at    `;
 
     if (!animalshelter) {
       throw APIError.notFound("Shelter not found");
@@ -78,11 +75,21 @@ export const getList = api<PaginationParams, PaginatedAnimalSheltersList>(
     tags: ["shelters"],
   },
   async (params) => {
-    const { page, limit, offset } = getPagination(params);
+    const { limit, offset } = getPagination(params);
 
     const result = await processDbList<AnimalShelterOutput>(
       db.query`
-        SELECT b.*, 
+        SELECT 
+             b.id,
+      b.name,
+      b.description,
+      b.image_url,
+      b.website_url,
+      b.address,
+      b.phone,
+      b.email,
+      b.is_verified,
+      b.created_at,
           (SELECT COUNT(*) FROM shelter_ratings WHERE shelter_id = b.id) as ratings_count,
           (SELECT COUNT(*) FROM shelter_feedbacks WHERE shelter_id = b.id) as feedbacks_count
         FROM shelters b
@@ -99,8 +106,6 @@ export const getList = api<PaginationParams, PaginatedAnimalSheltersList>(
     return {
       items: result,
       total: totalCount?.count || 0,
-      page,
-      limit,
     };
   }
 );
@@ -140,17 +145,16 @@ export const getFilteredList = api<
       s.id,
       s.name,
       s.description,
-      s.image_url as "imageUrl",
-      s.website_url as "websiteUrl",
+      s.image_url,
+      s.website_url,
       s.address,
       s.phone,
       s.email,
-      s.is_verified as "isVerified",
-      s.created_at as "createdAt",
-      s.updated_at as "updatedAt",
-      CAST(COALESCE(AVG(sr.rating), 0) AS FLOAT) as "averageRating",
-      COUNT(DISTINCT sr.id) as "ratingsCount",
-      COUNT(DISTINCT sf.id) as "feedbacksCount"
+      s.is_verified,
+      s.created_at,
+      CAST(COALESCE(AVG(sr.rating), 0) AS FLOAT) as "average_rating",
+      COUNT(DISTINCT sr.id) as "ratings_count",
+      COUNT(DISTINCT sf.id) as "feedbacks_count"
     FROM shelters s
     LEFT JOIN shelter_ratings sr ON sr.shelter_id = s.id
     LEFT JOIN shelter_feedbacks sf ON sf.shelter_id = s.id
@@ -183,7 +187,6 @@ export const getFilteredList = api<
       s.email,
       s.is_verified,
       s.created_at,
-      s.updated_at
       ORDER BY 
       CASE WHEN ${sortBy}::text = ${SortBy.RATING} AND ${sortOrder}::text = ${SortOrder.ASC} THEN CAST(COALESCE(AVG(sr.rating), 0) AS FLOAT) END ,
       CASE WHEN ${sortBy}::text = ${SortBy.RATING} AND ${sortOrder}::text = ${SortOrder.DESC} THEN CAST(COALESCE(AVG(sr.rating), 0) AS FLOAT) END DESC,
@@ -243,8 +246,8 @@ export const create = api<CreateAnimalShelterInput, AnimalShelterOutput>(
       VALUES (
         ${input.name}, 
         ${input.description}, 
-        ${input.imageUrl}, 
-        ${input.websiteUrl}, 
+        ${input.image_url}, 
+        ${input.website_url}, 
         ${input.address}, 
         ${input.phone}, 
         ${input.email}
@@ -281,12 +284,11 @@ export const update = api<
       SET 
         name = ${input.name || existingAnimalShelter.name},
         description = ${input.description || existingAnimalShelter.description},
-        image_url = ${input.imageUrl || existingAnimalShelter.image_url},
-        website_url = ${input.websiteUrl || existingAnimalShelter.website_url},
+        image_url = ${input.image_url || existingAnimalShelter.image_url},
+        website_url = ${input.website_url || existingAnimalShelter.website_url},
         address = ${input.address || existingAnimalShelter.address},
         phone = ${input.phone || existingAnimalShelter.phone},
         email = ${input.email || existingAnimalShelter.email},
-        updated_at = NOW()
       WHERE id = ${input.id}
       RETURNING *
     `;

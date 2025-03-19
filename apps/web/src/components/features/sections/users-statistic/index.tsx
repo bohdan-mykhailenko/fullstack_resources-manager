@@ -68,8 +68,8 @@ export const UsersStatistics = ({ statistics }: UsersStatisticsProps) => {
                         </Text>
                       </VStack>
                     </Table.Cell>
-                    <Table.Cell>{user.feedbacksCount}</Table.Cell>
-                    <Table.Cell>{user.ratingsCount}</Table.Cell>
+                    <Table.Cell>{user.feedbacks_count}</Table.Cell>
+                    <Table.Cell>{user.ratings_count}</Table.Cell>
                   </Table.Row>
                 ))}
               </Table.Body>
@@ -98,7 +98,7 @@ export const UsersStatistics = ({ statistics }: UsersStatisticsProps) => {
                     </Table.Cell>
                     <Table.Cell>{user.email}</Table.Cell>
                     <Table.Cell>
-                      {format(new Date(user.createdAt), "MMM d, yyyy")}
+                      {format(new Date(user.created_at), "MMM d, yyyy")}
                     </Table.Cell>
                   </Table.Row>
                 ))}

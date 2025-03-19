@@ -2,34 +2,27 @@ import { PaginatedList } from "@/shared/interfaces";
 
 import { SortBy, SortOrder } from "./enums";
 
-export interface AnimalShelterOutput {
+export interface AnimalShelterListOutput {
   id: string;
   name: string;
   description: string;
   email: string;
-  websiteUrl: string;
-  imageUrl: string;
+  website_url: string;
+  image_url: string;
   address: string;
   phone: string;
-  ratingsCount?: number;
-  feedbacksCount?: number;
-  createdAt: Date;
-  updatedAt?: Date;
-  averageRating?: number;
-  isVerified: boolean;
-  totalCount?: number;
+  ratings_count?: number;
+  feedbacks_count?: number;
+  created_at: string;
+  is_verified: boolean;
 }
 
-export interface SearchedAnimalSheltersList {
-  items: AnimalShelterOutput[];
+export interface AnimalShelterOutput extends AnimalShelterListOutput {
+  average_rating?: number;
 }
 
 export interface PaginatedAnimalSheltersList
-  extends PaginatedList<AnimalShelterOutput> {}
-
-export interface SearchAnimalShelterParams {
-  query?: string;
-}
+  extends PaginatedList<AnimalShelterListOutput> {}
 
 export interface VerifyShelterOutput {
   message: string;
@@ -47,7 +40,7 @@ export interface ShelterFilterParams {
 }
 
 export interface FilteredSheltersList {
-  items: AnimalShelterOutput[];
+  items: AnimalShelterListOutput[];
   total: number;
   page: number;
   limit: number;

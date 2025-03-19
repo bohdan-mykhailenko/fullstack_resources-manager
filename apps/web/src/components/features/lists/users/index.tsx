@@ -34,13 +34,13 @@ export const UsersList = memo(({ users }: UsersListProps) => {
                 <Text>{user.email}</Text>
               </Table.Cell>
               <Table.Cell>
-                <Text>{format(new Date(user.createdAt), "MMM d, yyyy")}</Text>
+                <Text>{format(new Date(user.created_at), "MMM d, yyyy")}</Text>
               </Table.Cell>
               <Table.Cell>
-                <Text>{user.feedbacksCount}</Text>
+                <Text>{user.feedbacks_count}</Text>
               </Table.Cell>
               <Table.Cell>
-                <Text>{user.ratingsCount}</Text>
+                <Text>{user.ratings_count}</Text>
               </Table.Cell>
             </Table.Row>
           ))}

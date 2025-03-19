@@ -36,10 +36,10 @@ export const ShelterShortItem = memo(({ shelter }: ShelterShortItemProps) => {
       </Button>
 
       <Badge
-        colorPalette={shelter.isVerified ? "green" : "red"}
+        colorPalette={shelter.is_verified ? "green" : "red"}
         variant="subtle"
       >
-        {shelter.isVerified ? "Verified" : "Unverified"}
+        {shelter.is_verified ? "Verified" : "Unverified"}
       </Badge>
     </HStack>
   );

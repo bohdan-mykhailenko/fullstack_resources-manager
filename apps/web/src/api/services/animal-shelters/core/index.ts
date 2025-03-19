@@ -67,8 +67,8 @@ export class AnimalSheltersServiceClient {
   ): Promise<FilteredSheltersList> {
     const fields: string[] = [];
 
-    if (params.isVerified) {
-      delete params.isVerified;
+    if (params.is_verified) {
+      delete params.is_verified;
 
       fields.push("is_verified");
     }
@@ -94,8 +94,8 @@ export class AnimalSheltersServiceClient {
       name?: string;
       description?: string;
       email?: string;
-      websiteUrl?: string;
-      imageUrl?: string;
+      website_url?: string;
+      image_url?: string;
       address?: string;
       phone?: string;
     }

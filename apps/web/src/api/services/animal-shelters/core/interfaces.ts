@@ -15,24 +15,23 @@ export interface AnimalShelterOutput {
   name: string;
   description: string;
   email: string;
-  websiteUrl: string;
-  imageUrl: string;
+  website_url: string;
+  image_url: string;
   address: string;
   phone: string;
-  ratingsCount?: number;
-  feedbacksCount?: number;
-  createdAt: string;
-  updatedAt?: string;
-  isVerified: boolean;
-  averageRating?: number;
+  ratings_count?: number;
+  feedbacks_count?: number;
+  created_at: string;
+  is_verified: boolean;
+  average_rating?: number;
 }
 
 export interface CreateAnimalShelterInput {
   name: string;
   description: string;
   email: string;
-  websiteUrl: string;
-  imageUrl: string;
+  website_url: string;
+  image_url: string;
   address: string;
   phone: string;
 }
@@ -46,7 +45,7 @@ export interface PaginatedAnimalSheltersList {
 
 export interface ShelterFilterParams extends PaginationParams {
   query?: string;
-  isVerified?: boolean;
+  is_verified?: boolean;
   sortBy?: SortBy;
   sortOrder?: SortOrder;
 }

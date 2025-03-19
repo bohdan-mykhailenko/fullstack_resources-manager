@@ -18,7 +18,6 @@ CREATE TABLE shelters (
   phone VARCHAR(255),
   email VARCHAR(255),
   created_at TIMESTAMPTZ DEFAULT NOW(),
-  updated_at TIMESTAMPTZ,
   is_verified BOOLEAN DEFAULT FALSE
 );
 
@@ -28,7 +27,6 @@ CREATE TABLE shelter_feedbacks (
     user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     content TEXT NOT NULL,
     created_at TIMESTAMPTZ DEFAULT NOW(),
-    updated_at TIMESTAMPTZ,
     parent_id UUID REFERENCES shelter_feedbacks(id) ON DELETE CASCADE
 );
 

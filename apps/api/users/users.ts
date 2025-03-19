@@ -12,8 +12,9 @@ import {
   ConfirmEmailParams,
   RefreshTokenInput,
   RefreshTokenOutput,
+  SignInOutput,
+  SignUpOutput,
   UserJWTPayload,
-  UserOutput,
 } from "./interfaces";
 import { generateTokens } from "./utils";
 import { SignInInput, SignUpInput } from "./validation";
@@ -21,7 +22,7 @@ import { SignInInput, SignUpInput } from "./validation";
 const JWT_SECRET = secret("JWT_SECRET")();
 const CONFIRMATION_SECRET = secret("CONFIRMATION_SECRET")();
 
-export const signUp = api<SignUpInput, UserOutput>(
+export const signUp = api<SignUpInput, SignUpOutput>(
   { expose: true, auth: false, method: "POST", path: "/sign-up" },
   async (input) => {
     const { email, password, firstName, lastName } = input;
@@ -45,8 +46,6 @@ export const signUp = api<SignUpInput, UserOutput>(
       throw APIError.internal("Failed to create user");
     }
 
-    const { accessToken, refreshToken } = generateTokens(user?.id);
-
     try {
       await sendConfirmationEmail({
         firstName,
@@ -61,9 +60,7 @@ export const signUp = api<SignUpInput, UserOutput>(
     }
 
     return {
-      id: user.id,
-      accessToken,
-      refreshToken,
+      id: Number(user.id),
       email,
       firstName,
       lastName,
@@ -72,7 +69,7 @@ export const signUp = api<SignUpInput, UserOutput>(
   }
 );
 
-export const signIn = api<SignInInput, UserOutput>(
+export const signIn = api<SignInInput, SignInOutput>(
   { expose: true, auth: false, method: "POST", path: "/sign-in" },
   async (input) => {
     const { email, password } = input;
