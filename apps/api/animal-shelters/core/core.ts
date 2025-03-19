@@ -1,7 +1,7 @@
 import { APIError, api } from "encore.dev/api";
 
 import { db } from "@/database";
-import { IdParams, PaginationParams } from "@/shared/interfaces";
+import { IdParams, MessageOutput, PaginationParams } from "@/shared/interfaces";
 import { getPagination, processDbList } from "@/shared/utils";
 
 import { FilterByField, SortBy, SortOrder } from "./enums";
@@ -10,8 +10,6 @@ import {
   FilteredSheltersList,
   PaginatedAnimalSheltersList,
   ShelterFilterParams,
-  UnverifyShelterOutput,
-  VerifyShelterOutput,
 } from "./interfaces";
 import {
   CreateAnimalShelterInput,
@@ -297,7 +295,7 @@ export const update = api<
   }
 );
 
-export const remove = api<IdParams, void>(
+export const remove = api<IdParams, MessageOutput>(
   {
     expose: true,
     auth: true,
@@ -312,7 +310,7 @@ export const remove = api<IdParams, void>(
   }
 );
 
-export const verify = api<IdParams, VerifyShelterOutput>(
+export const verify = api<IdParams, MessageOutput>(
   {
     expose: true,
     auth: true,
@@ -327,7 +325,7 @@ export const verify = api<IdParams, VerifyShelterOutput>(
   }
 );
 
-export const unverify = api<IdParams, UnverifyShelterOutput>(
+export const unverify = api<IdParams, MessageOutput>(
   {
     expose: true,
     auth: true,

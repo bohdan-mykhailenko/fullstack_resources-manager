@@ -8,19 +8,21 @@ interface PaginationResult {
   offset: number;
 }
 
-export const getPagination = ({
+export function getPagination({
   page = 1,
   limit = 10,
-}: PaginationParams): PaginationResult => ({
-  page,
-  limit,
-  offset: (page - 1) * limit,
-});
+}: PaginationParams): PaginationResult {
+  return {
+    page,
+    limit,
+    offset: (page - 1) * limit,
+  };
+}
 
-export const processDbList = async <T>(
+export async function processDbList<T>(
   query: ReturnType<typeof SQLDatabase.prototype.query>,
   transform?: (item: any) => T
-): Promise<T[]> => {
+): Promise<T[]> {
   const results: T[] = [];
 
   for await (const item of query) {
@@ -28,4 +30,19 @@ export const processDbList = async <T>(
   }
 
   return results;
-};
+}
+
+export function convertDefaultParamsToUndefined<T>(
+  params: Record<string, any> | null | undefined
+): T {
+  if (!params) return {} as T;
+
+  const result: Record<string, any> = {};
+
+  for (const key in params) {
+    // Convert null to undefined, keep other values as is
+    result[key] = params[key] === null ? undefined : params[key];
+  }
+
+  return result as T;
+}

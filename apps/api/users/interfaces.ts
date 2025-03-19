@@ -30,7 +30,3 @@ export interface RefreshTokenOutput {
 export interface ConfirmEmailParams {
   token: string;
 }
-
-export interface ConfirmEmailOutput {
-  message: string;
-}

@@ -5,10 +5,10 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 import { db } from "@/database";
+import { MessageOutput } from "@/shared/interfaces";
 
 import { sendConfirmationEmail } from "./emails";
 import {
-  ConfirmEmailOutput,
   ConfirmEmailParams,
   RefreshTokenInput,
   RefreshTokenOutput,
@@ -120,7 +120,7 @@ export const refresh = api<RefreshTokenInput, RefreshTokenOutput>(
   }
 );
 
-export const confirmEmail = api<ConfirmEmailParams, ConfirmEmailOutput>(
+export const confirmEmail = api<ConfirmEmailParams, MessageOutput>(
   { expose: true, auth: false, method: "POST", path: "/confirm-email/:token" },
   async ({ token }) => {
     const payload = jwt.verify(token, CONFIRMATION_SECRET);

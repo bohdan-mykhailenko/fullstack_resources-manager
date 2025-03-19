@@ -1,12 +1,33 @@
+# MUTATIONS
 type Mutation {
   signUp(params: SignUpInput!): SignUpOutput!
+  signIn(params: SignInInput!): SignInOutput!
+  refreshToken(refreshToken: String!): RefreshTokenOutput!
+  confirmEmail(token: String!): MessageOutput!
+  adminAuth(password: String!): AdminAuthResponse!
+  addFeedback(shelterId: String!, content: String!): FeedbackOutput!
+  rateShelter(shelterId: ID!, rating: Int!): MessageOutput!
+  createShelter(params: CreateShelterInput!): AnimalShelterOutput!
+  updateShelter(id: ID!, params: UpdateShelterInput!): AnimalShelterOutput!
+  deleteShelter(id: ID!): MessageOutput!
+  verifyShelter(id: ID!): MessageOutput!
+  unverifyShelter(id: ID!): MessageOutput!
 }
 
+# QUERIES
+type Query {
+  sheltersList(params: PaginationParams): PaginatedAnimalSheltersList!
+  getShelter(id: String!): AnimalShelterOutput!
+  filterSheltersList(params: ShelterFilterParams!): FilteredSheltersList!
+  feedbacksList(shelterId: String!, params: PaginationParams): FeedbacksList!
+}
+
+# users related types
 input SignUpInput {
-  email: String!
-  firstName: String!
-  lastName: String!
-  password: String!
+  email: String! @constraint(minLength: 2, maxLength: 512)
+  firstName: String! @constraint(minLength: 2, maxLength: 50)
+  lastName: String! @constraint(minLength: 2, maxLength: 50)
+  password: String! @constraint(minLength: 8, maxLength: 512)
 }
 
 type SignUpOutput {
@@ -17,13 +38,125 @@ type SignUpOutput {
   is_confirmed: Boolean!
 }
 
-input PaginationParams {
-  page: Int!
-  limit: Int!
+input SignInInput {
+  email: String! @constraint(minLength: 2, maxLength: 512)
+  password: String! @constraint(minLength: 8, maxLength: 512)
 }
 
-type Query {
-  sheltersList(params: PaginationParams!): PaginatedAnimalSheltersList!
+type SignInOutput {
+  id: Int!
+  email: String!
+  firstName: String!
+  lastName: String!
+  is_confirmed: Boolean!
+  accessToken: String!
+  refreshToken: String!
+}
+
+type RefreshTokenOutput {
+  accessToken: String!
+}
+
+# admin related types
+input AdminAuthInput {
+  password: String! @constraint(minLength: 8, maxLength: 512)
+}
+
+type AdminAuthResponse {
+  message: String!
+  token: String!
+}
+
+type UsersStatistics {
+  totalUsers: Int!
+  recentUsers: [RecentUser!]!
+  userActivity: UserActivity!
+}
+
+type RecentUser {
+  id: Int!
+  firstName: String!
+  lastName: String!
+  email: String!
+  created_at: String!
+}
+
+type UserActivity {
+  totalFeedbacks: Int!
+  totalRatings: Int!
+  mostActiveUsers: [ActiveUser!]!
+}
+
+type ActiveUser {
+  id: Int!
+  firstName: String!
+  lastName: String!
+  email: String!
+  feedbacks_count: Int!
+  ratings_count: Int!
+}
+
+type UsersList {
+  users: [DetailedUser!]!
+  total: Int!
+}
+
+type DetailedUser {
+  id: Int!
+  firstName: String!
+  lastName: String!
+  email: String!
+  created_at: String!
+  feedbacks_count: Int!
+  ratings_count: Int!
+}
+
+# shelters:core related types
+input CreateShelterInput {
+  name: String! @constraint(minLength: 2, maxLength: 50)
+  description: String! @constraint(minLength: 2, maxLength: 300)
+  email: String! @constraint(minLength: 2, maxLength: 512)
+  website_url: String! @constraint(minLength: 2, maxLength: 512)
+  image_url: String! @constraint(minLength: 2, maxLength: 512)
+  address: String! @constraint(minLength: 2, maxLength: 512)
+  phone: String! @constraint(minLength: 2, maxLength: 512)
+}
+
+input UpdateShelterInput {
+  name: String @constraint(minLength: 2, maxLength: 50)
+  description: String @constraint(minLength: 2, maxLength: 300)
+  email: String @constraint(minLength: 2, maxLength: 512)
+  website_url: String @constraint(minLength: 2, maxLength: 512)
+  image_url: String @constraint(minLength: 2, maxLength: 512)
+  address: String @constraint(minLength: 2, maxLength: 512)
+  phone: String @constraint(minLength: 2, maxLength: 512)
+}
+
+input ShelterFilterParams {
+  query: String
+  fields: String
+  sortBy: String
+  sortOrder: String
+}
+
+input CreateShelterInput {
+  name: String! @constraint(minLength: 2, maxLength: 50)
+  description: String! @constraint(minLength: 2, maxLength: 300)
+  email: String! @constraint(minLength: 2, maxLength: 512)
+  website_url: String! @constraint(minLength: 2, maxLength: 512)
+  image_url: String! @constraint(minLength: 2, maxLength: 512)
+  address: String! @constraint(minLength: 2, maxLength: 512)
+  phone: String! @constraint(minLength: 2, maxLength: 512)
+}
+
+input UpdateShelterInput {
+  name: String @constraint(minLength: 2, maxLength: 50)
+  description: String @constraint(minLength: 2, maxLength: 300)
+  email: String @constraint(minLength: 2, maxLength: 512)
+  website_url: String @constraint(minLength: 2, maxLength: 512)
+  image_url: String @constraint(minLength: 2, maxLength: 512)
+  address: String @constraint(minLength: 2, maxLength: 512)
+  phone: String @constraint(minLength: 2, maxLength: 512)
 }
 
 type AnimalShelterOutput {
@@ -38,10 +171,54 @@ type AnimalShelterOutput {
   ratings_count: Int
   feedbacks_count: Int
   created_at: String!
+  average_rating: Float
   is_verified: Boolean!
 }
 
 type PaginatedAnimalSheltersList {
   items: [AnimalShelterOutput!]!
   total: Int!
+}
+
+type FilteredSheltersList {
+  items: [AnimalShelterOutput!]!
+  total: Int!
+}
+
+enum SortBy {
+  RATING
+  CREATED_AT
+}
+
+enum FilterByField {
+  IS_VERIFIED
+}
+
+enum SortOrder {
+  ASC
+  DESC
+}
+
+# shelters:feedback related types
+type FeedbackOutput {
+  id: String!
+  content: String!
+  created_at: String!
+  first_name: String!
+  last_name: String!
+}
+
+type FeedbacksList {
+  items: [FeedbackOutput!]!
+  total: Int!
+}
+
+# shared related types
+type MessageOutput {
+  message: String!
+}
+
+input PaginationParams {
+  page: Int
+  limit: Int
 }

@@ -1,13 +1,13 @@
 import { JwtPayload } from "jsonwebtoken";
 
+import { MessageOutput } from "@/shared/interfaces";
 import { UserOutput } from "@/users/interfaces";
 
 export interface AdminInput {
   password: string;
 }
 
-export interface AdminOutput {
-  message: string;
+export interface AdminOutput extends MessageOutput {
   token: string;
 }
 

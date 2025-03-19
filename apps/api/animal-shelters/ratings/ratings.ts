@@ -1,12 +1,11 @@
 import { api } from "encore.dev/api";
 
 import { db } from "@/database";
-import { IdParams, UserIdParams } from "@/shared/interfaces";
+import { IdParams, MessageOutput, UserIdParams } from "@/shared/interfaces";
 
-import { RatingOutput } from "./interfaces";
 import { RateInput } from "./validation";
 
-export const rate = api<RateInput & IdParams & UserIdParams, RatingOutput>(
+export const rate = api<RateInput & IdParams & UserIdParams, MessageOutput>(
   {
     expose: true,
     auth: true,

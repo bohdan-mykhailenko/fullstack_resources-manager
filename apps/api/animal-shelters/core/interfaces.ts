@@ -24,14 +24,6 @@ export interface AnimalShelterOutput extends AnimalShelterListOutput {
 export interface PaginatedAnimalSheltersList
   extends PaginatedList<AnimalShelterListOutput> {}
 
-export interface VerifyShelterOutput {
-  message: string;
-}
-
-export interface UnverifyShelterOutput {
-  message: string;
-}
-
 export interface ShelterFilterParams {
   query?: string;
   fields?: string; // FilterByField[];
