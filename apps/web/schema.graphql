@@ -1,0 +1,204 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type ActiveUser {
+  email: String!
+  feedbacks_count: Int!
+  firstName: String!
+  id: Int!
+  lastName: String!
+  ratings_count: Int!
+}
+
+input AdminAuthInput {
+  password: String!
+}
+
+type AdminAuthResponse {
+  message: String!
+  token: String!
+}
+
+type AnimalShelterOutput {
+  address: String!
+  average_rating: Float
+  created_at: String!
+  description: String!
+  email: String!
+  feedbacks_count: Int
+  id: String!
+  image_url: String!
+  is_verified: Boolean!
+  name: String!
+  phone: String!
+  ratings_count: Int
+  website_url: String!
+}
+
+input CreateShelterInput {
+  address: String!
+  description: String!
+  email: String!
+  image_url: String!
+  name: String!
+  phone: String!
+  website_url: String!
+}
+
+type DetailedUser {
+  created_at: String!
+  email: String!
+  feedbacks_count: Int!
+  firstName: String!
+  id: Int!
+  lastName: String!
+  ratings_count: Int!
+}
+
+type FeedbackOutput {
+  content: String!
+  created_at: String!
+  first_name: String!
+  id: String!
+  last_name: String!
+}
+
+type FeedbacksList {
+  items: [FeedbackOutput!]!
+  total: Int!
+}
+
+enum FilterByField {
+  IS_VERIFIED
+}
+
+type FilteredSheltersList {
+  items: [AnimalShelterOutput!]!
+  total: Int!
+}
+
+type MessageOutput {
+  message: String!
+}
+
+type Mutation {
+  addFeedback(content: String!, shelterId: String!): FeedbackOutput!
+  adminAuth(password: String!): AdminAuthResponse!
+  confirmEmail(token: String!): MessageOutput!
+  createShelter(params: CreateShelterInput!): AnimalShelterOutput!
+  deleteShelter(id: ID!): MessageOutput!
+  rateShelter(rating: Int!, shelterId: ID!): MessageOutput!
+  refreshToken(refreshToken: String!): RefreshTokenOutput!
+  signIn(params: SignInInput!): SignInOutput!
+  signUp(params: SignUpInput!): SignUpOutput!
+  unverifyShelter(id: ID!): MessageOutput!
+  updateShelter(id: ID!, params: UpdateShelterInput!): AnimalShelterOutput!
+  verifyShelter(id: ID!): MessageOutput!
+}
+
+type PaginatedAnimalSheltersList {
+  items: [AnimalShelterOutput!]!
+  total: Int!
+}
+
+input PaginationParams {
+  limit: Int
+  page: Int
+}
+
+type Query {
+  feedbacksList(params: PaginationParams, shelterId: String!): FeedbacksList!
+  filterSheltersList(params: ShelterFilterParams!): FilteredSheltersList!
+  getShelter(id: String!): AnimalShelterOutput!
+  sheltersList(params: PaginationParams): PaginatedAnimalSheltersList!
+  usersList: UsersList!
+  usersStatistics: UsersStatistics!
+}
+
+type RecentUser {
+  created_at: String!
+  email: String!
+  firstName: String!
+  id: Int!
+  lastName: String!
+}
+
+type RefreshTokenOutput {
+  accessToken: String!
+}
+
+input ShelterFilterParams {
+  fields: String
+  query: String
+  sortBy: String
+  sortOrder: String
+}
+
+input SignInInput {
+  email: String!
+  password: String!
+}
+
+type SignInOutput {
+  accessToken: String!
+  email: String!
+  firstName: String!
+  id: Int!
+  is_confirmed: Boolean!
+  lastName: String!
+  refreshToken: String!
+}
+
+input SignUpInput {
+  email: String!
+  firstName: String!
+  lastName: String!
+  password: String!
+}
+
+type SignUpOutput {
+  email: String!
+  firstName: String!
+  id: Int!
+  is_confirmed: Boolean!
+  lastName: String!
+}
+
+enum SortBy {
+  CREATED_AT
+  RATING
+}
+
+enum SortOrder {
+  ASC
+  DESC
+}
+
+input UpdateShelterInput {
+  address: String
+  description: String
+  email: String
+  image_url: String
+  name: String
+  phone: String
+  website_url: String
+}
+
+type UserActivity {
+  mostActiveUsers: [ActiveUser!]!
+  totalFeedbacks: Int!
+  totalRatings: Int!
+}
+
+type UsersList {
+  total: Int!
+  users: [DetailedUser!]!
+}
+
+type UsersStatistics {
+  recentUsers: [RecentUser!]!
+  totalUsers: Int!
+  userActivity: UserActivity!
+}

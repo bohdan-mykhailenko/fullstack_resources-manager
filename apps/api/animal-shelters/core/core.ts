@@ -184,7 +184,7 @@ export const getFilteredList = api<
       s.phone,
       s.email,
       s.is_verified,
-      s.created_at,
+      s.created_at
       ORDER BY 
       CASE WHEN ${sortBy}::text = ${SortBy.RATING} AND ${sortOrder}::text = ${SortOrder.ASC} THEN CAST(COALESCE(AVG(sr.rating), 0) AS FLOAT) END ,
       CASE WHEN ${sortBy}::text = ${SortBy.RATING} AND ${sortOrder}::text = ${SortOrder.DESC} THEN CAST(COALESCE(AVG(sr.rating), 0) AS FLOAT) END DESC,

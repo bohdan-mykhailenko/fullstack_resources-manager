@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { Navigate } from "@tanstack/react-router";
+import request from "graphql-request";
 import { useState } from "react";
 import { useDebounce } from "use-debounce";
 
@@ -26,6 +27,13 @@ import {
   SelectValueText,
 } from "@/components/ui";
 import { LoadedContentController } from "@/components/utils";
+import { graphql } from "@/graphql/gql";
+// import {
+//   executeGraphql,
+//   executeGraphqlV2,
+//   executegraphql,
+//   graphqlClient,
+// } from "@/graphql/fetch";
 import { useIsAdmin } from "@/store";
 
 const PAGE_SIZE = 10;
@@ -79,6 +87,52 @@ export const SheltersPage = () => {
     return <Navigate to="/admin" />;
   }
 
+  // const FilterSheltersListQuery = graphql(`
+  //   query FilterSheltersList($params: ShelterFilterParams!) {
+  //     filterSheltersList(params: $params) {
+  //       items {
+  //         id
+  //         name
+  //         description
+  //         email
+  //         website_url
+  //         image_url
+  //         address
+  //         phone
+  //         ratings_count
+  //         feedbacks_count
+  //         created_at
+  //         average_rating
+  //         is_verified
+  //       }
+  //       total
+  //     }
+  //   }
+  // `);
+
+  const FilterSheltersListQuery = graphql(`
+    query FilterSheltersList($params: ShelterFilterParams!) {
+      filterSheltersList(params: $params) {
+        items {
+          id
+          name
+          description
+          email
+          website_url
+          image_url
+          address
+          phone
+          ratings_count
+          feedbacks_count
+          created_at
+          average_rating
+          is_verified
+        }
+        total
+      }
+    }
+  `);
+
   const { data, isLoading, error, isSuccess } = useQuery({
     queryKey: [
       "shelters",
@@ -88,14 +142,40 @@ export const SheltersPage = () => {
       sortBy,
     ],
     queryFn: () =>
-      apiClient.animalShelters.filter({
+      // executeGraphqlV2(FilterSheltersListQuery, {
+      //   params: {
+      //     query: debouncedSearch || undefined,
+      //     sortBy: sortBy.field,
+      //     sortOrder: sortBy.order,
+      //     // page: currentPage,
+      //     // limit: PAGE_SIZE,
+      //   },
+      // }),
+      // executeGraphql(FilterSheltersListQuery, {
+      //   params: {
+      //     query: debouncedSearch || undefined,
+      //     sortBy: sortBy.field,
+      //     sortOrder: sortBy.order,
+      //     page: currentPage,
+      //     limit: PAGE_SIZE,
+      //   },
+      // }),
+      apiClient.animalShelters.filterGraphql(FilterSheltersListQuery, {
         query: debouncedSearch || undefined,
-        is_verified: verificationFilter === "verified",
+        // is_verified: verificationFilter === "verified",
         sortBy: sortBy.field,
         sortOrder: sortBy.order,
-        page: currentPage,
-        limit: PAGE_SIZE,
+        // page: currentPage,
+        // limit: PAGE_SIZE,
       }),
+    // apiClient.animalShelters.filter({
+    //   query: debouncedSearch || undefined,
+    //   is_verified: verificationFilter === "verified",
+    //   sortBy: sortBy.field,
+    //   sortOrder: sortBy.order,
+    //   page: currentPage,
+    //   limit: PAGE_SIZE,
+    // }),
   });
 
   return (
@@ -176,7 +256,7 @@ export const SheltersPage = () => {
         <LoadedContentController
           isLoading={isLoading}
           isError={!!error}
-          isEmpty={isSuccess && data?.items.length === 0}
+          isEmpty={isSuccess && data?.items?.length === 0}
           errorMessage="Failed to fetch shelters. Please try again."
           emptyMessage="No shelters found"
           data={data ?? null}

@@ -20,14 +20,16 @@ type Query {
   getShelter(id: String!): AnimalShelterOutput!
   filterSheltersList(params: ShelterFilterParams!): FilteredSheltersList!
   feedbacksList(shelterId: String!, params: PaginationParams): FeedbacksList!
+  usersStatistics: UsersStatistics!
+  usersList: UsersList!
 }
 
 # users related types
 input SignUpInput {
-  email: String! @constraint(minLength: 2, maxLength: 512)
-  firstName: String! @constraint(minLength: 2, maxLength: 50)
-  lastName: String! @constraint(minLength: 2, maxLength: 50)
-  password: String! @constraint(minLength: 8, maxLength: 512)
+  email: String!
+  firstName: String!
+  lastName: String!
+  password: String!
 }
 
 type SignUpOutput {
@@ -39,8 +41,8 @@ type SignUpOutput {
 }
 
 input SignInInput {
-  email: String! @constraint(minLength: 2, maxLength: 512)
-  password: String! @constraint(minLength: 8, maxLength: 512)
+  email: String!
+  password: String!
 }
 
 type SignInOutput {
@@ -59,7 +61,7 @@ type RefreshTokenOutput {
 
 # admin related types
 input AdminAuthInput {
-  password: String! @constraint(minLength: 8, maxLength: 512)
+  password: String!
 }
 
 type AdminAuthResponse {
@@ -113,23 +115,23 @@ type DetailedUser {
 
 # shelters:core related types
 input CreateShelterInput {
-  name: String! @constraint(minLength: 2, maxLength: 50)
-  description: String! @constraint(minLength: 2, maxLength: 300)
-  email: String! @constraint(minLength: 2, maxLength: 512)
-  website_url: String! @constraint(minLength: 2, maxLength: 512)
-  image_url: String! @constraint(minLength: 2, maxLength: 512)
-  address: String! @constraint(minLength: 2, maxLength: 512)
-  phone: String! @constraint(minLength: 2, maxLength: 512)
+  name: String!
+  description: String!
+  email: String!
+  website_url: String!
+  image_url: String!
+  address: String!
+  phone: String!
 }
 
 input UpdateShelterInput {
-  name: String @constraint(minLength: 2, maxLength: 50)
-  description: String @constraint(minLength: 2, maxLength: 300)
-  email: String @constraint(minLength: 2, maxLength: 512)
-  website_url: String @constraint(minLength: 2, maxLength: 512)
-  image_url: String @constraint(minLength: 2, maxLength: 512)
-  address: String @constraint(minLength: 2, maxLength: 512)
-  phone: String @constraint(minLength: 2, maxLength: 512)
+  name: String
+  description: String
+  email: String
+  website_url: String
+  image_url: String
+  address: String
+  phone: String
 }
 
 input ShelterFilterParams {
@@ -140,23 +142,23 @@ input ShelterFilterParams {
 }
 
 input CreateShelterInput {
-  name: String! @constraint(minLength: 2, maxLength: 50)
-  description: String! @constraint(minLength: 2, maxLength: 300)
-  email: String! @constraint(minLength: 2, maxLength: 512)
-  website_url: String! @constraint(minLength: 2, maxLength: 512)
-  image_url: String! @constraint(minLength: 2, maxLength: 512)
-  address: String! @constraint(minLength: 2, maxLength: 512)
-  phone: String! @constraint(minLength: 2, maxLength: 512)
+  name: String!
+  description: String!
+  email: String!
+  website_url: String!
+  image_url: String!
+  address: String!
+  phone: String!
 }
 
 input UpdateShelterInput {
-  name: String @constraint(minLength: 2, maxLength: 50)
-  description: String @constraint(minLength: 2, maxLength: 300)
-  email: String @constraint(minLength: 2, maxLength: 512)
-  website_url: String @constraint(minLength: 2, maxLength: 512)
-  image_url: String @constraint(minLength: 2, maxLength: 512)
-  address: String @constraint(minLength: 2, maxLength: 512)
-  phone: String @constraint(minLength: 2, maxLength: 512)
+  name: String
+  description: String
+  email: String
+  website_url: String
+  image_url: String
+  address: String
+  phone: String
 }
 
 type AnimalShelterOutput {

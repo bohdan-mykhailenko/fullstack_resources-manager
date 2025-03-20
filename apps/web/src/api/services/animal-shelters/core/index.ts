@@ -1,6 +1,7 @@
 import { PaginationParams } from "@/api/interfaces";
 import { BaseAPIClient } from "@/api/services/baseClient";
 import { makeRecord } from "@/api/utils";
+import { graphql } from "@/graphql";
 
 import type {
   AnimalShelterOutput,
@@ -9,6 +10,7 @@ import type {
   PaginatedAnimalSheltersList,
   ShelterFilterParams,
 } from "./interfaces";
+import { FilterSheltersListQuery } from "./queries";
 
 export class AnimalSheltersServiceClient {
   private baseClient: BaseAPIClient;
@@ -86,6 +88,37 @@ export class AnimalSheltersServiceClient {
     );
 
     return await response.json();
+  }
+
+  public async filterGraphql(
+    query: any,
+    params: ShelterFilterParams
+  ): Promise<FilteredSheltersList> {
+    const fields: string[] = [];
+
+    if ("is_verified" in params) {
+      delete params.is_verified;
+
+      fields.push("is_verified");
+    }
+
+    const queryParams = makeRecord<
+      string,
+      string | boolean | number | undefined
+    >({
+      ...params,
+      fields: fields.join(","),
+    });
+
+    const response = await this.baseClient.callGraphql(
+      query,
+      `/shelters/filter`,
+      { params: queryParams }
+    );
+
+    console.log("response", response);
+
+    return await response.filterSheltersList;
   }
 
   public async update(

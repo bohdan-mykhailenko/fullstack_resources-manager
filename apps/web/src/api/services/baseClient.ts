@@ -8,11 +8,13 @@ import {
 import type { AuthHandlerParams, ClientOptions } from "@/api/interfaces";
 import type { AuthDataGenerator, CallParameters, Fetcher } from "@/api/types";
 import { encodeQuery, makeRecord } from "@/api/utils";
+import { TypedDocumentString } from "@/graphql/graphql";
 
 const boundFetch = fetch.bind(this);
 
 export class BaseAPIClient {
   readonly baseURL: string;
+  readonly graphqlURL: string;
   readonly fetcher: Fetcher;
   readonly headers: Record<string, string>;
   readonly requestInit: Omit<RequestInit, "headers"> & {
@@ -20,8 +22,9 @@ export class BaseAPIClient {
   };
   readonly authGenerator?: AuthDataGenerator;
 
-  constructor(baseURL: string, options: ClientOptions) {
+  constructor(baseURL: string, graphqlURL: string, options: ClientOptions) {
     this.baseURL = baseURL;
+    this.graphqlURL = graphqlURL;
     this.headers = {};
 
     this.requestInit = options.requestInit ?? {};
@@ -73,7 +76,64 @@ export class BaseAPIClient {
     return undefined;
   }
 
-  // callAPI is used by each generated API method to actually make the request
+  /**
+   * Reads a ReadableStream of Uint8Array chunks and converts them to decoded string chunks.
+   * This method is an asynchronous generator that processes the stream incrementally.
+   *
+   * @param {ReadableStream<Uint8Array>} body - The readable stream containing binary data.
+   * @returns {AsyncIterable<string>} An asynchronous iterable that yields decoded string chunks.
+   * @private
+   */
+  private async *getIterableStream(
+    body: ReadableStream<Uint8Array>
+  ): AsyncIterable<string> {
+    const reader = body.getReader();
+    const decoder = new TextDecoder();
+
+    while (true) {
+      const { value, done } = await reader.read();
+
+      if (done) {
+        break;
+      }
+
+      const decodedChunk = decoder.decode(value, { stream: true });
+
+      yield decodedChunk;
+    }
+  }
+
+  /**
+   * Processes a streaming request by iterating over the chunks of data from the provided ReadableStream.
+   * Emits each chunk to the observer and accumulates the output.
+   * In case of an error, emits a stream error to the observer and captures the exception using Sentry.
+   *
+   * @param {ReadableStream<Uint8Array>} params.body - The readable stream containing the data chunks.
+   * @param {AIEnhanceTextRoute} params.route - The route to which the data chunks should be emitted.
+   * @param {string} params.streamId - The unique identifier for the stream.
+   * @returns {Promise<string>} The accumulated output from the stream.
+   * @throws {StreamError} - If an error occurs during the streaming process.
+   * @private
+   */
+  private async processStreaming(
+    body: ReadableStream<Uint8Array>
+  ): Promise<string> {
+    let output = "";
+
+    try {
+      for await (const textChunk of this.getIterableStream(body)) {
+        output += textChunk;
+      }
+    } catch (error: any) {
+      throw new APIError(500, {
+        code: ErrorCode.Internal,
+        message: error.message,
+      });
+    }
+
+    return output;
+  }
+
   private async callAPI(
     method: string,
     path: string,
@@ -106,7 +166,9 @@ export class BaseAPIClient {
     }
 
     // Make the actual request
-    const queryString = query ? "?" + encodeQuery(query) : "";
+    const queryString = query
+      ? "?" + encodeQuery(query as Record<string, string>)
+      : "";
     const response = await this.fetcher(
       this.baseURL + path + queryString,
       init
@@ -146,7 +208,6 @@ export class BaseAPIClient {
     return response;
   }
 
-  // callTypedAPI makes an API call, defaulting content type to "application/json"
   public async callTypedAPI<T = unknown>(
     method: string,
     path: string,
@@ -171,5 +232,52 @@ export class BaseAPIClient {
     }
 
     return response;
+  }
+
+  public async callGraphql<Result, Variables>(
+    query: TypedDocumentString<Result, Variables>,
+    path: string,
+    ...[variables]: Variables extends Record<string, never> ? [] : [Variables]
+  ) {
+    const init = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/graphql-response+json",
+      },
+      body: JSON.stringify({
+        query,
+        variables,
+      }),
+    };
+
+    const authData = await this.getAuthData(path);
+
+    // If we now have authentication data, add it to the request
+    if (authData) {
+      if (authData.headers) {
+        init.headers = { ...init.headers, ...authData.headers };
+      }
+    }
+
+    const response = await fetch(this.graphqlURL, init);
+
+    if (!response.body) {
+      throw new APIError(500, {
+        code: ErrorCode.Internal,
+        message: "No response body",
+      });
+    }
+
+    if (!response.ok) {
+      throw new APIError(response.status, {
+        code: ErrorCode.Internal,
+        message: response.statusText,
+      });
+    }
+
+    const result = await this.processStreaming(response.body);
+
+    return JSON.parse(result).data as Result;
   }
 }

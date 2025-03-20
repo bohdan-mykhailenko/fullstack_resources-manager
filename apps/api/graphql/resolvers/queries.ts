@@ -23,15 +23,15 @@ const queries: QueryResolvers = {
       convertDefaultParamsToUndefined<ShelterFilterParams>(params)
     ),
 
-  getUsersStatistics: async () => await admin.usersStatistics(),
-
-  getUsersList: async () => await admin.usersList(),
-
   feedbacksList: async (_, { shelterId, params }) =>
     await animal_shelters_feedback.getList({
       id: shelterId,
       ...convertDefaultParamsToUndefined<PaginationParams>(params),
     }),
+
+  usersStatistics: async () => await admin.usersStatistics(),
+
+  usersList: async () => await admin.usersList(),
 };
 
 export default queries;

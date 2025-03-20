@@ -200,6 +200,8 @@ export type Query = {
   filterSheltersList: FilteredSheltersList;
   getShelter: AnimalShelterOutput;
   sheltersList: PaginatedAnimalSheltersList;
+  usersList: UsersList;
+  usersStatistics: UsersStatistics;
 };
 
 
@@ -553,6 +555,8 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   filterSheltersList?: Resolver<ResolversTypes['FilteredSheltersList'], ParentType, ContextType, RequireFields<QueryFilterSheltersListArgs, 'params'>>;
   getShelter?: Resolver<ResolversTypes['AnimalShelterOutput'], ParentType, ContextType, RequireFields<QueryGetShelterArgs, 'id'>>;
   sheltersList?: Resolver<ResolversTypes['PaginatedAnimalSheltersList'], ParentType, ContextType, Partial<QuerySheltersListArgs>>;
+  usersList?: Resolver<ResolversTypes['UsersList'], ParentType, ContextType>;
+  usersStatistics?: Resolver<ResolversTypes['UsersStatistics'], ParentType, ContextType>;
 }>;
 
 export type RecentUserResolvers<ContextType = any, ParentType extends ResolversParentTypes['RecentUser'] = ResolversParentTypes['RecentUser']> = ResolversObject<{
