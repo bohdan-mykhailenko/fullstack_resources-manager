@@ -139,74 +139,74 @@ export const getFilteredList = api<
 
     const result = await processDbList<AnimalShelterOutput>(
       db.query`
-    SELECT 
-      s.id,
-      s.name,
-      s.description,
-      s.image_url,
-      s.website_url,
-      s.address,
-      s.phone,
-      s.email,
-      s.is_verified,
-      s.created_at,
-      CAST(COALESCE(AVG(sr.rating), 0) AS FLOAT) as "average_rating",
-      COUNT(DISTINCT sr.id) as "ratings_count",
-      COUNT(DISTINCT sf.id) as "feedbacks_count"
-    FROM shelters s
-    LEFT JOIN shelter_ratings sr ON sr.shelter_id = s.id
-    LEFT JOIN shelter_feedbacks sf ON sf.shelter_id = s.id
-      WHERE
-      (
-        CASE
-          WHEN ${query}::text IS NOT NULL AND ${query}::text != '' THEN
+        SELECT 
+          s.id,
+          s.name,
+          s.description,
+          s.image_url,
+          s.website_url,
+          s.address,
+          s.phone,
+          s.email,
+          s.is_verified,
+          s.created_at,
+          CAST(COALESCE(AVG(sr.rating), 0) AS FLOAT) as "average_rating",
+          COUNT(DISTINCT sr.id) as "ratings_count",
+          COUNT(DISTINCT sf.id) as "feedbacks_count"
+        FROM shelters s
+        LEFT JOIN shelter_ratings sr ON sr.shelter_id = s.id
+        LEFT JOIN shelter_feedbacks sf ON sf.shelter_id = s.id
+        WHERE
+        (
+          CASE
+            WHEN ${query}::text IS NOT NULL AND ${query}::text != '' THEN
             s.name ILIKE ${`%${query}%`}::text OR 
             s.description ILIKE ${`%${query}%`}::text OR
             s.address ILIKE ${`%${query}%`}::text OR
             s.email ILIKE ${`%${query}%`}::text
           ELSE TRUE
-        END
-      )
-      AND
-      (
+          END
+        )
+        AND
+        (
           CASE
-          WHEN ${hasIsVerifiedFilter} THEN s.is_verified = true
-          ELSE TRUE
-        END
-      )
-    GROUP BY 
-      s.id,
-      s.name,
-      s.description,
-      s.image_url,
-      s.website_url,
-      s.address,
-      s.phone,
-      s.email,
-      s.is_verified,
-      s.created_at
+            WHEN ${hasIsVerifiedFilter} THEN s.is_verified = true
+            ELSE TRUE
+          END
+        )
+      GROUP BY 
+        s.id,
+        s.name,
+        s.description,
+        s.image_url,
+        s.website_url,
+        s.address,
+        s.phone,
+        s.email,
+        s.is_verified,
+        s.created_at
       ORDER BY 
-      CASE WHEN ${sort_by}::text = ${SortBy.RATING} AND ${sort_order}::text = ${SortOrder.ASC} THEN CAST(COALESCE(AVG(sr.rating), 0) AS FLOAT) END ,
+      CASE WHEN ${sort_by}::text = ${SortBy.RATING} AND ${sort_order}::text = ${SortOrder.ASC} THEN CAST(COALESCE(AVG(sr.rating), 0) AS FLOAT) END ASC,
       CASE WHEN ${sort_by}::text = ${SortBy.RATING} AND ${sort_order}::text = ${SortOrder.DESC} THEN CAST(COALESCE(AVG(sr.rating), 0) AS FLOAT) END DESC,
       CASE WHEN ${sort_by}::text = ${SortBy.CREATED_AT} AND ${sort_order}::text = ${SortOrder.ASC} THEN s.created_at END ASC,
       s.created_at DESC
-    LIMIT ${limit} OFFSET ${offset}
+      LIMIT ${limit} OFFSET ${offset}
   `
     );
 
     const totalCount = await db.queryRow`
-  SELECT COUNT(*) as count
-  FROM shelters s
-  WHERE
-    CASE
-      WHEN ${query}::text IS NOT NULL AND ${query}::text != '' THEN
-        s.name ILIKE ${`%${query}%`}::text OR 
-        s.description ILIKE ${`%${query}%`}::text OR
-        s.address ILIKE ${`%${query}%`}::text OR
-        s.email ILIKE ${`%${query}%`}::text
-      ELSE TRUE
-    END
-    AND
+      SELECT COUNT(*) as count
+      FROM shelters s
+      WHERE
+      CASE
+        WHEN ${query}::text IS NOT NULL AND ${query}::text != '' THEN
+          s.name ILIKE ${`%${query}%`}::text OR 
+          s.description ILIKE ${`%${query}%`}::text OR
+          s.address ILIKE ${`%${query}%`}::text OR
+          s.email ILIKE ${`%${query}%`}::text
+        ELSE TRUE
+      END
+      AND
       CASE
           WHEN ${hasIsVerifiedFilter} THEN s.is_verified = true
           ELSE TRUE
@@ -286,7 +286,7 @@ export const update = api<
         website_url = ${input.website_url || existingAnimalShelter.website_url},
         address = ${input.address || existingAnimalShelter.address},
         phone = ${input.phone || existingAnimalShelter.phone},
-        email = ${input.email || existingAnimalShelter.email},
+        email = ${input.email || existingAnimalShelter.email}
       WHERE id = ${input.id}
       RETURNING *
     `;

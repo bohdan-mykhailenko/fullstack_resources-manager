@@ -37,102 +37,91 @@ export const AdminSheltersList = ({
   onRefetchList,
 }: AdminSheltersListProps) => {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [selectedShelter, setSelectedShelter] =
+    useState<AnimalShelterOutput | null>(null);
 
   return (
     <VStack spaceY={4} width="100%">
       <For each={shelters}>
-        {(shelter) => {
-          return (
-            <HStack
-              key={shelter.id}
-              justify="space-between"
-              w="full"
-              p={4}
-              borderWidth={1}
-              borderRadius="md"
-            >
-              <HStack spaceX={2}>
+        {(shelter) => (
+          <HStack
+            key={shelter.id}
+            justify="space-between"
+            w="full"
+            p={4}
+            borderWidth={1}
+            borderRadius="md"
+          >
+            <HStack spaceX={2}>
+              <IconButton
+                size="xs"
+                aria-label="View shelter"
+                colorPalette="orange"
+                variant="ghost"
+              >
+                <Link
+                  to="/shelters/$shelterId"
+                  params={{ shelterId: shelter.id }}
+                >
+                  <Icon name="ExternalLink" />
+                </Link>
+              </IconButton>
+
+              <Text fontWeight="semibold">{shelter.name}</Text>
+            </HStack>
+
+            <HStack spaceX={2}>
+              <Tooltip content="Edit shelter">
                 <IconButton
                   size="xs"
-                  aria-label="View shelter"
-                  colorPalette="orange"
+                  aria-label="Edit shelter"
+                  colorPalette="blue"
+                  variant="ghost"
+                  onClick={() => {
+                    setSelectedShelter(shelter);
+                    setIsEditDialogOpen(true);
+                  }}
+                >
+                  <Icon name="Pencil" />
+                </IconButton>
+              </Tooltip>
+
+              <Tooltip
+                content={
+                  shelter.is_verified ? "Unverify shelter" : "Verify shelter"
+                }
+              >
+                <IconButton
+                  size="xs"
+                  aria-label="Verify shelter"
+                  colorPalette={shelter.is_verified ? "red" : "green"}
+                  onClick={() =>
+                    shelter.is_verified
+                      ? onUnverify(shelter.id)
+                      : onVerify(shelter.id)
+                  }
                   variant="ghost"
                 >
-                  <Link
-                    to="/shelters/$shelterId"
-                    params={{ shelterId: shelter.id }}
-                  >
-                    <Icon name="ExternalLink" />
-                  </Link>
-                </IconButton>
-
-                <Text fontWeight="semibold">{shelter.name}</Text>
-              </HStack>
-
-              <HStack spaceX={2}>
-                <Dialog
-                  title="Edit Shelter"
-                  trigger={
-                    <IconButton
-                      size="xs"
-                      aria-label="Edit shelter"
-                      colorPalette="blue"
-                      variant="ghost"
-                    >
-                      <Tooltip content="Edit shelter">
-                        <Icon name="Pencil" />
-                      </Tooltip>
-                    </IconButton>
-                  }
-                  isOpen={isEditDialogOpen}
-                  onOpenChange={(event) => setIsEditDialogOpen(event.open)}
-                >
-                  <UpdateShelterForm
-                    shelter={shelter}
-                    onSuccess={() => {
-                      setIsEditDialogOpen(false);
-                      onRefetchList();
-                    }}
+                  <Icon
+                    name={shelter.is_verified ? "ShieldX" : "ShieldCheck"}
                   />
-                </Dialog>
+                </IconButton>
+              </Tooltip>
 
-                <Tooltip
-                  content={
-                    shelter.is_verified ? "Unverify shelter" : "Verify shelter"
-                  }
+              <Tooltip content="Delete shelter">
+                <IconButton
+                  size="xs"
+                  aria-label="Delete shelter"
+                  colorPalette="red"
+                  variant="subtle"
+                  onClick={() => onDelete(shelter.id)}
                 >
-                  <IconButton
-                    size="xs"
-                    aria-label="Verify shelter"
-                    colorPalette={shelter.is_verified ? "red" : "green"}
-                    onClick={() =>
-                      shelter.is_verified
-                        ? onUnverify(shelter.id)
-                        : onVerify(shelter.id)
-                    }
-                    variant="ghost"
-                  >
-                    <Icon
-                      name={shelter.is_verified ? "ShieldX" : "ShieldCheck"}
-                    />
-                  </IconButton>
-                </Tooltip>
-
-                <Tooltip content="Delete shelter">
-                  <IconButton
-                    size="xs"
-                    aria-label="Delete shelter"
-                    colorPalette="red"
-                    variant="subtle"
-                    onClick={() => onDelete(shelter.id)}
-                  >
-                    <Icon name="Trash" />
-                  </IconButton>
-                </Tooltip>
-              </HStack>
+                  <Icon name="Trash" />
+                </IconButton>
+              </Tooltip>
             </HStack>
-          );
-        }}
+          </HStack>
+        )}
       </For>
 
       {totalItems > pageSize && (
@@ -155,6 +144,24 @@ export const AdminSheltersList = ({
           <Pagination.PageText format="long" />
         </Pagination.Root>
       )}
+
+      <Dialog
+        title="Edit Shelter"
+        isOpen={isEditDialogOpen}
+        onOpenChange={(event) => setIsEditDialogOpen(event.open)}
+      >
+        {selectedShelter && (
+          <UpdateShelterForm
+            shelter={selectedShelter}
+            onSuccess={() => {
+              setIsEditDialogOpen(false);
+              setSelectedShelter(null);
+
+              onRefetchList();
+            }}
+          />
+        )}
+      </Dialog>
     </VStack>
   );
 };

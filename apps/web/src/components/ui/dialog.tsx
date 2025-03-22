@@ -1,7 +1,5 @@
 import {
-  Button,
   Dialog as ChakraDialog,
-  ColorPalette,
   ConditionalValue,
   DialogOpenChangeDetails,
   Portal,
@@ -73,7 +71,7 @@ interface DialogProps {
   placement?: ConditionalValue<"bottom" | "top" | "center">;
   title: string;
   children: React.ReactNode;
-  trigger: React.ReactNode;
+  trigger?: React.ReactNode;
   onOpenChange: (event: DialogOpenChangeDetails) => void;
   isOpen: boolean;
 }
@@ -82,7 +80,6 @@ export const Dialog = ({
   title,
   children,
   trigger,
-
   onOpenChange,
   isOpen,
 }: DialogProps) => {
@@ -94,7 +91,7 @@ export const Dialog = ({
       onOpenChange={onOpenChange}
       open={isOpen}
     >
-      <DialogTrigger asChild>{trigger}</DialogTrigger>
+      {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
 
       <DialogContent>
         <DialogHeader>
