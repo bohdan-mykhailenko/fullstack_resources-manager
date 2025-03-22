@@ -27,7 +27,7 @@ export const UsersList = memo(({ users }: UsersListProps) => {
             <Table.Row key={user.id}>
               <Table.Cell>
                 <Text>
-                  {user.firstName} {user.lastName}
+                  {user.first_name} {user.last_name}
                 </Text>
               </Table.Cell>
               <Table.Cell>

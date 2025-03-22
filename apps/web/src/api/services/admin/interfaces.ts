@@ -13,8 +13,8 @@ export interface UsersStatistics {
   totalUsers: number;
   recentUsers: {
     id: number;
-    firstName: string;
-    lastName: string;
+    first_name: string;
+    last_name: string;
     email: string;
     created_at: string;
   }[];
@@ -23,8 +23,8 @@ export interface UsersStatistics {
     totalRatings: number;
     mostActiveUsers: {
       id: number;
-      firstName: string;
-      lastName: string;
+      first_name: string;
+      last_name: string;
       email: string;
       feedbacks_count: number;
       ratings_count: number;

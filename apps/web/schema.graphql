@@ -6,9 +6,9 @@ schema {
 type ActiveUser {
   email: String!
   feedbacks_count: Int!
-  firstName: String!
+  first_name: String!
   id: Int!
-  lastName: String!
+  last_name: String!
   ratings_count: Int!
 }
 
@@ -51,9 +51,9 @@ type DetailedUser {
   created_at: String!
   email: String!
   feedbacks_count: Int!
-  firstName: String!
+  first_name: String!
   id: Int!
-  lastName: String!
+  last_name: String!
   ratings_count: Int!
 }
 
@@ -120,9 +120,9 @@ type Query {
 type RecentUser {
   created_at: String!
   email: String!
-  firstName: String!
+  first_name: String!
   id: Int!
-  lastName: String!
+  last_name: String!
 }
 
 type RefreshTokenOutput {
@@ -146,26 +146,26 @@ input SignInInput {
 type SignInOutput {
   accessToken: String!
   email: String!
-  firstName: String!
+  first_name: String!
   id: Int!
   is_confirmed: Boolean!
-  lastName: String!
+  last_name: String!
   refreshToken: String!
 }
 
 input SignUpInput {
   email: String!
-  firstName: String!
-  lastName: String!
+  first_name: String!
+  last_name: String!
   password: String!
 }
 
 type SignUpOutput {
   email: String!
-  firstName: String!
+  first_name: String!
   id: Int!
   is_confirmed: Boolean!
-  lastName: String!
+  last_name: String!
 }
 
 enum SortBy {

@@ -207,7 +207,7 @@ export class BaseAPIClient {
     return response;
   }
 
-  public async callTypedAPI<T = unknown>(
+  public async callTypedAPI(
     method: string,
     path: string,
     body?: BodyInit,

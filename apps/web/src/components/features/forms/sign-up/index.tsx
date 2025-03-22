@@ -36,8 +36,8 @@ export const SignUpForm = () => {
 
   const { Field, handleSubmit } = useForm({
     defaultValues: {
-      firstName: "",
-      lastName: "",
+      first_name: "",
+      last_name: "",
       email: "",
       password: "",
       passwordConfirmation: "",
@@ -68,7 +68,7 @@ export const SignUpForm = () => {
       >
         <Fieldset.Root spaceY={4}>
           <Field
-            name="firstName"
+            name="first_name"
             children={(field) => (
               <FormControl.Root>
                 <FormControl.Label htmlFor={field.name}>
@@ -91,7 +91,7 @@ export const SignUpForm = () => {
           />
 
           <Field
-            name="lastName"
+            name="last_name"
             children={(field) => (
               <FormControl.Root>
                 <FormControl.Label htmlFor={field.name}>

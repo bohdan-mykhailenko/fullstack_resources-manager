@@ -4,16 +4,16 @@ export interface SignInInput {
 }
 
 export interface SignUpInput {
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
   email: string;
   password: string;
 }
 
 export interface UserOutput {
   id: string;
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
   email: string;
   accessToken: string;
   refreshToken: string;

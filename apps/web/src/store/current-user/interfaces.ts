@@ -3,8 +3,8 @@ import { UserOutput } from "@/api/services/users/interfaces";
 export interface CurrentUser {
   id: string;
   email: string;
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
   isConfirmed: boolean;
 }
 

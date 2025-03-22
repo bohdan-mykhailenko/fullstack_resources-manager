@@ -61,7 +61,7 @@ export const UsersStatistics = ({ statistics }: UsersStatisticsProps) => {
                     <Table.Cell>
                       <VStack align="start" spaceY={1}>
                         <Text fontWeight="medium">
-                          {user.firstName} {user.lastName}
+                          {user.first_name} {user.last_name}
                         </Text>
                         <Text fontSize="sm" color="gray.500">
                           {user.email}
@@ -94,7 +94,7 @@ export const UsersStatistics = ({ statistics }: UsersStatisticsProps) => {
                 {recentUsers.map((user) => (
                   <Table.Row key={user.id}>
                     <Table.Cell>
-                      {user.firstName} {user.lastName}
+                      {user.first_name} {user.last_name}
                     </Table.Cell>
                     <Table.Cell>{user.email}</Table.Cell>
                     <Table.Cell>
