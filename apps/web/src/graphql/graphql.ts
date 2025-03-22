@@ -242,8 +242,8 @@ export type ShelterFilterParams = {
   limit?: InputMaybe<Scalars["Int"]["input"]>;
   page?: InputMaybe<Scalars["Int"]["input"]>;
   query?: InputMaybe<Scalars["String"]["input"]>;
-  sortBy?: InputMaybe<Scalars["String"]["input"]>;
-  sortOrder?: InputMaybe<Scalars["String"]["input"]>;
+  sort_by?: InputMaybe<Scalars["String"]["input"]>;
+  sort_order?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type SignInInput = {

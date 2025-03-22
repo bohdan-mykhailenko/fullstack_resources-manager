@@ -137,8 +137,8 @@ input UpdateShelterInput {
 input ShelterFilterParams {
   query: String
   fields: String
-  sortBy: String
-  sortOrder: String
+  sort_by: String
+  sort_order: String
   page: Int
   limit: Int
 }

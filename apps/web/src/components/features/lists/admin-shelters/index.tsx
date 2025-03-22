@@ -39,15 +39,7 @@ export const AdminSheltersList = ({
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
   return (
-    <VStack
-      spaceY={4}
-      width={{
-        base: "full",
-        md: 500,
-        lg: 600,
-        xl: 700,
-      }}
-    >
+    <VStack spaceY={4} width="100%">
       <For each={shelters}>
         {(shelter) => {
           return (

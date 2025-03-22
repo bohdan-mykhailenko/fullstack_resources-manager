@@ -31,12 +31,13 @@ export const FeedbackForm = ({ shelterId, onSuccess }: FeedbackFormProps) => {
     successMessage: "Feedback submitted successfully!",
   });
 
-  const { Field, handleSubmit } = useForm({
+  const { Field, handleSubmit, reset } = useForm({
     defaultValues: {
       content: "",
     },
     onSubmit: ({ value }) => {
       addFeedback(value);
+      reset();
     },
     validators: {
       onChange: feedbackSchema,

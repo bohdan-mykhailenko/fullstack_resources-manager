@@ -46,8 +46,8 @@ export interface PaginatedAnimalSheltersList {
 export interface ShelterFilterParams extends PaginationParams {
   query?: string;
   is_verified?: boolean;
-  sortBy?: SortBy;
-  sortOrder?: SortOrder;
+  sort_by?: SortBy;
+  sort_order?: SortOrder;
 }
 
 export interface FilteredSheltersList {

@@ -14,7 +14,7 @@ const FEEDBACK_PAGE_SIZE = 10;
 export const ShelterPage = () => {
   const isAdmin = useIsAdmin();
 
-  const { shelterId: id } = useParams({ from: "/$shelterId" });
+  const { shelterId: id } = useParams({ from: "/shelters/$shelterId" });
 
   const {
     data: shelter,

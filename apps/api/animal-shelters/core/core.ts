@@ -125,8 +125,8 @@ export const getFilteredList = api<
       page = 1,
       limit = 10,
       fields = null,
-      sortBy = null,
-      sortOrder = null,
+      sort_by = null,
+      sort_order = null,
     } = params;
 
     const { offset } = getPagination(params);
@@ -186,9 +186,9 @@ export const getFilteredList = api<
       s.is_verified,
       s.created_at
       ORDER BY 
-      CASE WHEN ${sortBy}::text = ${SortBy.RATING} AND ${sortOrder}::text = ${SortOrder.ASC} THEN CAST(COALESCE(AVG(sr.rating), 0) AS FLOAT) END ,
-      CASE WHEN ${sortBy}::text = ${SortBy.RATING} AND ${sortOrder}::text = ${SortOrder.DESC} THEN CAST(COALESCE(AVG(sr.rating), 0) AS FLOAT) END DESC,
-      CASE WHEN ${sortBy}::text = ${SortBy.CREATED_AT} AND ${sortOrder}::text = ${SortOrder.ASC} THEN s.created_at END ASC,
+      CASE WHEN ${sort_by}::text = ${SortBy.RATING} AND ${sort_order}::text = ${SortOrder.ASC} THEN CAST(COALESCE(AVG(sr.rating), 0) AS FLOAT) END ,
+      CASE WHEN ${sort_by}::text = ${SortBy.RATING} AND ${sort_order}::text = ${SortOrder.DESC} THEN CAST(COALESCE(AVG(sr.rating), 0) AS FLOAT) END DESC,
+      CASE WHEN ${sort_by}::text = ${SortBy.CREATED_AT} AND ${sort_order}::text = ${SortOrder.ASC} THEN s.created_at END ASC,
       s.created_at DESC
     LIMIT ${limit} OFFSET ${offset}
   `

@@ -11,13 +11,7 @@ interface ShelterShortItemProps {
 export const ShelterShortItem = memo(({ shelter }: ShelterShortItemProps) => {
   return (
     <HStack
-      minW={300}
-      width={{
-        base: "full",
-        md: 600,
-        lg: 800,
-        xl: 1000,
-      }}
+      width="100%"
       _hover={{ shadow: "md" }}
       transition="all 0.2s"
       justify="space-between"

@@ -57,7 +57,6 @@ export const signUp = api<SignUpInput, SignUpOutput>(
         confirmationToken: generateConfirmationToken(user.id),
       });
     } catch (error) {
-      console.error(error);
       throw APIError.internal("Failed to send confirmation email");
     }
 

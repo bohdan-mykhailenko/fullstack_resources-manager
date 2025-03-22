@@ -27,8 +27,8 @@ export interface PaginatedAnimalSheltersList
 export interface ShelterFilterParams {
   query?: string;
   fields?: string; // FilterByField[];
-  sortBy?: SortBy;
-  sortOrder?: SortOrder;
+  sort_by?: SortBy;
+  sort_order?: SortOrder;
 }
 
 export interface FilteredSheltersList {

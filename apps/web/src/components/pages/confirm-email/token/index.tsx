@@ -14,6 +14,7 @@ export const ConfirmEmailTokenPage = () => {
   const isConfirmed = useIsConfirmed();
 
   const { token } = useParams({ from: "/confirm-email/$token" });
+
   const navigate = useNavigate();
 
   const {

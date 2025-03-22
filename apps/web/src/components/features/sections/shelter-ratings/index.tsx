@@ -1,4 +1,4 @@
-import { Badge, Button, HStack, Text } from "@chakra-ui/react";
+import { Badge, Button, HStack } from "@chakra-ui/react";
 
 import { apiClient } from "@/api";
 import { useMutation } from "@/api/hooks/useMutation";
@@ -30,10 +30,6 @@ export const ShelterRating = ({
   return (
     <HStack justify="space-between" align="center" w="full">
       <HStack spaceX={1}>
-        <Text fontSize="md" fontWeight="medium">
-          Rate this shelter
-        </Text>
-
         <HStack spaceX={1}>
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((rating) => (
             <Button
@@ -50,14 +46,8 @@ export const ShelterRating = ({
         </HStack>
       </HStack>
 
-      <Badge
-        variant="outline"
-        colorPalette="orange"
-        fontSize="sm"
-        color="white"
-        p={2}
-      >
-        Average rating: {currentRating}
+      <Badge colorPalette="blue" fontSize="sm" color="white" p={2}>
+        Average: {currentRating}
       </Badge>
     </HStack>
   );

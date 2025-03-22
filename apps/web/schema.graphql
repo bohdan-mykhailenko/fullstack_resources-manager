@@ -134,8 +134,8 @@ input ShelterFilterParams {
   limit: Int
   page: Int
   query: String
-  sortBy: String
-  sortOrder: String
+  sort_by: String
+  sort_order: String
 }
 
 input SignInInput {

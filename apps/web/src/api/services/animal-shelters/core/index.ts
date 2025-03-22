@@ -70,11 +70,11 @@ export class AnimalSheltersServiceClient {
     const fields: string[] = [];
 
     if ("is_verified" in params) {
-      delete params.is_verified;
-
       if (params.is_verified) {
         fields.push("is_verified");
       }
+
+      delete params.is_verified;
     }
 
     const query = makeRecord<string, string | boolean | number | undefined>({

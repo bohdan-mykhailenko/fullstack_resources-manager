@@ -1,3 +1,4 @@
+import { APIError } from "encore.dev/api";
 import { secret } from "encore.dev/config";
 
 import nodemailer from "nodemailer";
@@ -61,10 +62,7 @@ export const sendConfirmationEmail = async ({
         `${UI_URL}/confirm-email/${confirmationToken}`
       ),
     })
-    .then((response) => {
-      console.log("Email sent successfully:", response);
-    })
     .catch((error) => {
-      console.error("Error sending email:", error);
+      throw APIError.internal("Failed to send confirmation email");
     });
 };

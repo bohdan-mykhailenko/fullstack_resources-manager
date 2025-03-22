@@ -65,7 +65,7 @@ export const SheltersPage = () => {
   const [verificationFilter, setVerificationFilter] = useState<
     "all" | "verified"
   >("all");
-  const [sortBy, setSortBy] = useState<{
+  const [sort_by, setSortBy] = useState<{
     field: SortBy;
     order: SortOrder;
   }>({
@@ -81,15 +81,15 @@ export const SheltersPage = () => {
       currentPage,
       debouncedSearch,
       verificationFilter,
-      sortBy,
+      sort_by,
     ],
     queryFn: () =>
       apiClient.animalShelters.filter(
         {
           query: debouncedSearch || undefined,
           is_verified: verificationFilter === "verified",
-          sortBy: sortBy.field,
-          sortOrder: sortBy.order,
+          sort_by: sort_by.field,
+          sort_order: sort_by.order,
           page: currentPage,
           limit: PAGE_SIZE,
         },
@@ -147,7 +147,7 @@ export const SheltersPage = () => {
               colorPalette="orange"
               size="sm"
               collection={sortByCollection}
-              value={[`${sortBy.field}-${sortBy.order}`]}
+              value={[`${sort_by.field}-${sort_by.order}`]}
               onValueChange={({ value }) => {
                 const [field, order] = value[0].split("-") as [
                   SortBy,
