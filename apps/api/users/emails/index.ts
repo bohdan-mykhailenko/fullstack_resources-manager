@@ -4,10 +4,8 @@ import nodemailer from "nodemailer";
 
 import { ConfirmEmailInput } from "./interfaces";
 
-// TODO: move to env
-const FRONTEND_URL = "http://localhost:4573";
-const EMAIL_FROM = "6alfabravo9@gmail.com";
-
+const UI_URL = secret("UI_URL")();
+const EMAIL_FROM = secret("EMAIL_FROM")();
 const GMAIL_APP_PASSWORD = secret("GMAIL_APP_PASSWORD")();
 
 const generateEmailHtml = (firstName: string, confirmationLink: string) => `
@@ -60,7 +58,7 @@ export const sendConfirmationEmail = async ({
       subject: "Confirm your email",
       html: generateEmailHtml(
         firstName,
-        `${FRONTEND_URL}/confirm-email/${confirmationToken}`
+        `${UI_URL}/confirm-email/${confirmationToken}`
       ),
     })
     .then((response) => {
