@@ -16,7 +16,11 @@ import {
   SignUpOutput,
   UserJWTPayload,
 } from "./interfaces";
-import { generateTokens } from "./utils";
+import {
+  generateConfirmationToken,
+  generateTokens,
+  verifyConfirmationToken,
+} from "./utils";
 import { SignInInput, SignUpInput } from "./validation";
 
 const JWT_SECRET = secret("JWT_SECRET")();
@@ -50,9 +54,7 @@ export const signUp = api<SignUpInput, SignUpOutput>(
       await sendConfirmationEmail({
         firstName,
         email,
-        confirmationToken: jwt.sign({ userId: user.id }, CONFIRMATION_SECRET, {
-          expiresIn: "8h",
-        }),
+        confirmationToken: generateConfirmationToken(user.id),
       });
     } catch (error) {
       console.error(error);
@@ -123,9 +125,13 @@ export const refresh = api<RefreshTokenInput, RefreshTokenOutput>(
 export const confirmEmail = api<ConfirmEmailParams, MessageOutput>(
   { expose: true, auth: false, method: "POST", path: "/confirm-email/:token" },
   async ({ token }) => {
-    const payload = jwt.verify(token, CONFIRMATION_SECRET);
+    const verifiedResult = verifyConfirmationToken(token);
 
-    const { userId } = payload as UserJWTPayload;
+    if (!verifiedResult) {
+      throw APIError.unauthenticated("Invalid confirmation token");
+    }
+
+    const { userId } = verifiedResult;
 
     await db.exec`
       UPDATE users SET is_confirmed = TRUE WHERE id = ${userId}
