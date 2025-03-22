@@ -139,6 +139,7 @@ export const AdminPage = () => {
 
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
+
           <Accordion.ItemContent>
             <Accordion.ItemBody>
               <LoadedContentController

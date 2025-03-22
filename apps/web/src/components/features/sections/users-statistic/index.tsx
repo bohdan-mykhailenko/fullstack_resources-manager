@@ -1,4 +1,4 @@
-import { Card, HStack, Table, Text, VStack } from "@chakra-ui/react";
+import { Card, HStack, Show, Table, Text, VStack } from "@chakra-ui/react";
 import { format } from "date-fns";
 
 import type { UsersStatistics as UsersStatisticsType } from "@/api/services/admin/interfaces";
@@ -97,9 +97,11 @@ export const UsersStatistics = ({ statistics }: UsersStatisticsProps) => {
                       {user.firstName} {user.lastName}
                     </Table.Cell>
                     <Table.Cell>{user.email}</Table.Cell>
-                    <Table.Cell>
-                      {format(new Date(user.created_at), "MMM d, yyyy")}
-                    </Table.Cell>
+                    <Show when={user.created_at}>
+                      <Table.Cell>
+                        {format(new Date(user.created_at), "MMM d, yyyy")}
+                      </Table.Cell>
+                    </Show>
                   </Table.Row>
                 ))}
               </Table.Body>

@@ -66,13 +66,17 @@ export const AdminSheltersList = ({
                   colorPalette="orange"
                   variant="ghost"
                 >
-                  <Link to="/$shelterId" params={{ shelterId: shelter.id }}>
+                  <Link
+                    to="/shelters/$shelterId"
+                    params={{ shelterId: shelter.id }}
+                  >
                     <Icon name="ExternalLink" />
                   </Link>
                 </IconButton>
 
                 <Text fontWeight="semibold">{shelter.name}</Text>
               </HStack>
+
               <HStack spaceX={2}>
                 <Dialog
                   title="Edit Shelter"

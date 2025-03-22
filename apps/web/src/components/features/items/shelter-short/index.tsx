@@ -28,7 +28,10 @@ export const ShelterShortItem = memo(({ shelter }: ShelterShortItemProps) => {
       borderRadius="md"
     >
       <Button color="white" colorPalette="black" variant="ghost">
-        <RouterLink to="/$shelterId" params={{ shelterId: String(shelter.id) }}>
+        <RouterLink
+          to="/shelters/$shelterId"
+          params={{ shelterId: String(shelter.id) }}
+        >
           <Heading fontWeight="bold" size="lg" color="white">
             {shelter.name}
           </Heading>{" "}
