@@ -6,12 +6,14 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 
 import { AnimalShelterOutput } from "@/api/services/animal-shelters/core/interfaces";
 import { UpdateShelterForm } from "@/components/features/forms";
 import { Dialog, Icon, Tooltip } from "@/components/ui";
+import { APIQueryKey } from "@/queries/keys";
 
 interface AdminSheltersListProps {
   shelters: AnimalShelterOutput[];
@@ -36,6 +38,7 @@ export const AdminSheltersList = ({
   onUnverify,
   onRefetchList,
 }: AdminSheltersListProps) => {
+  const queryClient = useQueryClient();
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [selectedShelter, setSelectedShelter] =
     useState<AnimalShelterOutput | null>(null);
@@ -156,6 +159,10 @@ export const AdminSheltersList = ({
             onSuccess={() => {
               setIsEditDialogOpen(false);
               setSelectedShelter(null);
+
+              queryClient.invalidateQueries({
+                queryKey: [APIQueryKey.SHELTER],
+              });
 
               onRefetchList();
             }}

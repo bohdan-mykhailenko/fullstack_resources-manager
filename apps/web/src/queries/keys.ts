@@ -4,7 +4,7 @@ import { apiClient } from "@/api";
 import { PaginationParams } from "@/api/interfaces";
 
 export enum APIQueryKey {
-  ANIMAL_SHELTERS = "animalShelters",
+  SHELTERS = "animalShelters",
   ANIMAL_SHELTER_FEEDBACKS = "animalShelterFeedbacks",
   USERS = "users",
   SHELTER = "shelter",
@@ -13,7 +13,7 @@ export enum APIQueryKey {
 
 // TODO: complete integration
 export const queries = createQueryKeyStore({
-  [APIQueryKey.ANIMAL_SHELTERS]: {
+  [APIQueryKey.SHELTERS]: {
     one: (id: string) => ({
       queryKey: [id],
       queryFn: () => apiClient.animalShelters.getOne(id),

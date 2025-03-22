@@ -6,6 +6,7 @@ import {
   Heading,
   Text,
 } from "@chakra-ui/react";
+import { useQueryClient } from "@tanstack/react-query";
 import { Navigate } from "@tanstack/react-router";
 import { useState } from "react";
 
@@ -23,13 +24,15 @@ import { LoadedContentController } from "@/components/utils";
 import { APIQueryKey } from "@/queries/keys";
 import { useIsAdmin, useIsAuthenticated } from "@/store";
 
+const PAGE_SIZE = 10;
+
 export const AdminPage = () => {
   const isAdmin = useIsAdmin();
   const isAuthenticated = useIsAuthenticated();
   const [currentPage, setCurrentPage] = useState(1);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
 
-  const pageSize = 10;
+  const queryClient = useQueryClient();
 
   const {
     data: sheltersData,
@@ -38,9 +41,12 @@ export const AdminPage = () => {
     isError: isErrorShelters,
     isSuccess: isSuccessShelters,
   } = useQuery({
-    queryKey: [APIQueryKey.ANIMAL_SHELTERS, currentPage],
+    queryKey: [APIQueryKey.SHELTERS, currentPage],
     queryFn: () =>
-      apiClient.animalShelters.getList({ page: currentPage, limit: pageSize }),
+      apiClient.animalShelters.getList({
+        page: currentPage,
+        limit: PAGE_SIZE,
+      }),
   });
 
   const {
@@ -62,13 +68,25 @@ export const AdminPage = () => {
   const { mutate: verifyShelter } = useMutation({
     mutationFn: (id: string) => apiClient.animalShelters.verify(id),
     successMessage: "Shelter verified successfully!",
-    onSuccess: () => refetchShelters(),
+    onSuccess: () => {
+      refetchShelters();
+
+      queryClient.invalidateQueries({
+        queryKey: [APIQueryKey.SHELTER],
+      });
+    },
   });
 
   const { mutate: unverifyShelter } = useMutation({
     mutationFn: (id: string) => apiClient.animalShelters.unverify(id),
     successMessage: "Shelter unverified successfully!",
-    onSuccess: () => refetchShelters(),
+    onSuccess: () => {
+      refetchShelters();
+
+      queryClient.invalidateQueries({
+        queryKey: [APIQueryKey.SHELTER],
+      });
+    },
   });
 
   if (isAuthenticated) {
@@ -119,7 +137,7 @@ export const AdminPage = () => {
             shelters={data.items || []}
             totalItems={data.total || 0}
             currentPage={currentPage}
-            pageSize={pageSize}
+            pageSize={PAGE_SIZE}
             onPageChange={setCurrentPage}
             onDelete={deleteShelter}
             onVerify={verifyShelter}
