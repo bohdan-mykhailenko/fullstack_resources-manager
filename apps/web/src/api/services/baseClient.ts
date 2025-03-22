@@ -1,4 +1,3 @@
-import { DeepSnakeToCamelCase, transformKeys } from "@/api/cases";
 import {
   APIError,
   APIErrorResponse,
@@ -225,9 +224,10 @@ export class BaseAPIClient {
       const originalJson = response.json;
 
       response.json = async () => {
-        const data = await originalJson.call(response);
+        return await originalJson.call(response);
 
-        return transformKeys(data) as DeepSnakeToCamelCase<T>;
+        // use snake_case in the both sides for now
+        // return transformKeys(data) as DeepSnakeToCamelCase<T>;
       };
     }
 

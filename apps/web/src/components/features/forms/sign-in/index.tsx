@@ -24,14 +24,6 @@ export const SignInForm = () => {
   const isAdmin = useIsAdmin();
   const isAuthenticated = useIsAuthenticated();
 
-  if (isAdmin) {
-    return <Navigate to="/admin" />;
-  }
-
-  if (isAuthenticated) {
-    return <Navigate to="/" />;
-  }
-
   const { loginUser } = useAuthActions();
   const navigate = useNavigate();
 
@@ -57,6 +49,14 @@ export const SignInForm = () => {
       onChange: signInSchema,
     },
   });
+
+  if (isAdmin) {
+    return <Navigate to="/admin" />;
+  }
+
+  if (isAuthenticated) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <Box w="full" minW={320}>

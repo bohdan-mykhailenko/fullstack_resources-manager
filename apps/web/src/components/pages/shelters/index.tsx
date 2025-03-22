@@ -75,10 +75,6 @@ export const SheltersPage = () => {
 
   const [debouncedSearch] = useDebounce(searchQuery, 300);
 
-  if (isAdmin) {
-    return <Navigate to="/admin" />;
-  }
-
   const { data, isLoading, error, isSuccess } = useQuery({
     queryKey: [
       "shelters",
@@ -100,6 +96,10 @@ export const SheltersPage = () => {
         "graphql"
       ),
   });
+
+  if (isAdmin) {
+    return <Navigate to="/admin" />;
+  }
 
   return (
     <Container maxW="2xl" py={8}>

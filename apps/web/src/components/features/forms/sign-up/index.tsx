@@ -24,14 +24,6 @@ export const SignUpForm = () => {
   const isAdmin = useIsAdmin();
   const isAuthenticated = useIsAuthenticated();
 
-  if (isAdmin) {
-    return <Navigate to="/admin" />;
-  }
-
-  if (isAuthenticated) {
-    return <Navigate to="/" />;
-  }
-
   const navigate = useNavigate();
 
   const { mutate: signUp, isPending } = useMutation<UserOutput, SignUpInput>({
@@ -57,6 +49,14 @@ export const SignUpForm = () => {
       onChange: signUpSchema,
     },
   });
+
+  if (isAdmin) {
+    return <Navigate to="/admin" />;
+  }
+
+  if (isAuthenticated) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <Box w="full" minW={320}>

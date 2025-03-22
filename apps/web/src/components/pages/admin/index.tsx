@@ -31,14 +31,6 @@ export const AdminPage = () => {
 
   const pageSize = 10;
 
-  if (isAuthenticated) {
-    return <Navigate to="/" />;
-  }
-
-  if (!isAdmin) {
-    return <AdminVerificationForm />;
-  }
-
   const {
     data: sheltersData,
     refetch: refetchShelters,
@@ -78,6 +70,14 @@ export const AdminPage = () => {
     successMessage: "Shelter unverified successfully!",
     onSuccess: () => refetchShelters(),
   });
+
+  if (isAuthenticated) {
+    return <Navigate to="/" />;
+  }
+
+  if (!isAdmin) {
+    return <AdminVerificationForm />;
+  }
 
   return (
     <Container maxW="2xl" py={8} spaceY={6}>
