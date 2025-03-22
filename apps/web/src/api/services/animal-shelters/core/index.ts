@@ -69,17 +69,21 @@ export class AnimalSheltersServiceClient {
   ): Promise<FilteredSheltersList> {
     const fields: string[] = [];
 
-    if ("is_verified" in params) {
-      if (params.is_verified) {
-        fields.push("is_verified");
-      }
-
-      delete params.is_verified;
+    if (params.is_verified) {
+      fields.push("is_verified");
     }
 
-    const query = makeRecord<string, string | boolean | number | undefined>({
-      ...params,
+    const formattedParams = {
+      sort_by: params.sort_by,
+      sort_order: params.sort_order,
+      page: params.page,
+      limit: params.limit,
+      search: params.query,
       fields: fields.join(","),
+    };
+
+    const query = makeRecord<string, string | boolean | number | undefined>({
+      ...formattedParams,
     });
 
     if (mode === "rest") {
@@ -96,7 +100,7 @@ export class AnimalSheltersServiceClient {
         FilteredSheltersList,
         { params: ShelterFilterParams }
       >(FilterSheltersListQuery, "filterSheltersList", `/shelters/filter`, {
-        params,
+        params: formattedParams,
       });
     }
   }
