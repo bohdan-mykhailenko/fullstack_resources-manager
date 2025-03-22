@@ -131,6 +131,8 @@ type RefreshTokenOutput {
 
 input ShelterFilterParams {
   fields: String
+  limit: Int
+  page: Int
   query: String
   sortBy: String
   sortOrder: String

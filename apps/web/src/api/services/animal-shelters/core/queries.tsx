@@ -1,6 +1,6 @@
 import { graphql } from "@/graphql";
 
-export const FilterSheltersListQuery = graphql(/* GraphQL */ `
+export const FilterSheltersListQuery = graphql(`
   query FilterSheltersList($params: ShelterFilterParams!) {
     filterSheltersList(params: $params) {
       items {

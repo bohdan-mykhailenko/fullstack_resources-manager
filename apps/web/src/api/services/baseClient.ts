@@ -235,7 +235,8 @@ export class BaseAPIClient {
   }
 
   public async callGraphql<Result, Variables>(
-    query: TypedDocumentString<Result, Variables>,
+    query: TypedDocumentString<unknown, Variables>,
+    resultKey: string,
     path: string,
     ...[variables]: Variables extends Record<string, never> ? [] : [Variables]
   ) {
@@ -253,7 +254,6 @@ export class BaseAPIClient {
 
     const authData = await this.getAuthData(path);
 
-    // If we now have authentication data, add it to the request
     if (authData) {
       if (authData.headers) {
         init.headers = { ...init.headers, ...authData.headers };
@@ -278,6 +278,6 @@ export class BaseAPIClient {
 
     const result = await this.processStreaming(response.body);
 
-    return JSON.parse(result).data as Result;
+    return JSON.parse(result).data[resultKey] as Result;
   }
 }

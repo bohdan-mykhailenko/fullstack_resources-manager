@@ -1,7 +1,6 @@
 import { PaginationParams } from "@/api/interfaces";
 import { BaseAPIClient } from "@/api/services/baseClient";
 import { makeRecord } from "@/api/utils";
-import { graphql } from "@/graphql";
 
 import type {
   AnimalShelterOutput,
@@ -65,14 +64,17 @@ export class AnimalSheltersServiceClient {
   }
 
   public async filter(
-    params: ShelterFilterParams
+    params: ShelterFilterParams,
+    mode: "graphql" | "rest" = "rest"
   ): Promise<FilteredSheltersList> {
     const fields: string[] = [];
 
-    if (params.is_verified) {
+    if ("is_verified" in params) {
       delete params.is_verified;
 
-      fields.push("is_verified");
+      if (params.is_verified) {
+        fields.push("is_verified");
+      }
     }
 
     const query = makeRecord<string, string | boolean | number | undefined>({
@@ -80,45 +82,23 @@ export class AnimalSheltersServiceClient {
       fields: fields.join(","),
     });
 
-    const response = await this.baseClient.callTypedAPI(
-      "GET",
-      `/shelters/filter`,
-      undefined,
-      { query }
-    );
+    if (mode === "rest") {
+      const response = await this.baseClient.callTypedAPI(
+        "GET",
+        `/shelters/filter`,
+        undefined,
+        { query }
+      );
 
-    return await response.json();
-  }
-
-  public async filterGraphql(
-    query: any,
-    params: ShelterFilterParams
-  ): Promise<FilteredSheltersList> {
-    const fields: string[] = [];
-
-    if ("is_verified" in params) {
-      delete params.is_verified;
-
-      fields.push("is_verified");
+      return await response.json();
+    } else {
+      return await this.baseClient.callGraphql<
+        FilteredSheltersList,
+        { params: ShelterFilterParams }
+      >(FilterSheltersListQuery, "filterSheltersList", `/shelters/filter`, {
+        params,
+      });
     }
-
-    const queryParams = makeRecord<
-      string,
-      string | boolean | number | undefined
-    >({
-      ...params,
-      fields: fields.join(","),
-    });
-
-    const response = await this.baseClient.callGraphql(
-      query,
-      `/shelters/filter`,
-      { params: queryParams }
-    );
-
-    console.log("response", response);
-
-    return await response.filterSheltersList;
   }
 
   public async update(

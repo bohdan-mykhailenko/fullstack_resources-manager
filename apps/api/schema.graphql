@@ -139,6 +139,8 @@ input ShelterFilterParams {
   fields: String
   sortBy: String
   sortOrder: String
+  page: Int
+  limit: Int
 }
 
 input CreateShelterInput {

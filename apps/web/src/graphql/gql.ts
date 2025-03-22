@@ -15,12 +15,18 @@ import * as types from './graphql';
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 type Documents = {
+    "\n  query FilterSheltersList($params: ShelterFilterParams!) {\n    filterSheltersList(params: $params) {\n      items {\n        id\n        name\n        description\n        email\n        website_url\n        image_url\n        address\n        phone\n        ratings_count\n        feedbacks_count\n        created_at\n        average_rating\n        is_verified\n      }\n      total\n    }\n  }\n": typeof types.FilterSheltersListDocument,
     "\n    query FilterSheltersList($params: ShelterFilterParams!) {\n      filterSheltersList(params: $params) {\n        items {\n          id\n          name\n          description\n          email\n          website_url\n          image_url\n          address\n          phone\n          ratings_count\n          feedbacks_count\n          created_at\n          average_rating\n          is_verified\n        }\n        total\n      }\n    }\n  ": typeof types.FilterSheltersListDocument,
 };
 const documents: Documents = {
+    "\n  query FilterSheltersList($params: ShelterFilterParams!) {\n    filterSheltersList(params: $params) {\n      items {\n        id\n        name\n        description\n        email\n        website_url\n        image_url\n        address\n        phone\n        ratings_count\n        feedbacks_count\n        created_at\n        average_rating\n        is_verified\n      }\n      total\n    }\n  }\n": types.FilterSheltersListDocument,
     "\n    query FilterSheltersList($params: ShelterFilterParams!) {\n      filterSheltersList(params: $params) {\n        items {\n          id\n          name\n          description\n          email\n          website_url\n          image_url\n          address\n          phone\n          ratings_count\n          feedbacks_count\n          created_at\n          average_rating\n          is_verified\n        }\n        total\n      }\n    }\n  ": types.FilterSheltersListDocument,
 };
 
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query FilterSheltersList($params: ShelterFilterParams!) {\n    filterSheltersList(params: $params) {\n      items {\n        id\n        name\n        description\n        email\n        website_url\n        image_url\n        address\n        phone\n        ratings_count\n        feedbacks_count\n        created_at\n        average_rating\n        is_verified\n      }\n      total\n    }\n  }\n"): typeof import('./graphql').FilterSheltersListDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
