@@ -1,7 +1,7 @@
 import { APIError } from "encore.dev/api";
 import { secret } from "encore.dev/config";
 
-import jwt, { sign, verify } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 import { UserIdParams } from "@/shared/interfaces";
 
@@ -34,7 +34,7 @@ export const generateTokens = (userId: number) => {
 };
 
 export const generateConfirmationToken = (userId: number): string => {
-  const token = sign({ userId }, CONFIRMATION_SECRET, {
+  const token = jwt.sign({ userId }, CONFIRMATION_SECRET, {
     expiresIn: CONFIRMATION_TOKEN_EXPIRY,
   });
 
@@ -47,13 +47,13 @@ export const verifyConfirmationToken = (
   try {
     const token = urlSafeToken.replace(URL_SAFE_TO_TOKEN_REGEX, ".");
 
-    const decoded = verify(token, CONFIRMATION_SECRET);
+    const decodedResult = jwt.verify(token, CONFIRMATION_SECRET);
 
-    if (!decoded) {
+    if (!decodedResult) {
       throw APIError.unauthenticated("Invalid token");
     }
 
-    return { userId: (decoded as UserJWTPayload).userId };
+    return { userId: (decodedResult as UserJWTPayload).userId };
   } catch {
     throw APIError.unauthenticated("Invalid token");
   }
