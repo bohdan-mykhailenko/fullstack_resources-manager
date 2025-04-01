@@ -47,6 +47,7 @@ export const AdminPage = () => {
         page: currentPage,
         limit: PAGE_SIZE,
       }),
+    enabled: isAdmin,
   });
 
   const {
@@ -57,6 +58,7 @@ export const AdminPage = () => {
   } = useQuery({
     queryKey: [APIQueryKey.USERS_STATISTICS],
     queryFn: () => apiClient.admin.getUsersStatistics(),
+    enabled: isAdmin,
   });
 
   const { mutate: deleteShelter } = useMutation({
