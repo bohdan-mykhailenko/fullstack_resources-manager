@@ -26,7 +26,7 @@ import {
   SelectValueText,
 } from "@/components/ui";
 import { LoadedContentController } from "@/components/utils";
-import { useIsAdmin } from "@/store";
+import { useIsAdmin, useIsAuthenticated } from "@/store";
 
 const PAGE_SIZE = 10;
 
@@ -60,6 +60,8 @@ const verificationCollection = createListCollection({
 
 export const SheltersPage = () => {
   const isAdmin = useIsAdmin();
+  const isAuthenticated = useIsAuthenticated();
+
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [verificationFilter, setVerificationFilter] = useState<
@@ -95,6 +97,7 @@ export const SheltersPage = () => {
         },
         "graphql"
       ),
+    enabled: isAuthenticated,
   });
 
   if (isAdmin) {

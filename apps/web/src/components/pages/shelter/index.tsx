@@ -1,18 +1,19 @@
 import { Container, Separator, VStack } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "@tanstack/react-router";
+import { Navigate, useParams } from "@tanstack/react-router";
 
 import { apiClient } from "@/api";
 import { FeedbackForm, FeedbackList } from "@/components/features";
 import { ShelterDetails, ShelterRating } from "@/components/features/sections";
 import { LoadedContentController } from "@/components/utils";
 import { APIQueryKey } from "@/queries/keys";
-import { useIsAdmin } from "@/store";
+import { useIsAdmin, useIsAuthenticated } from "@/store";
 
 const FEEDBACK_PAGE_SIZE = 10;
 
 export const ShelterPage = () => {
   const isAdmin = useIsAdmin();
+  const isAuthenticated = useIsAuthenticated();
 
   const { shelterId: id } = useParams({ from: "/shelters/$shelterId" });
 
@@ -25,6 +26,7 @@ export const ShelterPage = () => {
   } = useQuery({
     queryKey: [APIQueryKey.SHELTER, id],
     queryFn: () => apiClient.animalShelters.getOne(id),
+    enabled: isAdmin || isAuthenticated,
   });
 
   const { data: feedbacks, refetch: refetchFeedbacks } = useQuery({
@@ -34,7 +36,12 @@ export const ShelterPage = () => {
         page: 1,
         limit: FEEDBACK_PAGE_SIZE,
       }),
+    enabled: isAdmin || isAuthenticated,
   });
+
+  if (!isAuthenticated && !isAdmin) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <Container maxW="2xl" py={8} spaceY={4}>
