@@ -5,8 +5,8 @@ import { UserIdParams } from "@/shared/interfaces";
 export interface UserOutput {
   id: number;
   email: string;
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
   is_confirmed: boolean;
 }
 

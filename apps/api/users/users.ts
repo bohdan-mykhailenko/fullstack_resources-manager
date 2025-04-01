@@ -29,7 +29,7 @@ const CONFIRMATION_SECRET = secret("CONFIRMATION_SECRET")();
 export const signUp = api<SignUpInput, SignUpOutput>(
   { expose: true, auth: false, method: "POST", path: "/sign-up" },
   async (input) => {
-    const { email, password, firstName, lastName } = input;
+    const { email, password, first_name, last_name } = input;
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const existingUser = await db.queryRow`
@@ -42,7 +42,7 @@ export const signUp = api<SignUpInput, SignUpOutput>(
 
     const user = await db.queryRow`
       INSERT INTO users (email, password, first_name, last_name)
-      VALUES (${email}, ${hashedPassword}, ${firstName}, ${lastName})
+      VALUES (${email}, ${hashedPassword}, ${first_name}, ${last_name})
       RETURNING id
     `;
 
@@ -52,7 +52,7 @@ export const signUp = api<SignUpInput, SignUpOutput>(
 
     try {
       await sendConfirmationEmail({
-        firstName,
+        first_name,
         email,
         confirmationToken: generateConfirmationToken(user.id),
       });
@@ -63,8 +63,8 @@ export const signUp = api<SignUpInput, SignUpOutput>(
     return {
       id: Number(user.id),
       email,
-      firstName,
-      lastName,
+      first_name,
+      last_name,
       is_confirmed: false,
     };
   }
@@ -93,8 +93,8 @@ export const signIn = api<SignInInput, SignInOutput>(
       refreshToken,
       id: user.id,
       email,
-      firstName: user.first_name,
-      lastName: user.last_name,
+      first_name: user.first_name,
+      last_name: user.last_name,
       is_confirmed: user.is_confirmed,
     };
   }

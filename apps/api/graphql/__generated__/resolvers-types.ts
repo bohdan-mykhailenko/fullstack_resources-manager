@@ -36,9 +36,9 @@ export type ActiveUser = {
   __typename?: "ActiveUser";
   email: Scalars["String"]["output"];
   feedbacks_count: Scalars["Int"]["output"];
-  firstName: Scalars["String"]["output"];
+  first_name: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
-  lastName: Scalars["String"]["output"];
+  last_name: Scalars["String"]["output"];
   ratings_count: Scalars["Int"]["output"];
 };
 
@@ -84,9 +84,9 @@ export type DetailedUser = {
   created_at: Scalars["String"]["output"];
   email: Scalars["String"]["output"];
   feedbacks_count: Scalars["Int"]["output"];
-  firstName: Scalars["String"]["output"];
+  first_name: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
-  lastName: Scalars["String"]["output"];
+  last_name: Scalars["String"]["output"];
   ratings_count: Scalars["Int"]["output"];
 };
 
@@ -229,9 +229,9 @@ export type RecentUser = {
   __typename?: "RecentUser";
   created_at: Scalars["String"]["output"];
   email: Scalars["String"]["output"];
-  firstName: Scalars["String"]["output"];
+  first_name: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
-  lastName: Scalars["String"]["output"];
+  last_name: Scalars["String"]["output"];
 };
 
 export type RefreshTokenOutput = {
@@ -257,27 +257,27 @@ export type SignInOutput = {
   __typename?: "SignInOutput";
   accessToken: Scalars["String"]["output"];
   email: Scalars["String"]["output"];
-  firstName: Scalars["String"]["output"];
+  first_name: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
   is_confirmed: Scalars["Boolean"]["output"];
-  lastName: Scalars["String"]["output"];
+  last_name: Scalars["String"]["output"];
   refreshToken: Scalars["String"]["output"];
 };
 
 export type SignUpInput = {
   email: Scalars["String"]["input"];
-  firstName: Scalars["String"]["input"];
-  lastName: Scalars["String"]["input"];
+  first_name: Scalars["String"]["input"];
+  last_name: Scalars["String"]["input"];
   password: Scalars["String"]["input"];
 };
 
 export type SignUpOutput = {
   __typename?: "SignUpOutput";
   email: Scalars["String"]["output"];
-  firstName: Scalars["String"]["output"];
+  first_name: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
   is_confirmed: Scalars["Boolean"]["output"];
-  lastName: Scalars["String"]["output"];
+  last_name: Scalars["String"]["output"];
 };
 
 export enum SortBy {
@@ -506,9 +506,9 @@ export type ActiveUserResolvers<
 > = ResolversObject<{
   email?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   feedbacks_count?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
-  firstName?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  first_name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   id?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
-  lastName?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  last_name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   ratings_count?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
@@ -564,9 +564,9 @@ export type DetailedUserResolvers<
   created_at?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   email?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   feedbacks_count?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
-  firstName?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  first_name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   id?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
-  lastName?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  last_name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   ratings_count?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
@@ -758,9 +758,9 @@ export type RecentUserResolvers<
 > = ResolversObject<{
   created_at?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   email?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  firstName?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  first_name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   id?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
-  lastName?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  last_name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -780,10 +780,10 @@ export type SignInOutputResolvers<
 > = ResolversObject<{
   accessToken?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   email?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  firstName?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  first_name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   id?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   is_confirmed?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
-  lastName?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  last_name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   refreshToken?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
@@ -794,10 +794,10 @@ export type SignUpOutputResolvers<
     ResolversParentTypes["SignUpOutput"] = ResolversParentTypes["SignUpOutput"],
 > = ResolversObject<{
   email?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  firstName?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  first_name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   id?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   is_confirmed?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
-  lastName?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  last_name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

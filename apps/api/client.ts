@@ -98,8 +98,8 @@ export namespace admin {
     ratings_count: number;
     id: number;
     email: string;
-    firstName: string;
-    lastName: string;
+    first_name: string;
+    last_name: string;
     is_confirmed: boolean;
   }
 
@@ -112,8 +112,8 @@ export namespace admin {
     totalUsers: number;
     recentUsers: {
       id: number;
-      firstName: string;
-      lastName: string;
+      first_name: string;
+      last_name: string;
       email: string;
       created_at: string;
     }[];
@@ -122,8 +122,8 @@ export namespace admin {
       totalRatings: number;
       mostActiveUsers: {
         id: number;
-        firstName: string;
-        lastName: string;
+        first_name: string;
+        last_name: string;
         email: string;
         feedbacks_count: number;
         ratings_count: number;
@@ -424,14 +424,14 @@ export namespace users {
     refreshToken: string;
     id: number;
     email: string;
-    firstName: string;
-    lastName: string;
+    first_name: string;
+    last_name: string;
     is_confirmed: boolean;
   }
 
   export interface SignUpInput {
-    firstName: string;
-    lastName: string;
+    first_name: string;
+    last_name: string;
     email: string;
     password: string;
   }
@@ -439,8 +439,8 @@ export namespace users {
   export interface SignUpOutput {
     id: number;
     email: string;
-    firstName: string;
-    lastName: string;
+    first_name: string;
+    last_name: string;
     is_confirmed: boolean;
   }
 

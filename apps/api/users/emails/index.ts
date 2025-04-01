@@ -9,7 +9,7 @@ const UI_URL = secret("UI_URL")();
 const EMAIL_FROM = secret("EMAIL_FROM")();
 const GMAIL_APP_PASSWORD = secret("GMAIL_APP_PASSWORD")();
 
-const generateEmailHtml = (firstName: string, confirmationLink: string) => `
+const generateEmailHtml = (first_name: string, confirmationLink: string) => `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,7 +20,7 @@ const generateEmailHtml = (firstName: string, confirmationLink: string) => `
 <body>
   <div>
     <h2>Confirm Your Email Address</h2>
-    <p>Hello ${firstName},</p>
+    <p>Hello ${first_name},</p>
     <p>Thank you for signing up! To complete your registration, please confirm your email address by clicking the link below:</p>
     <p>
       <a href="${confirmationLink}">Confirm Email</a>
@@ -38,7 +38,7 @@ const generateEmailHtml = (firstName: string, confirmationLink: string) => `
 `;
 
 export const sendConfirmationEmail = async ({
-  firstName,
+  first_name,
   email,
   confirmationToken,
 }: ConfirmEmailInput) => {
@@ -58,7 +58,7 @@ export const sendConfirmationEmail = async ({
       to: email,
       subject: "Confirm your email",
       html: generateEmailHtml(
-        firstName,
+        first_name,
         `${UI_URL}/confirm-email/${confirmationToken}`
       ),
     })

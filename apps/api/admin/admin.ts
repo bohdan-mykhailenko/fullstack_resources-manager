@@ -125,8 +125,8 @@ export const usersList = api<void, UsersList>(
           (SELECT json_agg(
             json_build_object(
               'id', s.id,
-              'firstName', s.first_name,
-              'lastName', s.last_name,
+              'first_name', s.first_name,
+              'last_name', s.last_name,
               'email', s.email,
               'created_at', s.created_at,
               'feedbacks_count', s.feedbacks_count,

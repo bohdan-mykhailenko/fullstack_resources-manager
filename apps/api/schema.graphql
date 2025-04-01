@@ -27,16 +27,16 @@ type Query {
 # users related types
 input SignUpInput {
   email: String!
-  firstName: String!
-  lastName: String!
+  first_name: String!
+  last_name: String!
   password: String!
 }
 
 type SignUpOutput {
   id: Int!
   email: String!
-  firstName: String!
-  lastName: String!
+  first_name: String!
+  last_name: String!
   is_confirmed: Boolean!
 }
 
@@ -48,8 +48,8 @@ input SignInInput {
 type SignInOutput {
   id: Int!
   email: String!
-  firstName: String!
-  lastName: String!
+  first_name: String!
+  last_name: String!
   is_confirmed: Boolean!
   accessToken: String!
   refreshToken: String!
@@ -77,8 +77,8 @@ type UsersStatistics {
 
 type RecentUser {
   id: Int!
-  firstName: String!
-  lastName: String!
+  first_name: String!
+  last_name: String!
   email: String!
   created_at: String!
 }
@@ -91,8 +91,8 @@ type UserActivity {
 
 type ActiveUser {
   id: Int!
-  firstName: String!
-  lastName: String!
+  first_name: String!
+  last_name: String!
   email: String!
   feedbacks_count: Int!
   ratings_count: Int!
@@ -105,8 +105,8 @@ type UsersList {
 
 type DetailedUser {
   id: Int!
-  firstName: String!
-  lastName: String!
+  first_name: String!
+  last_name: String!
   email: String!
   created_at: String!
   feedbacks_count: Int!
