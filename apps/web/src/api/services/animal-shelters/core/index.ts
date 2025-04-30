@@ -78,20 +78,23 @@ export class AnimalSheltersServiceClient {
       sort_order: params.sort_order,
       page: params.page,
       limit: params.limit,
-      search: params.query,
+      query: params.query,
       fields: fields.join(","),
     };
 
-    const query = makeRecord<string, string | boolean | number | undefined>({
-      ...formattedParams,
-    });
-
     if (mode === "rest") {
+      const restQuery = makeRecord<
+        string,
+        string | boolean | number | undefined
+      >({
+        ...formattedParams,
+      });
+
       const response = await this.baseClient.callTypedAPI(
         "GET",
         `/shelters/filter`,
         undefined,
-        { query }
+        { query: restQuery }
       );
 
       return await response.json();
