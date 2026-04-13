@@ -16,10 +16,6 @@ The client needed a working scratch quickly. The next developer on the project (
 
 ## Technologies
 
-**Runtime & tooling**
-
-- [Bun](https://bun.sh)
-
 **Frontend (`apps/web`)**
 
 - [TypeScript](https://www.typescriptlang.org/)
@@ -37,11 +33,19 @@ The client needed a working scratch quickly. The next developer on the project (
 **Backend (`apps/api`)**
 
 - [Encore](https://encore.dev/) (TypeScript services)
-- [GraphQL](https://graphql.org/) via [Apollo Server](https://www.apollographql.com/docs/apollo-server/) on `/graphql`
+- [GraphQL](https://graphql.org/) via [Apollo Server](https://www.apollographql.com/docs/apollo-server/)
 - [Vitest](https://vitest.dev/)
 - [bcrypt](https://github.com/kelektiv/node.bcrypt.js)
 - [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) (JWT)
 - [Nodemailer](https://nodemailer.com/)
+
+**Tools & Cloud**
+
+- [Bun](https://bun.sh)
+- [Vercel](https://vercel.com/) — frontend hosting
+- [Encore Cloud](https://encore.cloud/) — backend deployment, environments, CI/CD
+- [Encore tracing](https://encore.dev/docs/ts/observability/tracing) — distributed request spans across services
+- [Encore Dashboard](https://encore.dev/docs/ts/observability/dev-dash) — local observability & service graph
 
 ## Architecture
 
@@ -56,7 +60,7 @@ The client needed a working scratch quickly. The next developer on the project (
 
 ## Data layer
 
-**Data layer:** [PostgreSQL](https://www.postgresql.org/) via Encore’s [`SQLDatabase`](https://encore.dev/docs/ts/primitives/databases) using parameterized SQL (tagged templates)—no ORM. Chosen for speed of delivery, direct control over queries, and alignment with Encore’s documented SQL workflow for this MVP.
+[PostgreSQL](https://www.postgresql.org/) via Encore’s [SQLDatabase](https://encore.dev/docs/ts/primitives/databases) using parameterized SQL (tagged templates)—no ORM. Chosen for speed of delivery, direct control over queries, and alignment with Encore’s documented SQL workflow for this MVP.
 
 ## Run locally
 
@@ -67,12 +71,9 @@ bun install
 bun run dev
 ```
 
-**Web** — from `apps/web` (point the app at your Encore URL; local API is often `http://localhost:4000`):
+**Web** — from `apps/web`:
 
 ```bash
 bun install
 bun run dev
 ```
-
-- Web dev server: port **4573** by default.
-- Regenerate GraphQL types when the schema changes: `bun run generate:graphql` in each app that uses codegen.
